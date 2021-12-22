@@ -1,7 +1,9 @@
 import React from 'react';
 
+import Chessboard from '../../shared/chessboard/Chessboard';
+
 const Main = props => {
-  return <h2>MAIN</h2>
+  return <Chessboard />
 };
 
 export default Main;
