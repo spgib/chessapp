@@ -1,10 +1,10 @@
-.piece {
+.chessboard__piece {
   height: 100%;
   width: 100%;
   z-index: 5;
 }
 
-.piece img {
+.chessboard__piece img {
   height: 100%;
   width: 100%;
 }
