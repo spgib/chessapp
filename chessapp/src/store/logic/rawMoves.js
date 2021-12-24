@@ -63,4 +63,108 @@ const rawMoves = (board, row, column) => {
     }
     moves = moves.filter(move => board[move[0]][move[1]].color !== piece.color);
   }
+  
+  if (piece.type === 'knight') {
+    moves.push([row + 2, column - 1],[row + 2, column + 1],[row - 2, column - 1],[row - 2, column + 1],[row + 1, column - 2],[row - 1, column - 2],[row + 1, column + 2],[row - 1, column + 2]);
+    moves = moves.filter(move => {
+      return legalSquare(move[0], move[1]) && (board[move[0]][move[1]].color !== piece.color);
+    });
+  }
+
+  if (piece.type === 'bishop') {
+    let ne, nw, se, sw;
+    for (let x = 1; x < 8; x++) {
+      if (legalSquare(row - x, column + x)) {
+        if (!ne) {
+          moves.push([row - x, column + x]);
+          if (board[row - x][column + x].type) ne = true;
+        }
+      }
+      if (legalSquare(row + x, column + x)) {
+        if (!se) {
+          moves.push([row + x, column + x]);
+          if (board[row + x][column + x].type) se = true;
+        }
+      }
+      if (legalSquare(row + x, column - x)) {
+        if (!sw) {
+          moves.push([row + x, column - x]);
+          if (board[row + x][column - x].type) sw = true;
+        }
+      }
+      if (legalSquare(row - x, column - x)) {
+        if (!nw) {
+          moves.push([row - x, column - x]);
+          if (board[row - x][column - x].type) nw = true;
+        }
+      }
+    }
+    moves = moves.filter(move => board[move[0]][move[1]].color !== piece.color);
+  }
+
+  if (piece.type === 'queen') {
+    let n, ne, e, se, s, sw, w, nw;
+    for (let x = 1; x < 8; x++) {
+      if (legalSquare(row - x, column)) {
+        if (!n) {
+          moves.push([row - x, column]);
+          if (board[row - x][column].type) n = true;
+        }
+      }
+      if (legalSquare(row - x, column + x)) {
+        if (!ne) {
+          moves.push([row - x, column + x]);
+          if (board[row - x][column + x].type) ne = true;
+        }
+      }
+      if (legalSquare(row, column + x)) {
+        if (!e) {
+          moves.push([row, column + x]);
+          if (board[row][column + x].type) e = true;
+        }
+      }
+      if (legalSquare(row + x, column + x)) {
+        if (!se) {
+          moves.push([row + x, column + x]);
+          if (board[row + x][column + x].type) se = true;
+        }
+      }
+      if (legalSquare(row + x, column)) {
+        if (!s) {
+          moves.push([row + x, column]);
+          if (board[row + x][column].type) s = true;
+        }
+      }
+      if (legalSquare(row + x, column - x)) {
+        if (!sw) {
+          moves.push([row + x, column - x]);
+          if (board[row + x][column - x].type) sw = true;
+        }
+      }
+      if (legalSquare(row, column - x)) {
+        if (!w) {
+          moves.push([row, column - x]);
+          if (board[row][column - x].type) w = true;
+        }
+      }
+      if (legalSquare(row - x, column - x)) {
+        if (!nw) {
+          moves.push([row - x, column - x]);
+          if (board[row - x][column - x].type) nw = true;
+        }
+      }
+    }
+    moves = moves.filter(move => board[move[0]][move[1]].color !== piece.color);
+  }
+
+  if (piece.type === 'king') {
+    moves.push([row + 1, column],[row - 1, column],[row, column + 1],[row, column - 1],[row + 1, column + 1],[row + 1, column - 1],[row - 1, column + 1],[row - 1, column - 1]);
+    moves = moves.filter(move => {
+      return legalSquare(move[0], move[1]) && (board[move[0]][move[1]].color !== piece.color);
+    });
+  }
+
+  return moves;
 };
+
+export default rawMoves;

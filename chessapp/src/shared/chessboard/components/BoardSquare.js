@@ -4,7 +4,7 @@ import Piece from './pieces/Piece';
 
 import './BoardSquare.css';
 
-const BoardSquare = props => {
+const BoardSquare = (props) => {
   const squareColor = (props.row + props.column) % 2 === 0 ? 'white' : 'black';
 
   const activeClasses = `chessboard__square ${squareColor}`;
@@ -17,8 +17,13 @@ const BoardSquare = props => {
   }
 
   return (
-    <div className={activeClasses}>{content}</div>
-  )
-}
+    <div
+      className={activeClasses}
+      onMouseEnter={props.onMouseOver.bind(null, props.row, props.column)}
+    >
+      {content}
+    </div>
+  );
+};
 
 export default BoardSquare;
