@@ -58,12 +58,20 @@ const Chessboard = (props) => {
 
   const mouseOverHandler = (row, column) => {
     setLegalMoves(validMoves(board, row, column));
-  }
+  };
 
   const rows = [0, 1, 2, 3, 4, 5, 6, 7];
 
   const chessRows = rows.map((index) => {
-    return <BoardRow row={index} key={index} board={board} onMouseOver={mouseOverHandler} />;
+    return (
+      <BoardRow
+        row={index}
+        key={index}
+        board={board}
+        legalMoves={legalMoves}
+        onMouseOver={mouseOverHandler}
+      />
+    );
   });
 
   return <div className='chessboard'>{chessRows}</div>;

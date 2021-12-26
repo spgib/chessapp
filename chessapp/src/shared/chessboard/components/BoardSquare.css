@@ -12,3 +12,19 @@
 .black {
   background-color: rgb(155, 35, 35);
 }
+
+.white-active {
+  background: linear-gradient(
+      rgba(38, 238, 31, 0.534),
+      rgba(38, 238, 31, 0.534)
+    ),
+    linear-gradient(white, white);
+}
+
+.black-active {
+  background: linear-gradient(
+      rgba(38, 238, 31, 0.534),
+      rgba(38, 238, 31, 0.534)
+    ),
+    linear-gradient(rgb(155, 35, 35), rgb(155, 35, 35));
+}
