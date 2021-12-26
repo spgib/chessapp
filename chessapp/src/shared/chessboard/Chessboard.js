@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 
+import Card from '../components/UIElements/Card';
 import BoardRow from './components/BoardRow';
+import MoveList from './components/MoveList';
 import validMoves from '../../store/logic/validMoves';
 
 import './Chessboard.css';
@@ -57,6 +59,7 @@ const Chessboard = (props) => {
   const [legalMoves, setLegalMoves] = useState([]);
   const [activePiece, setActivePiece] = useState(null);
   const [playerTurn, setPlayerTurn] = useState('white');
+  const [history, setHistory] = useState([]);
 
   const mouseOverHandler = (row, column) => {
     if (
@@ -74,14 +77,16 @@ const Chessboard = (props) => {
         setLegalMoves([]);
         return;
       }
-      if (!legalMoves.some(move => move[0] === row && move[1] === column)) return;
+      if (!legalMoves.some((move) => move[0] === row && move[1] === column))
+        return;
 
       const move = {
         turn: playerTurn,
-        origin: {...activePiece},
+        origin: { ...activePiece },
         originType: board[activePiece.row][activePiece.column].type,
-        target: {row, column},
+        target: { row, column },
         targetType: board[row][column].type || null,
+        boardSnapshot: JSON.parse(JSON.stringify(board)),
       };
 
       const newBoard = JSON.parse(JSON.stringify(board));
@@ -89,13 +94,16 @@ const Chessboard = (props) => {
       newBoard[activePiece.row][activePiece.column] = {};
       newBoard[row][column] = piece;
 
+      setHistory((prev) => {
+        return prev.concat(move);
+      });
+
       setBoard(newBoard);
       setActivePiece(null);
       setLegalMoves([]);
-      setPlayerTurn(prev => {
+      setPlayerTurn((prev) => {
         return prev === 'white' ? 'black' : 'white';
       });
-
     } else {
       if (
         !board[row][column].type ||
@@ -125,7 +133,16 @@ const Chessboard = (props) => {
     );
   });
 
-  return <div className='chessboard'>{chessRows}</div>;
+  return (
+    <React.Fragment>
+      <div className='chessboard'>{chessRows}</div>
+      {history.length > 0 && (
+        <Card>
+          <MoveList history={history} />
+        </Card>
+      )}
+    </React.Fragment>
+  );
 };
 
 export default Chessboard;

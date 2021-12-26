@@ -1,0 +1,12 @@
+.history__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.history__item--black {
+  font-weight: bold;
+}
