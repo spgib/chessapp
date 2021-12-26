@@ -55,9 +55,59 @@ const defaultBoard = [
 const Chessboard = (props) => {
   const [board, setBoard] = useState(defaultBoard);
   const [legalMoves, setLegalMoves] = useState([]);
+  const [activePiece, setActivePiece] = useState(null);
+  const [playerTurn, setPlayerTurn] = useState('white');
 
   const mouseOverHandler = (row, column) => {
+    if (
+      activePiece ||
+      (board[row][column].type && board[row][column].color !== playerTurn)
+    )
+      return;
     setLegalMoves(validMoves(board, row, column));
+  };
+
+  const activatePiece = (row, column) => {
+    if (activePiece) {
+      if (activePiece.row === row && activePiece.column === column) {
+        setActivePiece(null);
+        setLegalMoves([]);
+        return;
+      }
+      if (!legalMoves.some(move => move[0] === row && move[1] === column)) return;
+
+      const move = {
+        turn: playerTurn,
+        origin: {...activePiece},
+        originType: board[activePiece.row][activePiece.column].type,
+        target: {row, column},
+        targetType: board[row][column].type || null,
+      };
+
+      const newBoard = JSON.parse(JSON.stringify(board));
+      const piece = newBoard[activePiece.row][activePiece.column];
+      newBoard[activePiece.row][activePiece.column] = {};
+      newBoard[row][column] = piece;
+
+      setBoard(newBoard);
+      setActivePiece(null);
+      setLegalMoves([]);
+      setPlayerTurn(prev => {
+        return prev === 'white' ? 'black' : 'white';
+      });
+
+    } else {
+      if (
+        !board[row][column].type ||
+        validMoves(board, row, column).length === 0 ||
+        board[row][column].color !== playerTurn
+      )
+        return;
+      else {
+        setLegalMoves(validMoves(board, row, column));
+        setActivePiece({ row, column });
+      }
+    }
   };
 
   const rows = [0, 1, 2, 3, 4, 5, 6, 7];
@@ -70,6 +120,7 @@ const Chessboard = (props) => {
         board={board}
         legalMoves={legalMoves}
         onMouseOver={mouseOverHandler}
+        onClick={activatePiece}
       />
     );
   });

@@ -16,6 +16,7 @@ const BoardRow = (props) => {
         board={props.board}
         legalMoves={props.legalMoves}
         onMouseOver={props.onMouseOver}
+        onClick={props.onClick}
       />
     );
   });

@@ -25,8 +25,12 @@ const BoardSquare = (props) => {
     props.onMouseOver(props.row, props.column);
   };
 
+  const onClickHandler = () => {
+    props.onClick(props.row, props.column);
+  }
+
   return (
-    <div className={classes} onMouseEnter={mouseOverHandler}>
+    <div className={classes} onMouseEnter={mouseOverHandler} onClick={onClickHandler}>
       {content}
     </div>
   );
