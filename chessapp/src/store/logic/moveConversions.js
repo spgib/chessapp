@@ -1,4 +1,5 @@
 import totalBoardMoves from './totalBoardMoves';
+import { isCheck } from './checkFilter';
 
 const convertPiece = (piece) => {
   if (piece === 'rook') return 'R';
@@ -51,7 +52,7 @@ const stringifyMove = (move) => {
     move.originType === 'bishop' ||
     move.originType === 'knight'
   ) {
-    const totalMoves = totalBoardMoves(move.boardSnapshot);
+    const totalMoves = totalBoardMoves(move.boardSnapshotBefore);
     const siblings = totalMoves.filter((piece) => {
       return piece.type === move.originType && piece.color === move.turn;
     });
@@ -107,8 +108,16 @@ const stringifyMove = (move) => {
   // if (move.promotion) {          FOR WHEN PROMOTION LOGIC IS ADDED
   //   string = string + convertPiece(move.promotion);
   // }
+  
 
-  // const totalMovesAfterMove = totalBoardMoves(move.boardFinalSnapshot); FOR WHEN CHECK LOGIC IS ADDED
+  const check = isCheck(
+    move.boardSnapshotAfter,
+    move.turn === 'white' ? 'black' : 'white'
+  );
+ 
+  if (check) {
+    string = string + '+';
+  }
 
   return string;
 };

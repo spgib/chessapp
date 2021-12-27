@@ -86,13 +86,15 @@ const Chessboard = (props) => {
         originType: board[activePiece.row][activePiece.column].type,
         target: { row, column },
         targetType: board[row][column].type || null,
-        boardSnapshot: JSON.parse(JSON.stringify(board)),
+        boardSnapshotBefore: JSON.parse(JSON.stringify(board)),
+        boardSnapshotAfter: null
       };
 
       const newBoard = JSON.parse(JSON.stringify(board));
       const piece = newBoard[activePiece.row][activePiece.column];
-      newBoard[activePiece.row][activePiece.column] = {};
       newBoard[row][column] = piece;
+      newBoard[activePiece.row][activePiece.column] = {};
+      move.boardSnapshotAfter = newBoard;
 
       setHistory((prev) => {
         return prev.concat(move);
