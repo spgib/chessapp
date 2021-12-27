@@ -67,7 +67,7 @@ const Chessboard = (props) => {
       (board[row][column].type && board[row][column].color !== playerTurn)
     )
       return;
-    setLegalMoves(validMoves(board, row, column));
+    setLegalMoves(validMoves(board, row, column, history));
   };
 
   const activatePiece = (row, column) => {
@@ -87,7 +87,7 @@ const Chessboard = (props) => {
         target: { row, column },
         targetType: board[row][column].type || null,
         boardSnapshotBefore: JSON.parse(JSON.stringify(board)),
-        boardSnapshotAfter: null
+        boardSnapshotAfter: null,
       };
 
       const newBoard = JSON.parse(JSON.stringify(board));
@@ -95,6 +95,22 @@ const Chessboard = (props) => {
       newBoard[row][column] = piece;
       newBoard[activePiece.row][activePiece.column] = {};
       move.boardSnapshotAfter = newBoard;
+
+      if (
+        move.originType === 'king' &&
+        Math.abs(move.origin.column - move.target.column) > 1
+      ) {
+        if (move.origin.column - move.target.column === 2) {
+          const rook = newBoard[move.origin.row][0];
+          newBoard[move.origin.row][3] = rook;
+          newBoard[move.origin.row][0] = {};
+        }
+        if (move.origin.column - move.target.column === -2) {
+          const rook = newBoard[move.origin.row][7];
+          newBoard[move.origin.row][5] = rook;
+          newBoard[move.origin.row][7] = {};
+        }
+      }
 
       setHistory((prev) => {
         return prev.concat(move);
@@ -109,12 +125,12 @@ const Chessboard = (props) => {
     } else {
       if (
         !board[row][column].type ||
-        validMoves(board, row, column).length === 0 ||
+        validMoves(board, row, column, history).length === 0 ||
         board[row][column].color !== playerTurn
       )
         return;
       else {
-        setLegalMoves(validMoves(board, row, column));
+        setLegalMoves(validMoves(board, row, column, history));
         setActivePiece({ row, column });
       }
     }
