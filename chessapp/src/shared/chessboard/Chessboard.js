@@ -111,7 +111,19 @@ const Chessboard = (props) => {
           newBoard[move.origin.row][7] = {};
         }
       }
-      console.log(move);
+
+      if (
+        move.originType === 'pawn' &&
+        move.origin.column !== move.target.column &&
+        !move.targetType
+      ) {
+        if (move.turn === 'white') {
+          newBoard[move.target.row + 1][move.target.column] = {};
+        } else {
+          newBoard[move.target.row - 1][move.target.column] = {};
+        }
+      }
+
       setHistory((prev) => {
         return prev.concat(move);
       });
