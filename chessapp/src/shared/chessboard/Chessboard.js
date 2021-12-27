@@ -111,7 +111,7 @@ const Chessboard = (props) => {
           newBoard[move.origin.row][7] = {};
         }
       }
-
+      console.log(move);
       setHistory((prev) => {
         return prev.concat(move);
       });

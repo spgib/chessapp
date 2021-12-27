@@ -32,7 +32,7 @@ const stringifyMove = (move) => {
     if (move.origin.column === 4 && move.target.column === 6) {
       string = '0-0';
     }
-    if (move.origin.column === 4 && move.target.column === 2) {
+    else if (move.origin.column === 4 && move.target.column === 2) {
       string = '0-0-0';
     } else {
       string = `K${move.targetType ? 'x' : ''}${
