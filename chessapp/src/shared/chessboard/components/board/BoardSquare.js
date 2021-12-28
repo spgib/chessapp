@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Piece from './pieces/Piece';
+import Piece from '../pieces/Piece';
 
 import './BoardSquare.css';
 

@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 
-import Card from '../components/UIElements/Card';
-import BoardRow from './components/BoardRow';
-import MoveList from './components/MoveList';
+import BoardRow from './components//board/BoardRow';
+import GameInfo from './components/game-info/GameInfo';
 import validMoves from '../../store/logic/validMoves';
 
 import './Chessboard.css';
@@ -60,6 +59,7 @@ const Chessboard = (props) => {
   const [activePiece, setActivePiece] = useState(null);
   const [playerTurn, setPlayerTurn] = useState('white');
   const [history, setHistory] = useState([]);
+  const [checkmate, setCheckmate] = useState(false);
 
   const mouseOverHandler = (row, column) => {
     if (
@@ -166,11 +166,8 @@ const Chessboard = (props) => {
   return (
     <React.Fragment>
       <div className='chessboard'>{chessRows}</div>
-      {history.length > 0 && (
-        <Card>
-          <MoveList history={history} />
-        </Card>
-      )}
+
+      <GameInfo turn={playerTurn} history={history} gameEnd={checkmate} />
     </React.Fragment>
   );
 };

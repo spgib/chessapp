@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { stringifyMove } from '../../../store/logic/moveConversions';
+import { stringifyMove } from '../../../../store/logic/moveConversions';
 
 import './MoveList.css';
 
