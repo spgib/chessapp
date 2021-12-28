@@ -1,0 +1,28 @@
+.pawn-promotion-form {
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+}
+
+.pawn-promotion-form__label {
+  font-weight: bold;
+}
+
+.pawn-promotion-form__options {
+  cursor: pointer;
+}
+
+.pawn-promotion-form__button {
+  border: blue solid 1px;
+  background: blue;
+  color: white;
+  border-radius: 4px;
+  width: 4rem;
+  cursor: pointer;
+}
+
+.pawn-promotion-form__button:hover,
+.pawn-promotion-form__button:active {
+  background: white;
+  color: blue;
+}

@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 
+import Modal from '../components/UIElements/Modal';
 import BoardRow from './components//board/BoardRow';
 import GameInfo from './components/game-info/GameInfo';
 import validMoves from '../../store/logic/validMoves';
+import PawnPromotionForm from './components/forms/PawnPromotionForm';
 
 import './Chessboard.css';
 
@@ -59,6 +61,7 @@ const Chessboard = (props) => {
   const [activePiece, setActivePiece] = useState(null);
   const [playerTurn, setPlayerTurn] = useState('white');
   const [history, setHistory] = useState([]);
+  const [promotionForm, setPromotionForm] = useState(false);
   const [checkmate, setCheckmate] = useState(false);
 
   const mouseOverHandler = (row, column) => {
@@ -124,6 +127,10 @@ const Chessboard = (props) => {
         }
       }
 
+      if (move.originType === 'pawn' && (move.target.row === 0 || move.target.row === 7)) {
+        setPromotionForm(true);
+      }
+
       setHistory((prev) => {
         return prev.concat(move);
       });
@@ -148,6 +155,11 @@ const Chessboard = (props) => {
     }
   };
 
+  const promotionSubmitHandler = (e) => {
+    e.preventDefault();
+    
+  }
+
   const rows = [0, 1, 2, 3, 4, 5, 6, 7];
 
   const chessRows = rows.map((index) => {
@@ -168,6 +180,7 @@ const Chessboard = (props) => {
       <div className='chessboard'>{chessRows}</div>
 
       <GameInfo turn={playerTurn} history={history} gameEnd={checkmate} />
+      {promotionForm && <Modal><PawnPromotionForm onSubmit={promotionSubmitHandler} /></Modal>}
     </React.Fragment>
   );
 };
