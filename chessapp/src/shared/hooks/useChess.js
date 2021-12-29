@@ -180,6 +180,13 @@ const useChess = () => {
     setShowPromotionForm(false);
   };
 
+  const newGame = () => {
+    setBoard(defaultBoard);
+    setPlayerTurn('white');
+    setHistory([]);
+    setCheckmate(false);
+  }
+
   return {
     board,
     legalMoves,
@@ -190,6 +197,7 @@ const useChess = () => {
     activatePiece,
     mouseOverHandler,
     promotionSubmitHandler,
+    newGame
   };
 };
 

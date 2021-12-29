@@ -1,4 +1,4 @@
-import {totalBoardMoves} from './boardLogic';
+import { totalBoardMoves } from './boardLogic';
 import { isCheck } from './checkLogic';
 
 const convertPiece = (piece) => {
@@ -124,7 +124,15 @@ const stringifyMove = (move) => {
 
 const parseMove = (move) => {};
 
-const stringifyGame = (list) => {};
+const stringifyGame = (moves) => {
+  let string = '';
+
+  moves.forEach(move => {
+    string = string + stringifyMove(move) + ' ';
+  });
+
+  return string;
+};
 
 const parseGame = (string) => {};
 
