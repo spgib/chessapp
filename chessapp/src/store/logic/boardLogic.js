@@ -1,4 +1,9 @@
-import legalSquare from './legalSquare';
+import { castling, enPassant } from './specialMoves';
+import { checkFilter } from './checkLogic';
+
+const legalSquare = (x, y) => {
+  return x >= 0 && x < 8 && y >= 0 && y < 8;
+};
 
 const rawMoves = (board, row, column) => {
   const piece = board[row][column];
@@ -167,4 +172,32 @@ const rawMoves = (board, row, column) => {
   return moves;
 };
 
-export default rawMoves;
+const totalBoardMoves = board => {
+  let totalMoves = [];
+
+  for (let x = 0; x < 8; x++) {
+    for (let y = 0; y < 8; y++) {
+      if (board[x][y].type) {
+        totalMoves.push({
+          type: board[x][y].type,
+          origin: {row: x, column: y},
+          color: board[x][y].color,
+          targets: rawMoves(board, x, y)
+        })
+      }
+    }
+  }
+
+  return totalMoves;
+}
+
+const validMoves = (board, row, column, history) => {
+  let moves = rawMoves(board, row, column);
+  moves = castling(board, row, column, history, moves);
+  moves = enPassant(board, row, column, history, moves);
+  moves = checkFilter(board, row, column, moves);
+
+  return moves;
+}
+
+export { totalBoardMoves, validMoves };

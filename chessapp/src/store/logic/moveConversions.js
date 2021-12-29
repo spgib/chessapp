@@ -1,5 +1,5 @@
-import totalBoardMoves from './totalBoardMoves';
-import { isCheck } from './checkFilter';
+import {totalBoardMoves} from './boardLogic';
+import { isCheck } from './checkLogic';
 
 const convertPiece = (piece) => {
   if (piece === 'rook') return 'R';

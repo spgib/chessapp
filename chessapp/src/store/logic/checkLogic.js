@@ -1,5 +1,4 @@
-import totalBoardMoves from './totalBoardMoves';
-import validMoves from './validMoves';
+import { totalBoardMoves, validMoves } from "./boardLogic";
 
 const isCheck = (board, color) => {
   const potentialMoves = totalBoardMoves(board);

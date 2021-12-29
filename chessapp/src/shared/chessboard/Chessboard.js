@@ -3,8 +3,8 @@ import React, { useState } from 'react';
 import Modal from '../components/UIElements/Modal';
 import BoardRow from './components//board/BoardRow';
 import GameInfo from './components/game-info/GameInfo';
-import validMoves from '../../store/logic/validMoves';
-import { isCheckmate } from '../../store/logic/checkFilter';
+import { validMoves } from '../../store/logic/boardLogic';
+import { isCheckmate } from '../../store/logic/checkLogic';
 import PawnPromotionForm from './components/forms/PawnPromotionForm';
 
 import './Chessboard.css';
