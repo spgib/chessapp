@@ -1,4 +1,5 @@
 import totalBoardMoves from './totalBoardMoves';
+import validMoves from './validMoves';
 
 const isCheck = (board, color) => {
   const potentialMoves = totalBoardMoves(board);
@@ -17,14 +18,16 @@ const isCheck = (board, color) => {
   });
 
   const movesThatCaptureKing = potentialMoves.filter((piece) => {
-    return piece.targets.some(target => target.type === 'king' && target.color === color);
+    return piece.targets.some(
+      (target) => target.type === 'king' && target.color === color
+    );
   });
 
   return movesThatCaptureKing.length !== 0;
 };
 
 const checkFilter = (board, row, column, moves) => {
-  moves = moves.filter(move => {
+  moves = moves.filter((move) => {
     const newBoard = JSON.parse(JSON.stringify(board));
     const piece = newBoard[row][column];
     newBoard[move[0]][move[1]] = piece;
@@ -34,6 +37,20 @@ const checkFilter = (board, row, column, moves) => {
   });
 
   return moves;
-}
+};
 
-export { isCheck, checkFilter };
+const isCheckmate = (board, color, history) => {
+  const potentialMoves = totalBoardMoves(board);
+
+  let playerTurnMoves = potentialMoves.filter((piece) => {
+    return piece.color !== color;
+  });
+
+  playerTurnMoves = playerTurnMoves.map((piece) =>
+    validMoves(board, piece.origin.row, piece.origin.column, history)
+  );
+
+  return !playerTurnMoves.some(piece => piece.length > 0)
+};
+
+export { isCheck, checkFilter, isCheckmate };

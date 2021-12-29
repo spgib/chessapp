@@ -31,8 +31,7 @@ const stringifyMove = (move) => {
   if (move.originType === 'king') {
     if (move.origin.column === 4 && move.target.column === 6) {
       string = '0-0';
-    }
-    else if (move.origin.column === 4 && move.target.column === 2) {
+    } else if (move.origin.column === 4 && move.target.column === 2) {
       string = '0-0-0';
     } else {
       string = `K${move.targetType ? 'x' : ''}${
@@ -108,14 +107,15 @@ const stringifyMove = (move) => {
   if (move.promotion) {
     string = string + '=' + convertPiece(move.promotion);
   }
-  
 
   const check = isCheck(
     move.boardSnapshotAfter,
     move.turn === 'white' ? 'black' : 'white'
   );
- 
-  if (check) {
+
+  if (move.isCheckmate) {
+    string = string + '#';
+  } else if (check) {
     string = string + '+';
   }
 
