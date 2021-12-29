@@ -91,6 +91,7 @@ const Chessboard = (props) => {
         targetType: board[row][column].type || null,
         boardSnapshotBefore: JSON.parse(JSON.stringify(board)),
         boardSnapshotAfter: null,
+        promotion: null
       };
 
       const newBoard = JSON.parse(JSON.stringify(board));
@@ -141,6 +142,7 @@ const Chessboard = (props) => {
       setPlayerTurn((prev) => {
         return prev === 'white' ? 'black' : 'white';
       });
+      console.log(history);
     } else {
       if (
         !board[row][column].type ||
@@ -156,8 +158,15 @@ const Chessboard = (props) => {
   };
 
   const promotionSubmitHandler = (e) => {
-    e.preventDefault();
-    
+    const promotionType = e.target[0].value;
+    const newHistory = JSON.parse(JSON.stringify(history));
+    const lastMove = newHistory[newHistory.length - 1];
+    lastMove.promotion = promotionType;
+    const newBoard = JSON.parse(JSON.stringify(lastMove.boardSnapshotAfter));
+    newBoard[lastMove.target.row][lastMove.target.column].type = promotionType;
+    setHistory(newHistory);
+    setBoard(newBoard);
+    setPromotionForm(false);
   }
 
   const rows = [0, 1, 2, 3, 4, 5, 6, 7];
@@ -180,7 +189,7 @@ const Chessboard = (props) => {
       <div className='chessboard'>{chessRows}</div>
 
       <GameInfo turn={playerTurn} history={history} gameEnd={checkmate} />
-      {promotionForm && <Modal><PawnPromotionForm onSubmit={promotionSubmitHandler} /></Modal>}
+      {promotionForm && <Modal><PawnPromotionForm onSubmit={promotionSubmitHandler} cock={'cock'}/></Modal>}
     </React.Fragment>
   );
 };

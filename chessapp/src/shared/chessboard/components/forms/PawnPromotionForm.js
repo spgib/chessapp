@@ -3,8 +3,13 @@ import React from 'react';
 import './PawnPromotionForm.css';
 
 const PawnPromotionForm = props => {
+  const submitHandler = e => {
+    e.preventDefault();
+    props.onSubmit(e);
+  }
+
   return (
-    <form className='pawn-promotion-form' onSubmit={props.submitHandler}>
+    <form className='pawn-promotion-form' onSubmit={submitHandler}>
       <label htmlFor='pawn-promotion' className='pawn-promotion-form__label'>
         Choose a promotion:
       </label>

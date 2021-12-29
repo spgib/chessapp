@@ -105,9 +105,9 @@ const stringifyMove = (move) => {
       (move.target.row + 1);
   }
 
-  // if (move.promotion) {          FOR WHEN PROMOTION LOGIC IS ADDED
-  //   string = string + convertPiece(move.promotion);
-  // }
+  if (move.promotion) {
+    string = string + '=' + convertPiece(move.promotion);
+  }
   
 
   const check = isCheck(
