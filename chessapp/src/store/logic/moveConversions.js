@@ -1,4 +1,4 @@
-import { totalBoardMoves } from './boardLogic';
+import { totalBoardMoves, DEFAULT_BOARD } from './boardLogic';
 import { isCheck } from './checkLogic';
 
 const convertPiece = (piece) => {
@@ -23,6 +23,14 @@ const convertColumns = (column) => {
   if (column === 5) return 'f';
   if (column === 6) return 'g';
   if (column === 7) return 'h';
+  if (column === 'a') return 0;
+  if (column === 'b') return 1;
+  if (column === 'c') return 2;
+  if (column === 'd') return 3;
+  if (column === 'e') return 4;
+  if (column === 'f') return 5;
+  if (column === 'g') return 6;
+  if (column === 'h') return 7;
 };
 
 const stringifyMove = (move) => {
@@ -122,18 +130,112 @@ const stringifyMove = (move) => {
   return string;
 };
 
-const parseMove = (move) => {};
+const parseMove = (move, index, board) => {
+  let moveObject = {
+    playerTurn: index % 2 === 0 ? 'white' : 'black',
+    boardSnapshotBefore: board,
+    origin: {},
+    originType: '',
+    target: {},
+    targetType: '',
+    promotion: null,
+    isCheckmate: null,
+    boardSnapshotAfter: [],
+  };
+
+  let originType;
+  if (move[0] === '0') {
+    originType = 'king';
+  } else if (
+    move[0] === 'B' ||
+    move[0] === 'R' ||
+    move[0] === 'N' ||
+    move[0] === 'Q' ||
+    move[0] === 'K'
+  ) {
+    originType = convertPiece(move[0]);
+  } else {
+    originType = 'pawn';
+  }
+  moveObject.originType = originType;
+
+  let target, targetType;
+  if (move === '0-0') {
+    if (moveObject.playerTurn === 'white') {
+      target = { row: 7, column: 6 };
+    } else {
+      target = { row: 0, column: 6 };
+    }
+    targetType = null;
+  } else if (move === '0-0-0') {
+    if (moveObject.playerTurn === 'white') {
+      target = { row: 7, column: 3 };
+    } else {
+      target = { row: 0, column: 3 };
+    }
+    targetType = null;
+  } else {
+    const moveArray = move.split('');
+    const indicesOfNumerals = moveArray
+      .map((char, index) => {
+        if (isNaN(char)) return null;
+        else return index;
+      })
+      .filter((char) => char);
+    const indexOfTargetRow = indicesOfNumerals[indicesOfNumerals.length - 1];
+    const row = move[indexOfTargetRow] - 1;
+    const column = convertColumns(move[indexOfTargetRow - 1]);
+    target = { row, column };
+    targetType = board[row][column].type ? board[row][column].type : null;
+  }
+  moveObject.target = target;
+  moveObject.targetType = targetType;
+
+  let origin;
+  const totalMovesOnBoard = totalBoardMoves(board);
+  const playerTurnMoves = totalMovesOnBoard.filter(piece => piece.color === moveObject.playerTurn);
+  const originTypeMoves = playerTurnMoves.filter(piece => piece.type === moveObject.originType);
+  const totalMovesOnTarget = originTypeMoves.filter(piece => piece.targets.some(t => t[0] === moveObject.target.row && t[1] === moveObject.target.column));
+  if (totalMovesOnTarget.length === 1) {
+    origin = { ...totalMovesOnTarget[0].origin };
+  } else {
+    origin = 'CATASTROPHIC FAILURE';
+  }
+  moveObject.origin = origin;
+  console.log('hi');
+  const newBoard = JSON.parse(JSON.stringify(board));
+  const piece = {...newBoard[origin.row][origin.column]};
+  newBoard[target.row][target.column] = piece;
+  newBoard[origin.row][origin.column] = {};
+  moveObject.boardSnapshotAfter = newBoard;
+  console.log(moveObject);
+  return moveObject;
+};
 
 const stringifyGame = (moves) => {
   let string = '';
 
-  moves.forEach(move => {
+  moves.forEach((move) => {
     string = string + stringifyMove(move) + ' ';
   });
 
   return string;
 };
 
-const parseGame = (string) => {};
+const parseGame = (string) => {
+  const gameAsArray = string.split(' ');
+  let moves = [];
+
+  let board = DEFAULT_BOARD;
+  gameAsArray.forEach((item, index) => {
+    const move = parseMove(item, index, board);
+    board = move.boardSnapshotAfter;
+
+    moves.push(move);
+  });
+
+  console.log(gameAsArray, moves);
+  return moves;
+};
 
 export { stringifyMove, parseMove, stringifyGame, parseGame };

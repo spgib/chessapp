@@ -1,6 +1,53 @@
 import { castling, enPassant } from './specialMoves';
 import { checkFilter } from './checkLogic';
 
+const DEFAULT_BOARD = [
+  [
+    { type: 'rook', color: 'black' },
+    { type: 'knight', color: 'black' },
+    { type: 'bishop', color: 'black' },
+    { type: 'queen', color: 'black' },
+    { type: 'king', color: 'black' },
+    { type: 'bishop', color: 'black' },
+    { type: 'knight', color: 'black' },
+    { type: 'rook', color: 'black' },
+  ],
+  [
+    { type: 'pawn', color: 'black' },
+    { type: 'pawn', color: 'black' },
+    { type: 'pawn', color: 'black' },
+    { type: 'pawn', color: 'black' },
+    { type: 'pawn', color: 'black' },
+    { type: 'pawn', color: 'black' },
+    { type: 'pawn', color: 'black' },
+    { type: 'pawn', color: 'black' },
+  ],
+  [{}, {}, {}, {}, {}, {}, {}, {}],
+  [{}, {}, {}, {}, {}, {}, {}, {}],
+  [{}, {}, {}, {}, {}, {}, {}, {}],
+  [{}, {}, {}, {}, {}, {}, {}, {}],
+  [
+    { type: 'pawn', color: 'white' },
+    { type: 'pawn', color: 'white' },
+    { type: 'pawn', color: 'white' },
+    { type: 'pawn', color: 'white' },
+    { type: 'pawn', color: 'white' },
+    { type: 'pawn', color: 'white' },
+    { type: 'pawn', color: 'white' },
+    { type: 'pawn', color: 'white' },
+  ],
+  [
+    { type: 'rook', color: 'white' },
+    { type: 'knight', color: 'white' },
+    { type: 'bishop', color: 'white' },
+    { type: 'queen', color: 'white' },
+    { type: 'king', color: 'white' },
+    { type: 'bishop', color: 'white' },
+    { type: 'knight', color: 'white' },
+    { type: 'rook', color: 'white' },
+  ],
+];
+
 const legalSquare = (x, y) => {
   return x >= 0 && x < 8 && y >= 0 && y < 8;
 };
@@ -200,4 +247,4 @@ const validMoves = (board, row, column, history) => {
   return moves;
 }
 
-export { totalBoardMoves, validMoves };
+export { DEFAULT_BOARD, totalBoardMoves, validMoves };

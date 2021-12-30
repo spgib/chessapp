@@ -1,57 +1,11 @@
 import { useState } from 'react';
 
-import { validMoves } from '../../store/logic/boardLogic';
+import { validMoves, DEFAULT_BOARD } from '../../store/logic/boardLogic';
 import { isCheckmate } from '../../store/logic/checkLogic';
 
-const defaultBoard = [
-  [
-    { type: 'rook', color: 'black' },
-    { type: 'knight', color: 'black' },
-    { type: 'bishop', color: 'black' },
-    { type: 'queen', color: 'black' },
-    { type: 'king', color: 'black' },
-    { type: 'bishop', color: 'black' },
-    { type: 'knight', color: 'black' },
-    { type: 'rook', color: 'black' },
-  ],
-  [
-    { type: 'pawn', color: 'black' },
-    { type: 'pawn', color: 'black' },
-    { type: 'pawn', color: 'black' },
-    { type: 'pawn', color: 'black' },
-    { type: 'pawn', color: 'black' },
-    { type: 'pawn', color: 'black' },
-    { type: 'pawn', color: 'black' },
-    { type: 'pawn', color: 'black' },
-  ],
-  [{}, {}, {}, {}, {}, {}, {}, {}],
-  [{}, {}, {}, {}, {}, {}, {}, {}],
-  [{}, {}, {}, {}, {}, {}, {}, {}],
-  [{}, {}, {}, {}, {}, {}, {}, {}],
-  [
-    { type: 'pawn', color: 'white' },
-    { type: 'pawn', color: 'white' },
-    { type: 'pawn', color: 'white' },
-    { type: 'pawn', color: 'white' },
-    { type: 'pawn', color: 'white' },
-    { type: 'pawn', color: 'white' },
-    { type: 'pawn', color: 'white' },
-    { type: 'pawn', color: 'white' },
-  ],
-  [
-    { type: 'rook', color: 'white' },
-    { type: 'knight', color: 'white' },
-    { type: 'bishop', color: 'white' },
-    { type: 'queen', color: 'white' },
-    { type: 'king', color: 'white' },
-    { type: 'bishop', color: 'white' },
-    { type: 'knight', color: 'white' },
-    { type: 'rook', color: 'white' },
-  ],
-];
 
 const useChess = () => {
-  const [board, setBoard] = useState(defaultBoard);
+  const [board, setBoard] = useState(DEFAULT_BOARD);
   const [legalMoves, setLegalMoves] = useState([]);
   const [activePiece, setActivePiece] = useState(null);
   const [playerTurn, setPlayerTurn] = useState('white');
@@ -181,7 +135,7 @@ const useChess = () => {
   };
 
   const newGame = () => {
-    setBoard(defaultBoard);
+    setBoard(DEFAULT_BOARD);
     setPlayerTurn('white');
     setHistory([]);
     setCheckmate(false);

@@ -6,6 +6,7 @@ import Controls from './components/controls/Controls';
 import GameInfo from './components/game-info/GameInfo';
 import PawnPromotionForm from './components/forms/PawnPromotionForm';
 import { stringifyGame } from '../../store/logic/moveConversions';
+import { parseGame } from '../../store/logic/moveConversions';
 import useChess from '../hooks/useChess';
 
 import './Chessboard.css';
@@ -33,6 +34,12 @@ const Chessboard = (props) => {
     console.log(savedGame);
   };
 
+  const testParseHandler = (e) => {
+    e.preventDefault();
+
+    parseGame(e.target[0].value);
+  }
+
   const rows = [0, 1, 2, 3, 4, 5, 6, 7];
 
   const chessRows = rows.map((index) => {
@@ -54,6 +61,10 @@ const Chessboard = (props) => {
 
       <Controls resetClickHandler={newGame} saveClickHandler={saveGame} />
       <GameInfo turn={playerTurn} history={history} gameEnd={checkmate} />
+      <form onSubmit={testParseHandler} >
+        <input type='text' />
+        <button type="submit">Test</button>
+      </form>
       {showPromotionForm && (
         <Modal>
           <PawnPromotionForm onSubmit={promotionSubmitHandler} />
