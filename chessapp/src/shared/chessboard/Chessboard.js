@@ -12,7 +12,7 @@ import useChess from '../hooks/useChess';
 import './Chessboard.css';
 
 const DUMMY_GAME =
-  'e5 f4 d5 fxe5 Qg5 d4 Qxc1 Qxc1 c5 dxc5 d4 Qg5 Bxc5 Qd8+ Kxd8 Nf3 Nf6 exf6 gxf6 Nxd4 Bxd4 b4 Kc7 b5 Bg4 Na3 Bc3+ Kd1 Bxa1 Kd2 Nc6 Nc4 Rhd8+ Ke3 Ne5 Nxe5 fxe5 Ke4 Rd4+ Kxe5 Re8+ Kf6 Kd7 Kxf7 Bh5+ Kf6 Rd6+ Kg5 Re5+ Kf4 Rdd5 Kg3 Bd4 Kh4 Re4+ Kg3 Be5+ Kf2 Rf4+ Kg1 Rd1 b6 Bd4+ e3 Bxe3#';
+  'f5 a3 Nf6 g4 g6 a4 Bh6 a5 0-0 Nf3 fxg4 Na3 b6 h4 gxh3 e.p. b3 h2 Bb2 bxa5 c3 Nc6 Qc2 Nb4 0-0-0 Bb7 Rg1 Bxf3 Rxg6+ Kf7 Ba1 h1=Q Rg3 Nfd5 Bg2 Nb6 Qb1 N6d5 Rxh1 Nf4 Kd1 Nbd5';
 
 const Chessboard = (props) => {
   const {

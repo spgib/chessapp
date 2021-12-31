@@ -193,22 +193,99 @@ const parseMove = (move, index, board) => {
 
   let origin;
   const totalMovesOnBoard = totalBoardMoves(board);
-  const playerTurnMoves = totalMovesOnBoard.filter(piece => piece.color === moveObject.playerTurn);
-  const originTypeMoves = playerTurnMoves.filter(piece => piece.type === moveObject.originType);
-  const totalMovesOnTarget = originTypeMoves.filter(piece => piece.targets.some(t => t[0] === moveObject.target.row && t[1] === moveObject.target.column));
+  const playerTurnMoves = totalMovesOnBoard.filter(
+    (piece) => piece.color === moveObject.playerTurn
+  );
+  const originTypeMoves = playerTurnMoves.filter(
+    (piece) => piece.type === moveObject.originType
+  );
+  let totalMovesOnTarget = originTypeMoves.filter((piece) =>
+    piece.targets.some(
+      (t) => t[0] === moveObject.target.row && t[1] === moveObject.target.column
+    )
+  );
   if (totalMovesOnTarget.length === 1) {
     origin = { ...totalMovesOnTarget[0].origin };
   } else {
-    origin = 'CATASTROPHIC FAILURE';
+    let originColumn;
+    if (moveObject.originType !== 'pawn') {
+      originColumn = move[1];
+    } else {
+      originColumn = move[0];
+    }
+    totalMovesOnTarget = totalMovesOnTarget.filter(
+      (piece) => piece.origin.column === convertColumns(originColumn)
+    );
+    if (totalMovesOnTarget.length === 1) {
+      origin = { ...totalMovesOnTarget[0].origin };
+    } else {
+      let originRow;
+      if (moveObject.originType !== 'pawn') {
+        originRow = move[2];
+      } else {
+        originRow = move[1];
+      }
+      totalMovesOnTarget = totalMovesOnTarget.filter(
+        (piece) => piece.origin.row === originRow - 1
+      );
+      origin = { ...totalMovesOnTarget[0].origin };
+    }
   }
   moveObject.origin = origin;
-  console.log('hi');
+
+  let promotion;
+  if (move.includes('=')) {
+    const index = move.indexOf('=');
+    const slice = move.slice(index);
+    const piece = convertPiece(slice[1]);
+    promotion = piece;
+  }
+  moveObject.promotion = promotion || null;
+
+  if (move.includes('#')) {
+    moveObject.isCheckmate = true;
+  } else {
+    moveObject.isCheckmate = false;
+  }
+
   const newBoard = JSON.parse(JSON.stringify(board));
-  const piece = {...newBoard[origin.row][origin.column]};
+  const piece = { ...newBoard[origin.row][origin.column] };
   newBoard[target.row][target.column] = piece;
   newBoard[origin.row][origin.column] = {};
+  if (move === '0-0') {
+    if (moveObject.playerTurn === 'white') {
+      const rook = { ...newBoard[7][7] };
+      newBoard[7][5] = rook;
+      newBoard[7][7] = {};
+    } else {
+      const rook = { ...newBoard[0][7] };
+      newBoard[0][5] = rook;
+      newBoard[0][7] = {};
+    }
+  }
+  if (move === '0-0-0') {
+    if (moveObject.playerTurn === 'white') {
+      const rook = { ...newBoard[7][0] };
+      newBoard[7][2] = rook;
+      newBoard[7][0] = {};
+    } else {
+      const rook = { ...newBoard[0][0] };
+      newBoard[0][2] = rook;
+      newBoard[0][0] = {};
+    }
+  }
+  if (move.includes('e.p.')) {
+    if (moveObject.playerTurn === 'white') {
+      newBoard[moveObject.target.row + 1][moveObject.target.column] = {};
+    } else {
+      newBoard[moveObject.target.row - 1][moveObject.target.column] = {};
+    }
+  }
+  if (moveObject.promotion) {
+    newBoard[moveObject.target.row][moveObject.target.column].type = moveObject.promotion;
+  }
   moveObject.boardSnapshotAfter = newBoard;
-  console.log(moveObject);
+
   return moveObject;
 };
 
@@ -223,14 +300,20 @@ const stringifyGame = (moves) => {
 };
 
 const parseGame = (string) => {
-  const gameAsArray = string.split(' ');
+  let gameAsArray = string.split(' ');
+  while (gameAsArray.includes('e.p.')) {
+    const index = gameAsArray.findIndex(move => move === 'e.p.');
+    gameAsArray[index - 1] = gameAsArray[index - 1] + ' e.p.';
+    gameAsArray.splice(index, 1);
+  }
+
   let moves = [];
 
   let board = DEFAULT_BOARD;
   gameAsArray.forEach((item, index) => {
     const move = parseMove(item, index, board);
     board = move.boardSnapshotAfter;
-
+    console.log(move);
     moves.push(move);
   });
 
