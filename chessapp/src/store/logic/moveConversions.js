@@ -169,9 +169,9 @@ const parseMove = (move, index, board) => {
     targetType = null;
   } else if (move === '0-0-0') {
     if (moveObject.playerTurn === 'white') {
-      target = { row: 7, column: 3 };
+      target = { row: 7, column: 2 };
     } else {
-      target = { row: 0, column: 3 };
+      target = { row: 0, column: 2 };
     }
     targetType = null;
   } else if (move.includes('e.p.')) {
@@ -203,7 +203,7 @@ const parseMove = (move, index, board) => {
         ? { row: 7, column: 4 }
         : { row: 0, column: 4 };
   } else if (move.includes('e.p.')) {
-    const row = moveObject.playerTurn === 'white' ? 6 : 1;
+    const row = moveObject.playerTurn === 'white' ? 3 : 4;
     const column = convertColumns(move[0]);
     origin = { row, column };
   } else {
@@ -223,28 +223,55 @@ const parseMove = (move, index, board) => {
     if (totalMovesOnTarget.length === 1) {
       origin = { ...totalMovesOnTarget[0].origin };
     } else {
-      let originColumn;
+      // let originColumn;
+      // if (moveObject.originType !== 'pawn') {
+      //   originColumn = move[1];
+      // } else {
+      //   originColumn = move[0];
+      // }
+      // totalMovesOnTarget = totalMovesOnTarget.filter(
+      //   (piece) => piece.origin.column === convertColumns(originColumn)
+      // );
+      // if (totalMovesOnTarget.length === 1) {
+      //   origin = { ...totalMovesOnTarget[0].origin };
+      // } else {
+      //   let originRow;
+      //   if (moveObject.originType !== 'pawn') {
+      //     originRow = move[2];
+      //   } else {
+      //     originRow = move[1];
+      //   }
+      //   totalMovesOnTarget = totalMovesOnTarget.filter(
+      //     (piece) => piece.origin.row === originRow - 1
+      //   );
+      //   origin = { ...totalMovesOnTarget[0].origin };
+      // }
+      let originRow, originColumn;
       if (moveObject.originType !== 'pawn') {
-        originColumn = move[1];
-      } else {
-        originColumn = move[0];
-      }
-      totalMovesOnTarget = totalMovesOnTarget.filter(
-        (piece) => piece.origin.column === convertColumns(originColumn)
-      );
-      if (totalMovesOnTarget.length === 1) {
-        origin = { ...totalMovesOnTarget[0].origin };
-      } else {
-        let originRow;
-        if (moveObject.originType !== 'pawn') {
-          originRow = move[2];
+        if (isNaN(move[1])) {
+          originColumn = move[1];
         } else {
           originRow = move[1];
         }
-        totalMovesOnTarget = totalMovesOnTarget.filter(
-          (piece) => piece.origin.row === originRow - 1
-        );
+        if (!isNaN(move[2])) {
+          originRow = move[2];
+        }
+      } else {
+        originColumn = move[0];
+      }
+      if (originRow && originColumn) {
+        totalMovesOnTarget = totalMovesOnTarget.filter(piece => piece.origin.column === convertColumns(originColumn) && piece.origin.row === originRow - 1);
+      }
+      if (originRow && !originColumn) {
+        totalMovesOnTarget = totalMovesOnTarget.filter(piece => piece.origin.row === originRow - 1);
+      }
+      if (!originRow && originColumn) {
+        totalMovesOnTarget = totalMovesOnTarget.filter(piece => piece.origin.column === convertColumns(originColumn));
+      }
+      if (totalMovesOnTarget.length === 1) {
         origin = { ...totalMovesOnTarget[0].origin };
+      } else {
+        console.log('Error ');
       }
     }
   }
@@ -283,11 +310,11 @@ const parseMove = (move, index, board) => {
   if (move === '0-0-0') {
     if (moveObject.playerTurn === 'white') {
       const rook = { ...newBoard[7][0] };
-      newBoard[7][2] = rook;
+      newBoard[7][3] = rook;
       newBoard[7][0] = {};
     } else {
       const rook = { ...newBoard[0][0] };
-      newBoard[0][2] = rook;
+      newBoard[0][3] = rook;
       newBoard[0][0] = {};
     }
   }
@@ -329,9 +356,9 @@ const parseGame = (string) => {
 
   let board = DEFAULT_BOARD;
   gameAsArray.forEach((item, index) => {
-    console.log(item);
     const move = parseMove(item, index, board);
     board = move.boardSnapshotAfter;
+    console.log(move);
     moves.push(move);
   });
 
