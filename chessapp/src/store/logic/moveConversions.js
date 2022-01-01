@@ -223,29 +223,6 @@ const parseMove = (move, index, board) => {
     if (totalMovesOnTarget.length === 1) {
       origin = { ...totalMovesOnTarget[0].origin };
     } else {
-      // let originColumn;
-      // if (moveObject.originType !== 'pawn') {
-      //   originColumn = move[1];
-      // } else {
-      //   originColumn = move[0];
-      // }
-      // totalMovesOnTarget = totalMovesOnTarget.filter(
-      //   (piece) => piece.origin.column === convertColumns(originColumn)
-      // );
-      // if (totalMovesOnTarget.length === 1) {
-      //   origin = { ...totalMovesOnTarget[0].origin };
-      // } else {
-      //   let originRow;
-      //   if (moveObject.originType !== 'pawn') {
-      //     originRow = move[2];
-      //   } else {
-      //     originRow = move[1];
-      //   }
-      //   totalMovesOnTarget = totalMovesOnTarget.filter(
-      //     (piece) => piece.origin.row === originRow - 1
-      //   );
-      //   origin = { ...totalMovesOnTarget[0].origin };
-      // }
       let originRow, originColumn;
       if (moveObject.originType !== 'pawn') {
         if (isNaN(move[1])) {
@@ -358,7 +335,7 @@ const parseGame = (string) => {
   gameAsArray.forEach((item, index) => {
     const move = parseMove(item, index, board);
     board = move.boardSnapshotAfter;
-    console.log(move);
+    
     moves.push(move);
   });
 
