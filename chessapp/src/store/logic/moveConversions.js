@@ -174,6 +174,11 @@ const parseMove = (move, index, board) => {
       target = { row: 0, column: 3 };
     }
     targetType = null;
+  } else if (move.includes('e.p.')) {
+    const row = move[3] - 1;
+    const column = convertColumns(move[2]);
+    target = { row, column };
+    targetType = null;
   } else {
     const moveArray = move.split('');
     const indicesOfNumerals = moveArray
@@ -192,43 +197,55 @@ const parseMove = (move, index, board) => {
   moveObject.targetType = targetType;
 
   let origin;
-  const totalMovesOnBoard = totalBoardMoves(board);
-  const playerTurnMoves = totalMovesOnBoard.filter(
-    (piece) => piece.color === moveObject.playerTurn
-  );
-  const originTypeMoves = playerTurnMoves.filter(
-    (piece) => piece.type === moveObject.originType
-  );
-  let totalMovesOnTarget = originTypeMoves.filter((piece) =>
-    piece.targets.some(
-      (t) => t[0] === moveObject.target.row && t[1] === moveObject.target.column
-    )
-  );
-  if (totalMovesOnTarget.length === 1) {
-    origin = { ...totalMovesOnTarget[0].origin };
+  if (move === '0-0' || move === '0-0-0') {
+    origin =
+      moveObject.playerTurn === 'white'
+        ? { row: 7, column: 4 }
+        : { row: 0, column: 4 };
+  } else if (move.includes('e.p.')) {
+    const row = moveObject.playerTurn === 'white' ? 6 : 1;
+    const column = convertColumns(move[0]);
+    origin = { row, column };
   } else {
-    let originColumn;
-    if (moveObject.originType !== 'pawn') {
-      originColumn = move[1];
-    } else {
-      originColumn = move[0];
-    }
-    totalMovesOnTarget = totalMovesOnTarget.filter(
-      (piece) => piece.origin.column === convertColumns(originColumn)
+    const totalMovesOnBoard = totalBoardMoves(board);
+    const playerTurnMoves = totalMovesOnBoard.filter(
+      (piece) => piece.color === moveObject.playerTurn
+    );
+    const originTypeMoves = playerTurnMoves.filter(
+      (piece) => piece.type === moveObject.originType
+    );
+    let totalMovesOnTarget = originTypeMoves.filter((piece) =>
+      piece.targets.some(
+        (t) =>
+          t[0] === moveObject.target.row && t[1] === moveObject.target.column
+      )
     );
     if (totalMovesOnTarget.length === 1) {
       origin = { ...totalMovesOnTarget[0].origin };
     } else {
-      let originRow;
+      let originColumn;
       if (moveObject.originType !== 'pawn') {
-        originRow = move[2];
+        originColumn = move[1];
       } else {
-        originRow = move[1];
+        originColumn = move[0];
       }
       totalMovesOnTarget = totalMovesOnTarget.filter(
-        (piece) => piece.origin.row === originRow - 1
+        (piece) => piece.origin.column === convertColumns(originColumn)
       );
-      origin = { ...totalMovesOnTarget[0].origin };
+      if (totalMovesOnTarget.length === 1) {
+        origin = { ...totalMovesOnTarget[0].origin };
+      } else {
+        let originRow;
+        if (moveObject.originType !== 'pawn') {
+          originRow = move[2];
+        } else {
+          originRow = move[1];
+        }
+        totalMovesOnTarget = totalMovesOnTarget.filter(
+          (piece) => piece.origin.row === originRow - 1
+        );
+        origin = { ...totalMovesOnTarget[0].origin };
+      }
     }
   }
   moveObject.origin = origin;
@@ -282,7 +299,8 @@ const parseMove = (move, index, board) => {
     }
   }
   if (moveObject.promotion) {
-    newBoard[moveObject.target.row][moveObject.target.column].type = moveObject.promotion;
+    newBoard[moveObject.target.row][moveObject.target.column].type =
+      moveObject.promotion;
   }
   moveObject.boardSnapshotAfter = newBoard;
 
@@ -302,7 +320,7 @@ const stringifyGame = (moves) => {
 const parseGame = (string) => {
   let gameAsArray = string.split(' ');
   while (gameAsArray.includes('e.p.')) {
-    const index = gameAsArray.findIndex(move => move === 'e.p.');
+    const index = gameAsArray.findIndex((move) => move === 'e.p.');
     gameAsArray[index - 1] = gameAsArray[index - 1] + ' e.p.';
     gameAsArray.splice(index, 1);
   }
@@ -311,9 +329,9 @@ const parseGame = (string) => {
 
   let board = DEFAULT_BOARD;
   gameAsArray.forEach((item, index) => {
+    console.log(item);
     const move = parseMove(item, index, board);
     board = move.boardSnapshotAfter;
-    console.log(move);
     moves.push(move);
   });
 
