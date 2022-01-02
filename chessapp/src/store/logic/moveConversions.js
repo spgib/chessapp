@@ -33,6 +33,18 @@ const convertColumns = (column) => {
   if (column === 'h') return 7;
 };
 
+const convertRows = row => {
+  if (row === 0) return 8;
+  if (row === 1) return 7;
+  if (row === 2) return 6;
+  if (row === 3) return 5;
+  if (row === 4) return 4;
+  if (row === 5) return 3;
+  if (row === 6) return 2;
+  if (row === 7) return 1;
+  if (row === 8) return 0;
+}
+
 const stringifyMove = (move) => {
   let string = '';
 
@@ -43,14 +55,14 @@ const stringifyMove = (move) => {
       string = '0-0-0';
     } else {
       string = `K${move.targetType ? 'x' : ''}${
-        convertColumns(move.target.column) + (move.target.row + 1)
+        convertColumns(move.target.column) + convertRows(move.target.row)
       }`;
     }
   }
 
   if (move.originType === 'queen') {
     string = `Q${move.targetType ? 'x' : ''}${
-      convertColumns(move.target.column) + (move.target.row + 1)
+      convertColumns(move.target.column) + convertRows(move.target.row)
     }`;
   }
 
@@ -73,7 +85,7 @@ const stringifyMove = (move) => {
 
     if (siblings.length < 2 || competitiveSiblings.length < 2) {
       string = `${convertPiece(move.originType)}${move.targetType ? 'x' : ''}${
-        convertColumns(move.target.column) + (move.target.row + 1)
+        convertColumns(move.target.column) + convertRows(move.target.row)
       }`;
     }
 
@@ -88,20 +100,20 @@ const stringifyMove = (move) => {
         hasDifferentColumn
           ? convertColumns(move.origin.column)
           : hasDifferentRow
-          ? move.origin.row + 1
-          : convertColumns(move.origin.column) + (move.origin.row + 1)
+          ? convertRows(move.origin.row)
+          : convertColumns(move.origin.column) + convertRows(move.origin.row)
       }${move.targetType ? 'x' : ''}${
-        convertColumns(move.target.column) + (move.target.row + 1)
+        convertColumns(move.target.column) + convertRows(move.target.row)
       }`;
     }
   }
   if (move.originType === 'pawn' && !move.targetType) {
     if (move.target.column !== move.origin.column) {
       string = `${convertColumns(move.origin.column)}x${
-        convertColumns(move.target.column) + (move.target.row + 1)
+        convertColumns(move.target.column) + convertRows(move.target.row)
       } e.p.`;
     } else {
-      string = convertColumns(move.target.column) + (move.target.row + 1);
+      string = convertColumns(move.target.column) + convertRows(move.target.row);
     }
   }
   if (move.originType === 'pawn' && move.targetType) {
@@ -109,7 +121,7 @@ const stringifyMove = (move) => {
       convertColumns(move.origin.column) +
       'x' +
       convertColumns(move.target.column) +
-      (move.target.row + 1);
+      convertRows(move.target.row);
   }
 
   if (move.promotion) {
