@@ -125,6 +125,7 @@ const useChess = () => {
     lastMove.promotion = promotionType;
     const newBoard = JSON.parse(JSON.stringify(lastMove.boardSnapshotAfter));
     newBoard[lastMove.target.row][lastMove.target.column].type = promotionType;
+    lastMove.boardSnapshotAfter = newBoard;
 
     const checkmateCheck = isCheckmate(newBoard, lastMove.turn, newHistory);
     lastMove.isCheckmate = checkmateCheck;

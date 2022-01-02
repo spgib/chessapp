@@ -30,7 +30,7 @@ const Chessboard = (props) => {
   const saveGame = () => {
     const savedGame = stringifyGame(history);
 
-    console.log(savedGame);
+    console.log(history);
 
     testParseHandler(savedGame);
   };
@@ -40,12 +40,16 @@ const Chessboard = (props) => {
       gameObject;
 
     for (let x = 0; x < 5; x++) {
+      console.log(x);
       gameObject = parseGame(gameString);
+      // console.log(gameObject);
       gameString = stringifyGame(gameObject);
-      console.log(gameString);
+      // console.log(gameString, string === gameString);
     }
 
-    console.log(string === gameString);
+    console.log(string.trim() === gameString.trim());
+    console.log(string);
+    console.log(gameString);
   };
 
   const rows = [0, 1, 2, 3, 4, 5, 6, 7];

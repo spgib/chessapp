@@ -144,7 +144,7 @@ const stringifyMove = (move) => {
 
 const parseMove = (move, index, board) => {
   let moveObject = {
-    playerTurn: index % 2 === 0 ? 'white' : 'black',
+    turn: index % 2 === 0 ? 'white' : 'black',
     boardSnapshotBefore: board,
     origin: {},
     originType: '',
@@ -173,14 +173,14 @@ const parseMove = (move, index, board) => {
   
   let target, targetType;
   if (move === '0-0') {
-    if (moveObject.playerTurn === 'white') {
+    if (moveObject.turn === 'white') {
       target = { row: 7, column: 6 };
     } else {
       target = { row: 0, column: 6 };
     }
     targetType = null;
   } else if (move === '0-0-0') {
-    if (moveObject.playerTurn === 'white') {
+    if (moveObject.turn === 'white') {
       target = { row: 7, column: 2 };
     } else {
       target = { row: 0, column: 2 };
@@ -211,17 +211,17 @@ const parseMove = (move, index, board) => {
   let origin;
   if (move === '0-0' || move === '0-0-0') {
     origin =
-      moveObject.playerTurn === 'white'
+      moveObject.turn === 'white'
         ? { row: 7, column: 4 }
         : { row: 0, column: 4 };
   } else if (move.includes('e.p.')) {
-    const row = moveObject.playerTurn === 'white' ? 3 : 4;
+    const row = moveObject.turn === 'white' ? 3 : 4;
     const column = convertColumns(move[0]);
     origin = { row, column };
   } else {
     const totalMovesOnBoard = totalBoardMoves(board);
     const playerTurnMoves = totalMovesOnBoard.filter(
-      (piece) => piece.color === moveObject.playerTurn
+      (piece) => piece.color === moveObject.turn
     );
     const originTypeMoves = playerTurnMoves.filter(
       (piece) => piece.type === moveObject.originType
@@ -286,7 +286,7 @@ const parseMove = (move, index, board) => {
   newBoard[target.row][target.column] = piece;
   newBoard[origin.row][origin.column] = {};
   if (move === '0-0') {
-    if (moveObject.playerTurn === 'white') {
+    if (moveObject.turn === 'white') {
       const rook = { ...newBoard[7][7] };
       newBoard[7][5] = rook;
       newBoard[7][7] = {};
@@ -297,7 +297,7 @@ const parseMove = (move, index, board) => {
     }
   }
   if (move === '0-0-0') {
-    if (moveObject.playerTurn === 'white') {
+    if (moveObject.turn === 'white') {
       const rook = { ...newBoard[7][0] };
       newBoard[7][3] = rook;
       newBoard[7][0] = {};
@@ -308,7 +308,7 @@ const parseMove = (move, index, board) => {
     }
   }
   if (move.includes('e.p.')) {
-    if (moveObject.playerTurn === 'white') {
+    if (moveObject.turn === 'white') {
       newBoard[moveObject.target.row + 1][moveObject.target.column] = {};
     } else {
       newBoard[moveObject.target.row - 1][moveObject.target.column] = {};
