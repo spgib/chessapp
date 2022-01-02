@@ -187,7 +187,7 @@ const parseMove = (move, index, board) => {
     }
     targetType = null;
   } else if (move.includes('e.p.')) {
-    const row = move[3] - 1;
+    const row = convertRows(move[3]);
     const column = convertColumns(move[2]);
     target = { row, column };
     targetType = null;
@@ -200,7 +200,7 @@ const parseMove = (move, index, board) => {
       })
       .filter((char) => char);
     const indexOfTargetRow = indicesOfNumerals[indicesOfNumerals.length - 1];
-    const row = move[indexOfTargetRow] - 1;
+    const row = convertRows(move[indexOfTargetRow]);
     const column = convertColumns(move[indexOfTargetRow - 1]);
     target = { row, column };
     targetType = board[row][column].type ? board[row][column].type : null;
@@ -249,10 +249,10 @@ const parseMove = (move, index, board) => {
         originColumn = move[0];
       }
       if (originRow && originColumn) {
-        totalMovesOnTarget = totalMovesOnTarget.filter(piece => piece.origin.column === convertColumns(originColumn) && piece.origin.row === originRow - 1);
+        totalMovesOnTarget = totalMovesOnTarget.filter(piece => piece.origin.column === convertColumns(originColumn) && piece.origin.row === convertRows(originRow));
       }
       if (originRow && !originColumn) {
-        totalMovesOnTarget = totalMovesOnTarget.filter(piece => piece.origin.row === originRow - 1);
+        totalMovesOnTarget = totalMovesOnTarget.filter(piece => piece.origin.row === convertRows(originRow));
       }
       if (!originRow && originColumn) {
         totalMovesOnTarget = totalMovesOnTarget.filter(piece => piece.origin.column === convertColumns(originColumn));
@@ -351,7 +351,7 @@ const parseGame = (string) => {
     moves.push(move);
   });
 
-  console.log(gameAsArray, moves);
+  
   return moves;
 };
 
