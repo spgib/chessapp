@@ -12,6 +12,7 @@ const useChess = () => {
   const [history, setHistory] = useState([]);
   const [showPromotionForm, setShowPromotionForm] = useState(false);
   const [checkmate, setCheckmate] = useState(false);
+  const [activePlay, setActivePlay] = useState(true);
 
   const mouseOverHandler = (row, column) => {
     if (
@@ -136,10 +137,15 @@ const useChess = () => {
   };
 
   const newGame = () => {
+    setActivePlay(true);
     setBoard(DEFAULT_BOARD);
     setPlayerTurn('white');
     setHistory([]);
     setCheckmate(false);
+  }
+
+  const concedeHandler = () => {
+    setActivePlay(false);
   }
 
   return {
@@ -152,7 +158,9 @@ const useChess = () => {
     activatePiece,
     mouseOverHandler,
     promotionSubmitHandler,
-    newGame
+    newGame,
+    activePlay,
+    concedeHandler,
   };
 };
 
