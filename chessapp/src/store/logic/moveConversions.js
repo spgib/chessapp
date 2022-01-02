@@ -170,7 +170,7 @@ const parseMove = (move, index, board) => {
     originType = 'pawn';
   }
   moveObject.originType = originType;
-
+  
   let target, targetType;
   if (move === '0-0') {
     if (moveObject.playerTurn === 'white') {
@@ -187,7 +187,7 @@ const parseMove = (move, index, board) => {
     }
     targetType = null;
   } else if (move.includes('e.p.')) {
-    const row = convertRows(move[3]);
+    const row = convertRows(parseInt(move[3]));
     const column = convertColumns(move[2]);
     target = { row, column };
     targetType = null;
@@ -200,7 +200,7 @@ const parseMove = (move, index, board) => {
       })
       .filter((char) => char);
     const indexOfTargetRow = indicesOfNumerals[indicesOfNumerals.length - 1];
-    const row = convertRows(move[indexOfTargetRow]);
+    const row = convertRows(parseInt(move[indexOfTargetRow]));
     const column = convertColumns(move[indexOfTargetRow - 1]);
     target = { row, column };
     targetType = board[row][column].type ? board[row][column].type : null;
@@ -249,10 +249,10 @@ const parseMove = (move, index, board) => {
         originColumn = move[0];
       }
       if (originRow && originColumn) {
-        totalMovesOnTarget = totalMovesOnTarget.filter(piece => piece.origin.column === convertColumns(originColumn) && piece.origin.row === convertRows(originRow));
+        totalMovesOnTarget = totalMovesOnTarget.filter(piece => piece.origin.column === convertColumns(originColumn) && piece.origin.row === convertRows(parseInt(originRow)));
       }
       if (originRow && !originColumn) {
-        totalMovesOnTarget = totalMovesOnTarget.filter(piece => piece.origin.row === convertRows(originRow));
+        totalMovesOnTarget = totalMovesOnTarget.filter(piece => piece.origin.row === convertRows(parseInt(originRow)));
       }
       if (!originRow && originColumn) {
         totalMovesOnTarget = totalMovesOnTarget.filter(piece => piece.origin.column === convertColumns(originColumn));
@@ -334,7 +334,8 @@ const stringifyGame = (moves) => {
 };
 
 const parseGame = (string) => {
-  let gameAsArray = string.split(' ');
+  let gameAsArray = string.trim().split(' ');
+  
   while (gameAsArray.includes('e.p.')) {
     const index = gameAsArray.findIndex((move) => move === 'e.p.');
     gameAsArray[index - 1] = gameAsArray[index - 1] + ' e.p.';
@@ -347,7 +348,7 @@ const parseGame = (string) => {
   gameAsArray.forEach((item, index) => {
     const move = parseMove(item, index, board);
     board = move.boardSnapshotAfter;
-    
+    // console.log(move);
     moves.push(move);
   });
 
