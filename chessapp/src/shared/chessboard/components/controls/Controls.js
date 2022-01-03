@@ -3,6 +3,18 @@ import React from 'react';
 import './Controls.css';
 
 const Controls = (props) => {
+  const newGameHandler = () => {
+    props.onNewGame();
+  };
+
+  const saveHandler = () => {
+    props.onSaveGame();
+  };
+
+  const concedeHandler = () => {
+    props.onConcede();
+  };
+
   let moveSlideshowControls;
   let concedeControls;
 
@@ -11,7 +23,7 @@ const Controls = (props) => {
       <button
         className='chessboard__controls-concede'
         type='button'
-        onClick={props.onConcede}
+        onClick={concedeHandler}
       >
         CONCEDE
       </button>
@@ -31,17 +43,17 @@ const Controls = (props) => {
   return (
     <div className='chessboard__controls'>
       <button
-        className='chessboard__controls-reset'
+        className='chessboard__controls-new-game'
         type='button'
-        onClick={props.resetClickHandler}
+        onClick={newGameHandler}
       >
-        RESET
+        NEW GAME
       </button>
       {moveSlideshowControls}
       <button
         className='chessboard__controls-save'
         type='button'
-        onClick={props.saveClickHandler}
+        onClick={saveHandler}
       >
         SAVE
       </button>

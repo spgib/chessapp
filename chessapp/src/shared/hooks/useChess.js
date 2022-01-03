@@ -3,25 +3,15 @@ import { useState } from 'react';
 import { validMoves, DEFAULT_BOARD } from '../../store/logic/boardLogic';
 import { isCheckmate } from '../../store/logic/checkLogic';
 
-
 const useChess = () => {
-  const [board, setBoard] = useState(DEFAULT_BOARD);
-  const [legalMoves, setLegalMoves] = useState([]);
   const [activePiece, setActivePiece] = useState(null);
-  const [playerTurn, setPlayerTurn] = useState('white');
-  const [history, setHistory] = useState([]);
-  const [showPromotionForm, setShowPromotionForm] = useState(false);
-  const [checkmate, setCheckmate] = useState(false);
   const [activePlay, setActivePlay] = useState(true);
-
-  const mouseOverHandler = (row, column) => {
-    if (
-      activePiece ||
-      (board[row][column].type && board[row][column].color !== playerTurn)
-    )
-      return;
-    setLegalMoves(validMoves(board, row, column, history));
-  };
+  const [board, setBoard] = useState(DEFAULT_BOARD);
+  const [checkmate, setCheckmate] = useState(false);
+  const [history, setHistory] = useState([]);
+  const [legalMoves, setLegalMoves] = useState([]);
+  const [playerTurn, setPlayerTurn] = useState('white');
+  const [showPromotionForm, setShowPromotionForm] = useState(false);
 
   const activatePiece = (row, column) => {
     if (activePiece) {
@@ -119,7 +109,16 @@ const useChess = () => {
     }
   };
 
-  const promotionSubmitHandler = (e) => {
+  const mouseOver = (row, column) => {
+    if (
+      activePiece ||
+      (board[row][column].type && board[row][column].color !== playerTurn)
+    )
+      return;
+    setLegalMoves(validMoves(board, row, column, history));
+  };
+
+  const promotion = (e) => {
     const promotionType = e.target[0].value;
     const newHistory = JSON.parse(JSON.stringify(history));
     const lastMove = newHistory[newHistory.length - 1];
@@ -142,25 +141,25 @@ const useChess = () => {
     setPlayerTurn('white');
     setHistory([]);
     setCheckmate(false);
-  }
+  };
 
-  const concedeHandler = () => {
+  const concede = () => {
     setActivePlay(false);
-  }
+  };
 
   return {
+    activePlay,
     board,
+    checkmate,
+    history,
     legalMoves,
     playerTurn,
-    history,
-    checkmate,
     showPromotionForm,
     activatePiece,
-    mouseOverHandler,
-    promotionSubmitHandler,
+    concede,
+    mouseOver,
     newGame,
-    activePlay,
-    concedeHandler,
+    promotion,
   };
 };
 
