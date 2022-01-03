@@ -60,16 +60,17 @@ const stringifyMove = (move) => {
     }
   }
 
-  if (move.originType === 'queen') {
-    string = `Q${move.targetType ? 'x' : ''}${
-      convertColumns(move.target.column) + convertRows(move.target.row)
-    }`;
-  }
+  // if (move.originType === 'queen') {
+  //   string = `Q${move.targetType ? 'x' : ''}${
+  //     convertColumns(move.target.column) + convertRows(move.target.row)
+  //   }`;
+  // }
 
   if (
     move.originType === 'rook' ||
     move.originType === 'bishop' ||
-    move.originType === 'knight'
+    move.originType === 'knight' ||
+    move.originType === 'queen'
   ) {
     const totalMoves = totalBoardMoves(move.boardSnapshotBefore);
     const siblings = totalMoves.filter((piece) => {

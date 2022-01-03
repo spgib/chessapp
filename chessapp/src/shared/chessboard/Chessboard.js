@@ -5,7 +5,7 @@ import BoardRow from './components//board/BoardRow';
 import Controls from './components/controls/Controls';
 import GameInfo from './components/game-info/GameInfo';
 import PawnPromotionForm from './components/forms/PawnPromotionForm';
-import { stringifyGame } from '../../store/logic/moveConversions';
+import { parseGame, stringifyGame } from '../../store/logic/moveConversions';
 import useChess from '../hooks/useChess';
 
 import './Chessboard.css';
