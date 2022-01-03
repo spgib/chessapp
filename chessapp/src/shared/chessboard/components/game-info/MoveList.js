@@ -52,18 +52,16 @@ const MoveList = (props) => {
 
   const moves = turnSortedHistory.map((turn, index) => {
     return (
-      <ol className='history__list-turn' key={index}>
-        <li>{turn[0]}</li>
-        {turn[1] && <li>{turn[1]}</li>}
-      </ol>
+      <li key={index}>
+        <ol className='history__list-turn'>
+          <li>{turn[0]}</li>
+          {turn[1] && <li>{turn[1]}</li>}
+        </ol>
+      </li>
     );
   });
 
-  return (
-    <ol className='history__list' type='1'>
-      {moves}
-    </ol>
-  );
+  return <ol className='history__list'>{moves}</ol>;
 };
 
 export default MoveList;
