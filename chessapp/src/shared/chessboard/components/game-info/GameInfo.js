@@ -26,7 +26,10 @@ const GameInfo = (props) => {
     <Card>
       {gameStateContent}
       <div className='game-info__move-list'>
-        <MoveList history={props.history} />
+        <MoveList
+          history={props.history}
+          slideshowActiveItem={props.slideshowActiveItem}
+        />
       </div>
     </Card>
   );

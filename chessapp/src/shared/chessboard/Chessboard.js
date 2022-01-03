@@ -15,15 +15,18 @@ const Chessboard = (props) => {
     activePlay,
     board,
     checkmate,
+    currentSlide,
     history,
     legalMoves,
     playerTurn,
     showPromotionForm,
     activatePiece,
+    branch,
     concede,
     mouseOver,
     newGame,
     promotion,
+    slideshow,
   } = useChess();
 
   const saveGame = () => {
@@ -53,11 +56,20 @@ const Chessboard = (props) => {
 
       <Controls
         activePlay={activePlay}
+        currentSlide={currentSlide}
+        history={history}
+        onBranch={branch}
+        onConcede={concede}
         onNewGame={newGame}
         onSaveGame={saveGame}
-        onConcede={concede}
+        slideshowControls={slideshow}
       />
-      <GameInfo turn={playerTurn} history={history} gameEnd={checkmate} />
+      <GameInfo
+        turn={playerTurn}
+        history={history}
+        gameEnd={checkmate}
+        slideshowActiveItem={currentSlide}
+      />
       {showPromotionForm && (
         <Modal>
           <PawnPromotionForm onSubmit={promotion} />

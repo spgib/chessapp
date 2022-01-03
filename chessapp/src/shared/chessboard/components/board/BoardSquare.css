@@ -5,15 +5,15 @@
   margin: 0;
 }
 
-.white {
+.chessboard__square--white {
   background: white;
 }
 
-.black {
+.chessboard__square--black {
   background-color: rgb(155, 35, 35);
 }
 
-.white-active {
+.chessboard__square--white-active {
   background: linear-gradient(
       rgba(38, 238, 31, 0.534),
       rgba(38, 238, 31, 0.534)
@@ -21,7 +21,7 @@
     linear-gradient(white, white);
 }
 
-.black-active {
+.chessboard__square--black-active {
   background: linear-gradient(
       rgba(38, 238, 31, 0.534),
       rgba(38, 238, 31, 0.534)

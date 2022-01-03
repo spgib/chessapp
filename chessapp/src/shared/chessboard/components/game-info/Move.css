@@ -1,0 +1,8 @@
+.history__list-item--black {
+  font-weight: bold;
+}
+
+.history__list-item--white-active,
+.history__list-item--black-active {
+  color: red;
+}

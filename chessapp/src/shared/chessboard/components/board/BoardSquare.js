@@ -10,7 +10,7 @@ const BoardSquare = (props) => {
     return move[0] === props.row && move[1] === props.column;
   });
 
-  const classes = `chessboard__square ${
+  const classes = `chessboard__square chessboard__square--${
     isLegalMoveSquare ? squareColor + '-active' : squareColor
   }`;
 

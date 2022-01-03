@@ -15,6 +15,26 @@ const Controls = (props) => {
     props.onConcede();
   };
 
+  const branchHandler = () => {
+    props.onBranch();
+  }
+
+  const resetSlideshowHandler = () => {
+    props.slideshowControls('reset');
+  };
+
+  const backSlideshowHandler = () => {
+    props.slideshowControls('back-one');
+  };
+
+  const forwardSlideshowHandler = () => {
+    props.slideshowControls('forward-one');
+  };
+
+  const endSlideshowHandler = () => {
+    props.slideshowControls('end');
+  };
+
   let moveSlideshowControls;
   let concedeControls;
 
@@ -31,11 +51,19 @@ const Controls = (props) => {
   } else {
     moveSlideshowControls = (
       <React.Fragment>
-        <button>&lt;&lt;</button>
-        <button>&lt;</button>
-        <button>&gt;</button>
-        <button>&gt;&gt;</button>
-        <button>Branch</button>
+        <button type='button' onClick={resetSlideshowHandler} disabled={props.currentSlide === null}>
+          &lt;&lt;
+        </button>
+        <button type='button' onClick={backSlideshowHandler}>
+          &lt;
+        </button>
+        <button type='button' onClick={forwardSlideshowHandler} disabled={props.currentSlide === props.history.length - 1}>
+          &gt;
+        </button>
+        <button type='button' onClick={endSlideshowHandler} disabled={props.currentSlide === props.history.length - 1}>
+          &gt;&gt;
+        </button>
+        <button type='button' onClick={branchHandler}>BRANCH</button>
       </React.Fragment>
     );
   }

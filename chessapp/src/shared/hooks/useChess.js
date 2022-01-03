@@ -3,17 +3,21 @@ import { useState } from 'react';
 import { validMoves, DEFAULT_BOARD } from '../../store/logic/boardLogic';
 import { isCheckmate } from '../../store/logic/checkLogic';
 
-const useChess = () => {
+const useChess = (customBoard) => {
   const [activePiece, setActivePiece] = useState(null);
   const [activePlay, setActivePlay] = useState(true);
-  const [board, setBoard] = useState(DEFAULT_BOARD);
+  const [board, setBoard] = useState(customBoard || DEFAULT_BOARD);
   const [checkmate, setCheckmate] = useState(false);
+  const [currentSlide, setCurrentSlide] = useState(null);
   const [history, setHistory] = useState([]);
   const [legalMoves, setLegalMoves] = useState([]);
   const [playerTurn, setPlayerTurn] = useState('white');
   const [showPromotionForm, setShowPromotionForm] = useState(false);
 
   const activatePiece = (row, column) => {
+    if (!activePlay) {
+      return;
+    }
     if (activePiece) {
       if (activePiece.row === row && activePiece.column === column) {
         setActivePiece(null);
@@ -112,7 +116,8 @@ const useChess = () => {
   const mouseOver = (row, column) => {
     if (
       activePiece ||
-      (board[row][column].type && board[row][column].color !== playerTurn)
+      (board[row][column].type && board[row][column].color !== playerTurn) ||
+      !activePlay
     )
       return;
     setLegalMoves(validMoves(board, row, column, history));
@@ -145,21 +150,66 @@ const useChess = () => {
 
   const concede = () => {
     setActivePlay(false);
+    setLegalMoves([]);
+    setCurrentSlide(history.length - 1);
   };
+
+  const slideshow = (command) => {
+    const actualize = (slide = 'reset') => {
+      setCurrentSlide(slide !== 'reset' ? slide : null);
+      setBoard(
+        slide !== 'reset' ? history[slide].boardSnapshotAfter : DEFAULT_BOARD
+      );
+    };
+
+    if (command === 'reset') {
+      return actualize();
+    }
+
+    if (command === 'back-one') {
+      if (currentSlide === null) return;
+      if (currentSlide === 0) return actualize();
+      actualize(currentSlide - 1);
+    }
+
+    if (command === 'forward-one') {
+      if (currentSlide === null) return actualize(0);
+      if (currentSlide === history.length - 1) return;
+      return actualize(currentSlide + 1);
+    }
+
+    if (command === 'end') {
+      return actualize(history.length - 1);
+    }
+  };
+
+  const branch = () => {
+    const newHistory = [...history];
+    newHistory.splice(currentSlide + 1);
+    setHistory(newHistory);
+    setBoard(prev => JSON.parse(JSON.stringify(prev)));
+    setPlayerTurn(newHistory[newHistory.length - 1].turn === 'white' ? 'black' : 'white');
+    setCheckmate(newHistory[newHistory.length - 1].isCheckmate);
+    setCurrentSlide(null);
+    setActivePlay(true);
+  }
 
   return {
     activePlay,
     board,
     checkmate,
+    currentSlide,
     history,
     legalMoves,
     playerTurn,
     showPromotionForm,
     activatePiece,
+    branch,
     concede,
     mouseOver,
     newGame,
     promotion,
+    slideshow,
   };
 };
 
