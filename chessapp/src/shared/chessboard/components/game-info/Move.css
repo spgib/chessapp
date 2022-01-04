@@ -1,5 +1,6 @@
 .history__list-item--black {
   font-weight: bold;
+  margin-left: 1rem;
 }
 
 .history__list-item--white-active,

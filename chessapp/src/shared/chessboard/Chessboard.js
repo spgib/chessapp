@@ -1,16 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import Modal from '../components/UIElements/Modal';
 import BoardRow from './components//board/BoardRow';
 import Controls from './components/controls/Controls';
 import GameInfo from './components/game-info/GameInfo';
 import PawnPromotionForm from './components/forms/PawnPromotionForm';
+import SaveGameForm from './components/forms/SaveGameForm';
 import { stringifyGame } from '../../store/logic/moveConversions';
 import useChess from '../hooks/useChess';
 
 import './Chessboard.css';
 
 const Chessboard = (props) => {
+  const [showSaveForm, setShowSaveForm] = useState(false);
+
   const {
     activePlay,
     board,
@@ -22,17 +25,22 @@ const Chessboard = (props) => {
     showPromotionForm,
     activatePiece,
     branch,
-    concede,
+    resign,
     mouseOver,
     newGame,
     promotion,
     slideshow,
   } = useChess();
 
-  const saveGame = () => {
-    const savedGame = stringifyGame(history);
+  const openSaveModal = () => {
+    // const savedGame = stringifyGame(history);
 
-    console.log(savedGame);
+    // console.log(savedGame);
+    setShowSaveForm(true);
+  };
+
+  const closeSaveModalHandler = () => {
+    setShowSaveForm(false);
   };
 
   const rows = [0, 1, 2, 3, 4, 5, 6, 7];
@@ -59,9 +67,9 @@ const Chessboard = (props) => {
         currentSlide={currentSlide}
         history={history}
         onBranch={branch}
-        onConcede={concede}
+        onResign={resign}
         onNewGame={newGame}
-        onSaveGame={saveGame}
+        onSaveGame={openSaveModal}
         slideshowControls={slideshow}
       />
       <GameInfo
@@ -73,6 +81,15 @@ const Chessboard = (props) => {
       {showPromotionForm && (
         <Modal>
           <PawnPromotionForm onSubmit={promotion} />
+        </Modal>
+      )}
+      {showSaveForm && (
+        <Modal onClick={closeSaveModalHandler}>
+          <SaveGameForm
+            activePlay={activePlay}
+            checkmate={checkmate}
+            onSubmit={props.onSaveGame}
+          />
         </Modal>
       )}
     </React.Fragment>

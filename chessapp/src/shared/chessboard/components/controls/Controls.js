@@ -11,8 +11,8 @@ const Controls = (props) => {
     props.onSaveGame();
   };
 
-  const concedeHandler = () => {
-    props.onConcede();
+  const resignHandler = () => {
+    props.onResign();
   };
 
   const branchHandler = () => {
@@ -36,16 +36,16 @@ const Controls = (props) => {
   };
 
   let moveSlideshowControls;
-  let concedeControls;
+  let resignControls;
 
   if (props.activePlay) {
-    concedeControls = (
+    resignControls = (
       <button
-        className='chessboard__controls-concede'
+        className='chessboard__controls-resign'
         type='button'
-        onClick={concedeHandler}
+        onClick={resignHandler}
       >
-        CONCEDE
+        RESIGN
       </button>
     );
   } else {
@@ -85,7 +85,7 @@ const Controls = (props) => {
       >
         SAVE
       </button>
-      {concedeControls}
+      {resignControls}
     </div>
   );
 };

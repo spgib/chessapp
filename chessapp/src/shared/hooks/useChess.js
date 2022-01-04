@@ -148,7 +148,7 @@ const useChess = (customBoard) => {
     setCheckmate(false);
   };
 
-  const concede = () => {
+  const resign = () => {
     setActivePlay(false);
     setLegalMoves([]);
     setCurrentSlide(history.length - 1);
@@ -184,6 +184,9 @@ const useChess = (customBoard) => {
   };
 
   const branch = () => {
+    if (currentSlide === null) {
+      return newGame();
+    }
     const newHistory = [...history];
     newHistory.splice(currentSlide + 1);
     setHistory(newHistory);
@@ -205,7 +208,7 @@ const useChess = (customBoard) => {
     showPromotionForm,
     activatePiece,
     branch,
-    concede,
+    resign,
     mouseOver,
     newGame,
     promotion,
