@@ -1,45 +1,85 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
+
+import Input from '../../../components/formElements/Input';
 
 import './SaveGameForm.css';
 
 const SaveGameForm = (props) => {
   const [title, setTitle] = useState('');
+  const [titleIsValid, setTitleIsValid] = useState(false);
+  const [titleIsTouched, setTitleIsTouched] = useState(false);
   const [wPlayer, setWPlayer] = useState('');
   const [bPlayer, setBPlayer] = useState('');
   const [desc, setDesc] = useState('');
-  
+
   const submitHandler = (e) => {
     e.preventDefault();
 
     console.log(title, wPlayer, bPlayer, desc);
   };
 
-  const titleChangeHandler = e => {
+  const titleChangeHandler = (e) => {
     setTitle(e.target.value);
-  }
 
-  const wPlayerChangeHandler = e => {
+    const input = e.target.value;
+    if (input.trim() !== '') {
+      setTitleIsValid(true);
+    } else {
+      setTitleIsValid(false);
+    }
+  };
+
+  const titleBlurHandler = () => {
+    setTitleIsTouched(true);
+  };
+
+  const wPlayerChangeHandler = (e) => {
     setWPlayer(e.target.value);
-  }
+  };
 
-  const bPlayerChangeHandler = e => {
+  const bPlayerChangeHandler = (e) => {
     setBPlayer(e.target.value);
-  }
+  };
 
-  const descChangeHandler = e => {
+  const descChangeHandler = (e) => {
     setDesc(e.target.value);
-  }
+  };
 
   return (
     <form className='save-game-form' onSubmit={submitHandler}>
-      <label htmlFor='title'>Title</label>
-      <input id='title' name='title' type='text'  onChange={titleChangeHandler} value={title}/>
-      <label htmlFor='white-player'>White Player</label>
-      <input id='white-player' name='white-player' type='text' onChange={wPlayerChangeHandler} value={wPlayer}/>
-      <label htmlFor='black-player'>Black Player</label>
-      <input id='black-player' name='black-player' type='text' onChange={bPlayerChangeHandler} value={bPlayer}/>
-      <label htmlFor='Description'>Description</label>
-      <textarea id='description' name='description' maxLength='200' onChange={descChangeHandler} value={desc} />
+      <Input
+        label='Title*'
+        name='title'
+        type='text'
+        value={title}
+        onChange={titleChangeHandler}
+        onBlur={titleBlurHandler}
+        invalidText='Please enter a title for this match.'
+        valid={titleIsValid}
+        touched={titleIsTouched}
+      />
+      <Input
+        label='White Player'
+        name='white-player'
+        type='text'
+        value={wPlayer}
+        onChange={wPlayerChangeHandler}
+      />
+      <Input
+        label='Black Player'
+        name='black-player'
+        type='text'
+        value={bPlayer}
+        onChange={bPlayerChangeHandler}
+      />
+      <Input
+        element='textarea'
+        label='Description'
+        name='description'
+        value={desc}
+        onChange={descChangeHandler}
+      />
+      <p>Fields marked with * are required.</p>
       <button type='submit'>SAVE</button>
     </form>
   );
