@@ -11,9 +11,15 @@ const GameInfo = (props) => {
   if (props.gameEnd) {
     gameStateContent = (
       <div className='game-info__checkmate'>
-        <h3>CHECKMATE</h3>
+        <h3>CHECKMATE {props.turn === 'white' ? '0-1' : '1-0'}</h3>
       </div>
     );
+  } else if (!props.activePlay) {
+    gameStateContent = (
+      <div className='game-info__resignation'>
+        <h3>RESIGNATION {props.turn === 'white' ? '0-1' : '1-0'}</h3>
+      </div>
+    )
   } else {
     gameStateContent = (
       <div className='game-info__player-turn'>

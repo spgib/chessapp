@@ -3,8 +3,8 @@ import React from 'react';
 import Chessboard from '../../shared/chessboard/Chessboard';
 
 const Main = props => {
-  const saveGame = (e) => {
-    console.log(e);
+  const saveGame = (gameObject) => {
+    console.log(gameObject);
   }
 
   return <Chessboard onSaveGame={saveGame}/>

@@ -96,6 +96,7 @@ const useChess = (customBoard) => {
       setBoard(newBoard);
       setActivePiece(null);
       setLegalMoves([]);
+
       setPlayerTurn((prev) => {
         return prev === 'white' ? 'black' : 'white';
       });
@@ -148,11 +149,12 @@ const useChess = (customBoard) => {
     setCheckmate(false);
   };
 
-  const resign = () => {
+  const resignReview = () => {
     setActivePlay(false);
     setLegalMoves([]);
     setCurrentSlide(history.length - 1);
   };
+
 
   const slideshow = (command) => {
     const actualize = (slide = 'reset') => {
@@ -187,6 +189,9 @@ const useChess = (customBoard) => {
     if (currentSlide === null) {
       return newGame();
     }
+    if (currentSlide === history.length - 1 && checkmate) {
+      return;
+    }
     const newHistory = [...history];
     newHistory.splice(currentSlide + 1);
     setHistory(newHistory);
@@ -208,7 +213,7 @@ const useChess = (customBoard) => {
     showPromotionForm,
     activatePiece,
     branch,
-    resign,
+    resignReview,
     mouseOver,
     newGame,
     promotion,

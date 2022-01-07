@@ -25,7 +25,7 @@ const Chessboard = (props) => {
     showPromotionForm,
     activatePiece,
     branch,
-    resign,
+    resignReview,
     mouseOver,
     newGame,
     promotion,
@@ -42,6 +42,31 @@ const Chessboard = (props) => {
   const closeSaveModalHandler = () => {
     setShowSaveForm(false);
   };
+
+  const saveGame = (title, wPlayer, bPlayer, desc) => {
+    const gameObject = {};
+    gameObject.title = title;
+    gameObject.wPlayer = wPlayer;
+    gameObject.bPlayer = bPlayer;
+    gameObject.description = desc;
+    gameObject.turns = Math.ceil(history.length / 2);
+
+    let winner = null;
+    if (checkmate) {
+      winner = playerTurn === 'white' ? '0-1' : '1-0';
+    } else if (!activePlay) {
+      winner = playerTurn === 'white' ? '0-1' : '1-0'
+    }
+
+    gameObject.victoryState = {
+      checkmate,
+      resignation: !activePlay && !checkmate,
+      winner
+    }
+    gameObject.string = stringifyGame(history).trim();
+
+    props.onSaveGame(gameObject);
+  }
 
   const rows = [0, 1, 2, 3, 4, 5, 6, 7];
 
@@ -65,14 +90,16 @@ const Chessboard = (props) => {
       <Controls
         activePlay={activePlay}
         currentSlide={currentSlide}
+        gameEnd={checkmate}
         history={history}
         onBranch={branch}
-        onResign={resign}
+        onResignReview={resignReview}
         onNewGame={newGame}
         onSaveGame={openSaveModal}
         slideshowControls={slideshow}
       />
       <GameInfo
+        activePlay={activePlay}
         turn={playerTurn}
         history={history}
         gameEnd={checkmate}
@@ -88,7 +115,8 @@ const Chessboard = (props) => {
           <SaveGameForm
             activePlay={activePlay}
             checkmate={checkmate}
-            onSubmit={props.onSaveGame}
+            onSubmit={saveGame}
+            onClose={closeSaveModalHandler}
           />
         </Modal>
       )}

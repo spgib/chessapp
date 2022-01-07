@@ -15,7 +15,11 @@ const SaveGameForm = (props) => {
   const submitHandler = (e) => {
     e.preventDefault();
 
-    console.log(title, wPlayer, bPlayer, desc);
+    if (!titleIsValid) return;
+    else {
+      props.onSubmit(title.trim(), wPlayer.trim(), bPlayer.trim(), desc.trim());
+    }
+    props.onClose();
   };
 
   const titleChangeHandler = (e) => {

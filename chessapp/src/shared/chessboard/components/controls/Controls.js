@@ -11,8 +11,8 @@ const Controls = (props) => {
     props.onSaveGame();
   };
 
-  const resignHandler = () => {
-    props.onResign();
+  const resignReviewHandler = () => {
+    props.onResignReview();
   };
 
   const branchHandler = () => {
@@ -36,16 +36,16 @@ const Controls = (props) => {
   };
 
   let moveSlideshowControls;
-  let resignControls;
+  let resignReviewControls;
 
   if (props.activePlay) {
-    resignControls = (
+    resignReviewControls = (
       <button
         className='chessboard__controls-resign'
         type='button'
-        onClick={resignHandler}
+        onClick={resignReviewHandler}
       >
-        RESIGN
+        {props.gameEnd ? 'REVIEW' : 'RESIGN'}
       </button>
     );
   } else {
@@ -63,7 +63,7 @@ const Controls = (props) => {
         <button type='button' onClick={endSlideshowHandler} disabled={props.currentSlide === props.history.length - 1}>
           &gt;&gt;
         </button>
-        <button type='button' onClick={branchHandler}>BRANCH</button>
+        <button type='button' onClick={branchHandler} disabled={props.currentSlide === props.history.length - 1 && props.gameEnd}>BRANCH</button>
       </React.Fragment>
     );
   }
@@ -85,7 +85,7 @@ const Controls = (props) => {
       >
         SAVE
       </button>
-      {resignControls}
+      {resignReviewControls}
     </div>
   );
 };
