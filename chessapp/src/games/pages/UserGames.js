@@ -1,4 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+import UserGame from '../components/UserGame';
 
 const DUMMY_GAMES = [
   {
@@ -19,28 +22,45 @@ const DUMMY_GAMES = [
 ];
 
 const UserGames = (props) => {
-  const content = DUMMY_GAMES.map((game) => {
-    return (
-      <li key={game.id} className='gamelist__item'>
-        <h2>{game.title}</h2>
-        <h3>
-          {game.wPlayer ? game.wPlayer : 'Unknown'} vs.{' '}
-          {game.bPlayer ? game.bPlayer : 'Unknown'}
-        </h3>
-        <h3>
-          Outcome:{' '}
-          {game.victoryState.winner ? game.victoryState.winner : 'ongoing'}
-        </h3>
-        {game.description && <p>{game.description}</p>}
-        <button type='button'>
-          {game.victoryState.winner ? 'REVIEW' : 'CONTINUE'}
-        </button>
-        <button type='button'>DELETE</button>
-      </li>
-    );
-  });
+  const [games, setGames] = useState(DUMMY_GAMES);
+  const navigate = useNavigate();
 
-  return <ul className='gamelist'>{content}</ul>;
+  const reviewGame = (id) => {
+    navigate(`/games/you/${id}`);
+  };
+
+  const deleteGame = (id) => {
+    setGames((prev) => {
+      return prev.filter((game) => game.id !== id);
+    });
+  };
+
+  let content;
+
+  if (games.length > 0) {
+    content = games.map((game) => {
+      return (
+        <UserGame
+          id={game.id}
+          key={game.id}
+          title={game.title}
+          wPlayer={game.wPlayer}
+          bPlayer={game.bPlayer}
+          victoryState={game.victoryState}
+          description={game.description}
+          onDelete={deleteGame}
+          onReview={reviewGame}
+        />
+      );
+    });
+  }
+
+  return (
+    <React.Fragment>
+      {content && <ul className='gamelist'>{content}</ul>}
+      {!content && <h2>No games found! Go play some chess!</h2>}
+    </React.Fragment>
+  );
 };
 
 export default UserGames;

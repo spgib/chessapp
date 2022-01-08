@@ -21,19 +21,23 @@ const DUMMY_GAMES = [
   },
 ];
 
-const Main = props => {
-  let navigate = useNavigate();
-  let params = useParams();
-  console.log(params.uid);
-  console.log(params.gameId);
+const Main = (props) => {
+  const navigate = useNavigate();
+  const params = useParams();
+
+  const gameId = params.gameId;
+  let gameToLoad;
+  if (gameId) {
+    gameToLoad = DUMMY_GAMES.find((game) => game.id === gameId);
+  }
 
   const saveGame = (gameObject) => {
     console.log(gameObject);
-    
-    navigate('/games/you');
-  }
 
-  return <Chessboard onSaveGame={saveGame}/>
+    navigate('/games/you');
+  };
+
+  return <Chessboard onSaveGame={saveGame} gameToLoad={gameToLoad} />;
 };
 
 export default Main;

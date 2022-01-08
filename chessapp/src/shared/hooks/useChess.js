@@ -3,10 +3,10 @@ import { useState } from 'react';
 import { validMoves, DEFAULT_BOARD } from '../../store/logic/boardLogic';
 import { isCheckmate } from '../../store/logic/checkLogic';
 
-const useChess = (customBoard) => {
+const useChess = (game) => {
   const [activePiece, setActivePiece] = useState(null);
   const [activePlay, setActivePlay] = useState(true);
-  const [board, setBoard] = useState(customBoard || DEFAULT_BOARD);
+  const [board, setBoard] = useState(DEFAULT_BOARD);
   const [checkmate, setCheckmate] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(null);
   const [history, setHistory] = useState([]);
