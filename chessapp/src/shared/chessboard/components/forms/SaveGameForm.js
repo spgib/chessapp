@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 
 import Input from '../../../components/formElements/Input';
+import { VALIDATOR_MAXLENGTH, VALIDATOR_REQUIRE } from '../../../util/validators';
 
 import './SaveGameForm.css';
 
 const SaveGameForm = (props) => {
   const [title, setTitle] = useState('');
   const [titleIsValid, setTitleIsValid] = useState(false);
-  const [titleIsTouched, setTitleIsTouched] = useState(false);
   const [wPlayer, setWPlayer] = useState('');
   const [bPlayer, setBPlayer] = useState('');
   const [desc, setDesc] = useState('');
@@ -22,66 +22,39 @@ const SaveGameForm = (props) => {
     props.onClose();
   };
 
-  const titleChangeHandler = (e) => {
-    setTitle(e.target.value);
-
-    const input = e.target.value;
-    if (input.trim() !== '') {
-      setTitleIsValid(true);
-    } else {
-      setTitleIsValid(false);
-    }
-  };
-
-  const titleBlurHandler = () => {
-    setTitleIsTouched(true);
-  };
-
-  const wPlayerChangeHandler = (e) => {
-    setWPlayer(e.target.value);
-  };
-
-  const bPlayerChangeHandler = (e) => {
-    setBPlayer(e.target.value);
-  };
-
-  const descChangeHandler = (e) => {
-    setDesc(e.target.value);
-  };
-
   return (
     <form className='save-game-form' onSubmit={submitHandler}>
       <Input
         label='Title*'
+        id='title'
         name='title'
         type='text'
-        value={title}
-        onChange={titleChangeHandler}
-        onBlur={titleBlurHandler}
         invalidText='Please enter a title for this match.'
-        valid={titleIsValid}
-        touched={titleIsTouched}
+        validators={[VALIDATOR_REQUIRE()]}
       />
       <Input
         label='White Player'
+        id='white-player'
         name='white-player'
         type='text'
-        value={wPlayer}
-        onChange={wPlayerChangeHandler}
+        invalidText='Please enter the name of the player playing white.'
+        validators={[]}
       />
       <Input
         label='Black Player'
+        id='black-player'
         name='black-player'
         type='text'
-        value={bPlayer}
-        onChange={bPlayerChangeHandler}
+        invalidText='Please enter the name of the player playing black.'
+        validators={[]}
       />
       <Input
         element='textarea'
         label='Description'
+        id='description'
         name='description'
-        value={desc}
-        onChange={descChangeHandler}
+        invalidText='Please enter a short description of the game (no more than 50 characters).'
+        validators={[VALIDATOR_MAXLENGTH(50)]}
       />
       <p>Fields marked with * are required.</p>
       <button type='submit'>SAVE</button>

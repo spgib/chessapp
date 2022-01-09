@@ -1,12 +1,14 @@
 import React, { useReducer } from 'react';
 
+import { validate } from '../../util/validators';
+
 const inputReducer = (state, action) => {
   switch (action.type) {
     case 'CHANGE':
       return {
         ...state,
         value: action.value,
-        isValid: true,
+        isValid: validate(action.value, action.validators),
       };
     case 'TOUCH':
       return { ...state, isTouched: true };
@@ -23,7 +25,11 @@ const Input = (props) => {
   });
 
   const changeHandler = (e) => {
-    dispatch({ type: 'CHANGE', value: e.target.value });
+    dispatch({
+      type: 'CHANGE',
+      value: e.target.value,
+      validators: props.validators,
+    });
   };
 
   const touchHandler = () => {
@@ -56,7 +62,9 @@ const Input = (props) => {
       <label
         htmlFor={props.id}
         style={
-          !inputState.isValid && inputState.isTouched ? { color: 'red' } : { color: 'black' }
+          !inputState.isValid && inputState.isTouched
+            ? { color: 'red' }
+            : { color: 'black' }
         }
       >
         {props.label}
