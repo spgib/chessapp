@@ -10,14 +10,14 @@ const DUMMY_GAMES = [
     wPlayer: 'me',
     bPlayer: 'someone else',
     description: 'a very clever strategy',
-    turns: 11,
+    turns: 10,
     victoryState: {
-      checkmate: true,
+      checkmate: false,
       resignation: false,
-      winner: '1-0',
+      winner: null,
     },
     string:
-      'e4 d5 exd5 Qd6 Qf3 Qe6+ dxe6 a6 Qc6+ Bd7 exd7+ Nxd7 Qxc7 Nb6 a3 Ra7 Qxb6 a5 Qc7 b6 Qc8#',
+      'e4 d5 exd5 Qd6 Qf3 Qe6+ dxe6 a6 Qc6+ Bd7 exd7+ Nxd7 Qxc7 Nb6 a3 Ra7 Qxb6 a5 Qc7 b6',
   },
 ];
 
@@ -26,7 +26,7 @@ const UserGames = (props) => {
   const navigate = useNavigate();
 
   const reviewGame = (id) => {
-    navigate(`/games/you/${id}`);
+    navigate(`/${id}`);
   };
 
   const deleteGame = (id) => {
@@ -44,6 +44,7 @@ const UserGames = (props) => {
           id={game.id}
           key={game.id}
           title={game.title}
+          turns={game.turns}
           wPlayer={game.wPlayer}
           bPlayer={game.bPlayer}
           victoryState={game.victoryState}

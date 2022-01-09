@@ -6,13 +6,25 @@ import Controls from './components/controls/Controls';
 import GameInfo from './components/game-info/GameInfo';
 import PawnPromotionForm from './components/forms/PawnPromotionForm';
 import SaveGameForm from './components/forms/SaveGameForm';
-import { stringifyGame } from '../../store/logic/moveConversions';
+import { stringifyGame, parseGame } from '../../store/logic/moveConversions';
 import useChess from '../hooks/useChess';
 
 import './Chessboard.css';
 
 const Chessboard = (props) => {
   const [showSaveForm, setShowSaveForm] = useState(false);
+
+  let loadActive, loadBoard, loadCheckmate, loadHistory, loadTurn;
+
+  if (props.gameToLoad) {
+    loadActive = props.gameToLoad.victoryState.winner === null;
+    loadHistory = parseGame(props.gameToLoad.string);
+    if (loadActive === false) loadBoard = loadHistory[0].boardSnapshotBefore;
+    else loadBoard = loadHistory[loadHistory.length - 1].boardSnapshotAfter;
+    loadCheckmate = props.gameToLoad.victoryState.checkmate;
+    loadTurn =
+      loadHistory[loadHistory.length - 1].turn === 'white' ? 'black' : 'white';
+  }
 
   const {
     activePlay,
@@ -30,12 +42,9 @@ const Chessboard = (props) => {
     newGame,
     promotion,
     slideshow,
-  } = useChess();
+  } = useChess(loadActive, loadBoard, loadCheckmate, loadHistory, loadTurn);
 
   const openSaveModal = () => {
-    // const savedGame = stringifyGame(history);
-
-    // console.log(savedGame);
     setShowSaveForm(true);
   };
 
@@ -55,18 +64,18 @@ const Chessboard = (props) => {
     if (checkmate) {
       winner = playerTurn === 'white' ? '0-1' : '1-0';
     } else if (!activePlay) {
-      winner = playerTurn === 'white' ? '0-1' : '1-0'
+      winner = playerTurn === 'white' ? '0-1' : '1-0';
     }
 
     gameObject.victoryState = {
       checkmate,
       resignation: !activePlay && !checkmate,
-      winner
-    }
+      winner,
+    };
     gameObject.string = stringifyGame(history).trim();
 
     props.onSaveGame(gameObject);
-  }
+  };
 
   const rows = [0, 1, 2, 3, 4, 5, 6, 7];
 

@@ -5,11 +5,11 @@ import './UserGame.css';
 const UserGame = (props) => {
   const deleteHandler = () => {
     props.onDelete(props.id);
-  }
+  };
 
   const reviewHandler = () => {
     props.onReview(props.id);
-  }
+  };
 
   return (
     <li key={props.id} className='gamelist__item'>
@@ -18,6 +18,7 @@ const UserGame = (props) => {
         {props.wPlayer ? props.wPlayer : 'Unknown'} vs.{' '}
         {props.bPlayer ? props.bPlayer : 'Unknown'}
       </h3>
+      <h3>{props.turns} turns</h3>
       <h3>
         Outcome:{' '}
         {props.victoryState.winner ? props.victoryState.winner : 'ongoing'}

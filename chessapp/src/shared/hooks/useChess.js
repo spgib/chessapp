@@ -3,17 +3,17 @@ import { useState } from 'react';
 import { validMoves, DEFAULT_BOARD } from '../../store/logic/boardLogic';
 import { isCheckmate } from '../../store/logic/checkLogic';
 
-const useChess = (game) => {
+const useChess = (isActive = true, startBoard = DEFAULT_BOARD, isCM = false, startHistory = [], turn = 'white') => {
   const [activePiece, setActivePiece] = useState(null);
-  const [activePlay, setActivePlay] = useState(true);
-  const [board, setBoard] = useState(DEFAULT_BOARD);
-  const [checkmate, setCheckmate] = useState(false);
+  const [activePlay, setActivePlay] = useState(isActive);
+  const [board, setBoard] = useState(startBoard);
+  const [checkmate, setCheckmate] = useState(isCM);
   const [currentSlide, setCurrentSlide] = useState(null);
-  const [history, setHistory] = useState([]);
+  const [history, setHistory] = useState(startHistory);
   const [legalMoves, setLegalMoves] = useState([]);
-  const [playerTurn, setPlayerTurn] = useState('white');
+  const [playerTurn, setPlayerTurn] = useState(turn);
   const [showPromotionForm, setShowPromotionForm] = useState(false);
-
+  
   const activatePiece = (row, column) => {
     if (!activePlay) {
       return;
