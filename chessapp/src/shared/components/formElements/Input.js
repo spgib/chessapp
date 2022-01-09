@@ -1,37 +1,68 @@
-import React from 'react';
+import React, { useReducer } from 'react';
+
+const inputReducer = (state, action) => {
+  switch (action.type) {
+    case 'CHANGE':
+      return {
+        ...state,
+        value: action.value,
+        isValid: true,
+      };
+    case 'TOUCH':
+      return { ...state, isTouched: true };
+    default:
+      return state;
+  }
+};
 
 const Input = (props) => {
+  const [inputState, dispatch] = useReducer(inputReducer, {
+    value: '',
+    isValid: false,
+    isTouched: false,
+  });
+
+  const changeHandler = (e) => {
+    dispatch({ type: 'CHANGE', value: e.target.value });
+  };
+
+  const touchHandler = () => {
+    dispatch({ type: 'TOUCH' });
+  };
+
   const element =
     props.element === 'textarea' ? (
       <textarea
-        id={props.name}
+        id={props.id}
         name={props.name}
         maxLength={props.maxLength || 200}
-        onChange={props.onChange}
-        onBlur={props.onBlur}
-        value={props.value}
+        onChange={changeHandler}
+        onBlur={touchHandler}
+        value={inputState.value}
       />
     ) : (
       <input
-        id={props.name}
+        id={props.id}
         name={props.name}
         type={props.type}
-        onChange={props.onChange}
-        onBlur={props.onBlur}
-        value={props.value}
+        onChange={changeHandler}
+        onBlur={touchHandler}
+        value={inputState.value}
       />
     );
 
   return (
     <div>
       <label
-        htmlFor={props.name}
-        style={!props.valid && props.touched ? { color: 'red' } : {color: 'black'}}
+        htmlFor={props.id}
+        style={
+          !inputState.isValid && inputState.isTouched ? { color: 'red' } : { color: 'black' }
+        }
       >
         {props.label}
       </label>
       {element}
-      {!props.valid && props.touched && (
+      {!inputState.isValid && inputState.isTouched && (
         <p style={{ color: 'red' }}>{props.invalidText}</p>
       )}
     </div>
