@@ -1,25 +1,41 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import Input from '../../../components/formElements/Input';
-import { VALIDATOR_MAXLENGTH, VALIDATOR_REQUIRE } from '../../../util/validators';
+import {
+  VALIDATOR_MAXLENGTH,
+  VALIDATOR_REQUIRE,
+} from '../../../util/validators';
+import useForm from '../../../hooks/useForm';
 
 import './SaveGameForm.css';
 
 const SaveGameForm = (props) => {
-  const [title, setTitle] = useState('');
-  const [titleIsValid, setTitleIsValid] = useState(false);
-  const [wPlayer, setWPlayer] = useState('');
-  const [bPlayer, setBPlayer] = useState('');
-  const [desc, setDesc] = useState('');
-
+  const [formState, inputHandler] = useForm(
+    {
+      title: {
+        value: '',
+        isValid: false,
+      },
+      wPlayer: {
+        value: '',
+        isValid: false,
+      },
+      bPlayer: {
+        value: '',
+        isValid: false,
+      },
+      description: {
+        value: '',
+        isValid: false,
+      },
+    },
+    false
+  );
+  
   const submitHandler = (e) => {
     e.preventDefault();
 
-    if (!titleIsValid) return;
-    else {
-      props.onSubmit(title.trim(), wPlayer.trim(), bPlayer.trim(), desc.trim());
-    }
-    props.onClose();
+    console.log(formState);
   };
 
   return (
@@ -31,22 +47,25 @@ const SaveGameForm = (props) => {
         type='text'
         invalidText='Please enter a title for this match.'
         validators={[VALIDATOR_REQUIRE()]}
+        onInput={inputHandler}
       />
       <Input
         label='White Player'
-        id='white-player'
+        id='wPlayer'
         name='white-player'
         type='text'
         invalidText='Please enter the name of the player playing white.'
         validators={[]}
+        onInput={inputHandler}
       />
       <Input
         label='Black Player'
-        id='black-player'
+        id='bPlayer'
         name='black-player'
         type='text'
         invalidText='Please enter the name of the player playing black.'
         validators={[]}
+        onInput={inputHandler}
       />
       <Input
         element='textarea'
@@ -55,6 +74,7 @@ const SaveGameForm = (props) => {
         name='description'
         invalidText='Please enter a short description of the game (no more than 50 characters).'
         validators={[VALIDATOR_MAXLENGTH(50)]}
+        onInput={inputHandler}
       />
       <p>Fields marked with * are required.</p>
       <button type='submit'>SAVE</button>
