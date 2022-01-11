@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 
 import Layout from './shared/layout/Layout';
 import Main from './main/pages/Main';
+import PublicGames from './games/pages/PublicGames';
 import UserGames from './games/pages/UserGames';
 import Login from './user/pages/Login';
 import Signup from './user/pages/Signup';
@@ -13,6 +14,7 @@ const App = () => {
       <Route path='/' element={<Layout />}>
         <Route index element={<Main />} />
         <Route path='/:gameId' element={<Main />} />
+        <Route path='/public' element={<PublicGames />} />
         <Route path='games/:uid' element={<UserGames />} />
         <Route path='login' element={<Login />} />
         <Route path='signup' element={<Signup />} />

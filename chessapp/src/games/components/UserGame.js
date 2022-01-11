@@ -25,11 +25,11 @@ const UserGame = (props) => {
       </h3>
       {props.description && <p>{props.description}</p>}
       <button type='button' onClick={reviewHandler}>
-        {props.victoryState.winner ? 'REVIEW' : 'CONTINUE'}
+        {props.isPublic ? 'VIEW' : props.victoryState.winner ? 'REVIEW' : 'CONTINUE'}
       </button>
-      <button type='button' onClick={deleteHandler}>
+      {!props.isPublic && <button type='button' onClick={deleteHandler}>
         DELETE
-      </button>
+      </button>}
     </li>
   );
 };

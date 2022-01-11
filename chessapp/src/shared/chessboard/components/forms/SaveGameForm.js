@@ -31,11 +31,17 @@ const SaveGameForm = (props) => {
     },
     false
   );
-  
+
   const submitHandler = (e) => {
     e.preventDefault();
 
-    console.log(formState);
+    props.onSubmit(
+      formState.inputs.title.value,
+      formState.inputs.wPlayer.value,
+      formState.inputs.bPlayer.value,
+      formState.inputs.description.value,
+      e.target[4].checked
+    );
   };
 
   return (
@@ -66,7 +72,7 @@ const SaveGameForm = (props) => {
         type='text'
         invalidText='Please enter the name of the player playing black.'
         validators={[]}
-        initialisValid={true}
+        initialIsValid={true}
         onInput={inputHandler}
       />
       <Input
@@ -79,8 +85,20 @@ const SaveGameForm = (props) => {
         initialIsValid={true}
         onInput={inputHandler}
       />
+      <input
+        type='radio'
+        id='privacyChoice1'
+        name='privacy'
+        value='public'
+        defaultChecked
+      />
+      <label htmlFor='privacyChoice1'>Public</label>
+      <input type='radio' id='privacyChoice2' name='privacy' value='private' />
+      <label htmlFor='privacyChoice2'>Private</label>
       <p>Fields marked with * are required.</p>
-      <button type='submit' disabled={!formState.formIsValid}>SAVE</button>
+      <button type='submit' disabled={!formState.formIsValid}>
+        SAVE
+      </button>
     </form>
   );
 };

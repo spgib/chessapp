@@ -52,21 +52,15 @@ const DUMMY_GAMES = [
     public: false,
     string:
       'e4 d5 exd5 Qd6 Qf3 Qe6+ dxe6 a6 Qc6+ Bd7 exd7+ Nxd7 Qxc7 Nb6 a3 Ra7 Qxb6 a5 Qc7 b6',
-  }
+  },
 ];
 
-const UserGames = (props) => {
-  const [games, setGames] = useState(DUMMY_GAMES);
+const PublicGames = (props) => {
+  const [games] = useState(DUMMY_GAMES.filter(game => game.public));
   const navigate = useNavigate();
 
   const reviewGame = (id) => {
     navigate(`/${id}`);
-  };
-
-  const deleteGame = (id) => {
-    setGames((prev) => {
-      return prev.filter((game) => game.id !== id);
-    });
   };
 
   let content;
@@ -83,8 +77,8 @@ const UserGames = (props) => {
           bPlayer={game.bPlayer}
           victoryState={game.victoryState}
           description={game.description}
-          onDelete={deleteGame}
           onReview={reviewGame}
+          isPublic={true}
         />
       );
     });
@@ -98,4 +92,4 @@ const UserGames = (props) => {
   );
 };
 
-export default UserGames;
+export default PublicGames;

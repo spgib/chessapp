@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import Input from '../../shared/components/formElements/Input';
 import useForm from '../../shared/hooks/useForm';
@@ -10,6 +11,7 @@ import {
 import './auth.css';
 
 const Login = (props) => {
+  const navigate = useNavigate();
   const [formState, inputHandler] = useForm(
     {
       email: {
@@ -24,11 +26,12 @@ const Login = (props) => {
     false
   );
 
-  const formSubmitHandler = e => {
+  const formSubmitHandler = (e) => {
     e.preventDefault();
 
-    console.log(formState);
-  }
+    console.log(formState.inputs.email.value, formState.inputs.password.value);
+    navigate('/');
+  };
 
   return (
     <React.Fragment>
@@ -52,7 +55,9 @@ const Login = (props) => {
           validators={[VALIDATOR_REQUIRE()]}
           onInput={inputHandler}
         />
-        <button type='submit' disabled={!formState.formIsValid}>LOGIN</button>
+        <button type='submit' disabled={!formState.formIsValid}>
+          LOGIN
+        </button>
       </form>
     </React.Fragment>
   );

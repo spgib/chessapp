@@ -10,6 +10,9 @@ const NavLinks = props => {
         <NavLink to='/'>Home</NavLink>
       </li>
       <li>
+        <NavLink to='/public'>Public Games</NavLink>
+      </li>
+      <li>
         <NavLink to='games/you'>Your Games</NavLink>
       </li>
       <li>

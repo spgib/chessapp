@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import Input from '../../shared/components/formElements/Input';
 import { VALIDATOR_REQUIRE, VALIDATOR_EMAIL, VALIDATOR_MINLENGTH } from '../../shared/util/validators';
@@ -7,6 +8,7 @@ import useForm from '../../shared/hooks/useForm';
 import './auth.css';
 
 const Signup = () => {
+  const navigate = useNavigate();
   const [formState, inputHandler] = useForm({
     name: {
       value: '',
@@ -28,8 +30,9 @@ const Signup = () => {
 
   const formSubmitHandler = e => {
     e.preventDefault();
-
-    console.log(formState);
+    
+    console.log(formState.inputs.name.value, formState.inputs.email.value, formState.inputs.password.value);
+    navigate('/');
   }
 
   return (
