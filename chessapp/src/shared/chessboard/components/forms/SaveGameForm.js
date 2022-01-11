@@ -47,6 +47,7 @@ const SaveGameForm = (props) => {
         type='text'
         invalidText='Please enter a title for this match.'
         validators={[VALIDATOR_REQUIRE()]}
+        initialValue={''}
         onInput={inputHandler}
       />
       <Input
@@ -56,6 +57,7 @@ const SaveGameForm = (props) => {
         type='text'
         invalidText='Please enter the name of the player playing white.'
         validators={[]}
+        initialValue={''}
         onInput={inputHandler}
       />
       <Input
@@ -65,6 +67,7 @@ const SaveGameForm = (props) => {
         type='text'
         invalidText='Please enter the name of the player playing black.'
         validators={[]}
+        initialValue={''}
         onInput={inputHandler}
       />
       <Input
@@ -74,6 +77,7 @@ const SaveGameForm = (props) => {
         name='description'
         invalidText='Please enter a short description of the game (no more than 50 characters).'
         validators={[VALIDATOR_MAXLENGTH(50)]}
+        initialValue={''}
         onInput={inputHandler}
       />
       <p>Fields marked with * are required.</p>
