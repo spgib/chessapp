@@ -6,7 +6,7 @@ import UserGame from '../components/UserGame';
 const DUMMY_GAMES = [
   {
     id: 1,
-    user: 'Spencer',
+    userId: 'Spencer',
     title: 'A sample game',
     wPlayer: 'me',
     bPlayer: 'someone else',
@@ -23,7 +23,8 @@ const DUMMY_GAMES = [
   },
   {
     id: 2,
-    user: 'Jasmin',
+    userId: 'Jasmin',
+    title: 'A tremendous game',
     wPlayer: 'me',
     bPlayer: 'someone else',
     description: 'a very VERY clever strategy',
@@ -39,7 +40,8 @@ const DUMMY_GAMES = [
   },
   {
     id: 3,
-    user: 'Jasmin',
+    userId: 'Jasmin',
+    title: 'A terrific game',
     wPlayer: 'me',
     bPlayer: 'someone else',
     description: 'a very VERY clever strategy',
@@ -79,6 +81,7 @@ const PublicGames = (props) => {
           description={game.description}
           onReview={reviewGame}
           isPublic={true}
+          userId={game.userId}
         />
       );
     });

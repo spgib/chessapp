@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import Input from '../../shared/components/formElements/Input';
@@ -7,11 +7,13 @@ import {
   VALIDATOR_EMAIL,
   VALIDATOR_REQUIRE,
 } from '../../shared/util/validators';
+import { AuthContext } from '../../store/context/auth-context';
 
 import './auth.css';
 
 const Login = (props) => {
   const navigate = useNavigate();
+  const auth = useContext(AuthContext);
   const [formState, inputHandler] = useForm(
     {
       email: {
@@ -29,8 +31,11 @@ const Login = (props) => {
   const formSubmitHandler = (e) => {
     e.preventDefault();
 
-    console.log(formState.inputs.email.value, formState.inputs.password.value);
-    navigate('/');
+    console.log(auth);
+    if (formState.formIsValid) {
+      auth.login();
+      navigate('/');
+    }
   };
 
   return (
