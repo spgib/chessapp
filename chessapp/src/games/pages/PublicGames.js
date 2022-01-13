@@ -1,64 +1,13 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import UserGame from '../components/UserGame';
+import { AuthContext } from '../../store/context/auth-context';
 
-const DUMMY_GAMES = [
-  {
-    id: 1,
-    userId: 'Spencer',
-    title: 'A sample game',
-    wPlayer: 'me',
-    bPlayer: 'someone else',
-    description: 'a very clever strategy',
-    turns: 10,
-    victoryState: {
-      checkmate: false,
-      resignation: false,
-      winner: null,
-    },
-    public: true,
-    string:
-      'e4 d5 exd5 Qd6 Qf3 Qe6+ dxe6 a6 Qc6+ Bd7 exd7+ Nxd7 Qxc7 Nb6 a3 Ra7 Qxb6 a5 Qc7 b6',
-  },
-  {
-    id: 2,
-    userId: 'Jasmin',
-    title: 'A tremendous game',
-    wPlayer: 'me',
-    bPlayer: 'someone else',
-    description: 'a very VERY clever strategy',
-    turns: 10,
-    victoryState: {
-      checkmate: false,
-      resignation: false,
-      winner: null,
-    },
-    public: true,
-    string:
-      'e4 d5 exd5 Qd6 Qf3 Qe6+ dxe6 a6 Qc6+ Bd7 exd7+ Nxd7 Qxc7 Nb6 a3 Ra7 Qxb6 a5 Qc7 b6',
-  },
-  {
-    id: 3,
-    userId: 'Jasmin',
-    title: 'A terrific game',
-    wPlayer: 'me',
-    bPlayer: 'someone else',
-    description: 'a very VERY clever strategy',
-    turns: 10,
-    victoryState: {
-      checkmate: false,
-      resignation: false,
-      winner: null,
-    },
-    public: false,
-    string:
-      'e4 d5 exd5 Qd6 Qf3 Qe6+ dxe6 a6 Qc6+ Bd7 exd7+ Nxd7 Qxc7 Nb6 a3 Ra7 Qxb6 a5 Qc7 b6',
-  },
-];
+
 
 const PublicGames = (props) => {
-  const [games] = useState(DUMMY_GAMES.filter(game => game.public));
+  const auth = useContext(AuthContext);
   const navigate = useNavigate();
 
   const reviewGame = (id) => {
@@ -67,8 +16,8 @@ const PublicGames = (props) => {
 
   let content;
 
-  if (games.length > 0) {
-    content = games.map((game) => {
+  if (auth.games.length > 0) {
+    content = auth.games.filter(game => game.public).map((game) => {
       return (
         <UserGame
           id={game.id}

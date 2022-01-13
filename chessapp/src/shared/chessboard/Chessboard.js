@@ -52,13 +52,8 @@ const Chessboard = (props) => {
     setShowSaveForm(false);
   };
 
-  const saveGame = (title, wPlayer, bPlayer, desc, isPublic) => {
-    const gameObject = {};
-    gameObject.title = title;
-    gameObject.wPlayer = wPlayer;
-    gameObject.bPlayer = bPlayer;
-    gameObject.description = desc;
-    gameObject.isPublic = isPublic;
+  const saveGame = (game) => {
+    const gameObject = {...game};
     gameObject.turns = Math.ceil(history.length / 2);
 
     let winner = null;

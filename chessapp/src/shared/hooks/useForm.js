@@ -14,7 +14,7 @@ const formReducer = (state, action) => {
           formIsValid = formIsValid && state.inputs[inputID].isValid;
         }
       }
-      
+   
       return {
         ...state,
         inputs: {

@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 
 import Modal from '../../shared/components/UIElements/Modal';
 import SaveGameForm from '../../shared/chessboard/components/forms/SaveGameForm';
+import { AuthContext } from '../../store/context/auth-context';
 
 import './UserGame.css';
 
 const UserGame = (props) => {
+  const auth = useContext(AuthContext);
+  
   const [showEditModal, setShowEditModal] = useState(false);
 
   const deleteHandler = () => {
@@ -24,9 +27,30 @@ const UserGame = (props) => {
     setShowEditModal(false);
   }
 
-  const submitEditHandler = (title, wPlayer, bPlayer, description, isPublic) => {
-    props.onEdit(props.id, title, wPlayer, bPlayer, description, isPublic)
+  const submitEditHandler = (game) => {
+    const gameIndex = auth.games.findIndex(g => g.id === props.id);
+    const newGamesList = [...auth.games];
+    const editedGame = {
+      ...newGamesList[gameIndex],
+      title: game.title,
+      wPlayer: game.wPlayer,
+      bPlayer: game.bPlayer,
+      description: game.description,
+      public: game.public
+    }
+    newGamesList[gameIndex] = editedGame;
+
+    auth.updateGames(newGamesList);
+    setShowEditModal(false);
   };
+
+  const editDataObject = {
+    title: props.title,
+    wPlayer: props.wPlayer ? props.wPlayer : '',
+    bPlayer: props.bPlayer ? props.bPlayer : '',
+    description: props.description ? props.description : '',
+    isPublic: props.public
+  }
 
   return (
     <React.Fragment>
@@ -61,7 +85,7 @@ const UserGame = (props) => {
         </button>
       )}
     </li>
-    {showEditModal && <Modal onClick={closeEditHandler}><SaveGameForm onSubmit={submitEditHandler}/></Modal>}
+    {showEditModal && <Modal onClick={closeEditHandler}><SaveGameForm onSubmit={submitEditHandler} initialValues={editDataObject} /></Modal>}
     </React.Fragment>
   );
 };

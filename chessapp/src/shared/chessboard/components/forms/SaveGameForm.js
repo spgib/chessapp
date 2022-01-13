@@ -10,38 +10,60 @@ import useForm from '../../../hooks/useForm';
 import './SaveGameForm.css';
 
 const SaveGameForm = (props) => {
-  const [formState, inputHandler] = useForm(
-    {
-      title: {
-        value: '',
-        isValid: false,
-      },
-      wPlayer: {
-        value: '',
-        isValid: false,
-      },
-      bPlayer: {
-        value: '',
-        isValid: false,
-      },
-      description: {
-        value: '',
-        isValid: false,
-      },
-    },
-    false
-  );
+  const initialValues = props.initialValues
+    ? {
+        title: {
+          value: props.initialValues.title,
+          isValid: true,
+        },
+        wPlayer: {
+          value: props.initialValues.wPlayer,
+          isValid: true,
+        },
+        bPlayer: {
+          value: props.initialValues.bPlayer,
+          isValid: true,
+        },
+        description: {
+          value: props.initialValues.description,
+          isValid: true,
+        },
+      }
+    : {
+        title: {
+          value: '',
+          isValid: false,
+        },
+        wPlayer: {
+          value: '',
+          isValid: false,
+        },
+        bPlayer: {
+          value: '',
+          isValid: false,
+        },
+        description: {
+          value: '',
+          isValid: false,
+        },
+      };
+
+  const initialFormIsValid = props.initialValues ? true : false;
+
+  const [formState, inputHandler] = useForm(initialValues, initialFormIsValid);
 
   const submitHandler = (e) => {
     e.preventDefault();
 
-    props.onSubmit(
-      formState.inputs.title.value,
-      formState.inputs.wPlayer.value,
-      formState.inputs.bPlayer.value,
-      formState.inputs.description.value,
-      e.target[4].checked
-    );
+    const gameObject = {
+      title: formState.inputs.title.value,
+      wPlayer: formState.inputs.wPlayer.value,
+      bPlayer: formState.inputs.bPlayer.value,
+      description: formState.inputs.description.value,
+      public: e.target[4].checked,
+    };
+
+    props.onSubmit(gameObject);
   };
 
   return (
@@ -54,6 +76,8 @@ const SaveGameForm = (props) => {
         invalidText='Please enter a title for this match.'
         validators={[VALIDATOR_REQUIRE()]}
         onInput={inputHandler}
+        initialValue={props.initialValues ? props.initialValues.title : ''}
+        initialIsValid={props.initialValues ? true : false}
       />
       <Input
         label='White Player'
@@ -62,6 +86,7 @@ const SaveGameForm = (props) => {
         type='text'
         invalidText='Please enter the name of the player playing white.'
         validators={[]}
+        initialValue={props.initialValues ? props.initialValues.wPlayer : ''}
         initialIsValid={true}
         onInput={inputHandler}
       />
@@ -72,6 +97,7 @@ const SaveGameForm = (props) => {
         type='text'
         invalidText='Please enter the name of the player playing black.'
         validators={[]}
+        initialValue={props.initialValues ? props.initialValues.bPlayer : ''}
         initialIsValid={true}
         onInput={inputHandler}
       />
@@ -83,6 +109,9 @@ const SaveGameForm = (props) => {
         invalidText='Please enter a short description of the game (no more than 50 characters).'
         validators={[VALIDATOR_MAXLENGTH(50)]}
         initialIsValid={true}
+        initialValue={
+          props.initialValues ? props.initialValues.description : ''
+        }
         onInput={inputHandler}
       />
       <input
@@ -90,10 +119,10 @@ const SaveGameForm = (props) => {
         id='privacyChoice1'
         name='privacy'
         value='public'
-        defaultChecked
+        defaultChecked={props.initialValues ? props.initialValues.isPublic : true}
       />
       <label htmlFor='privacyChoice1'>Public</label>
-      <input type='radio' id='privacyChoice2' name='privacy' value='private' />
+      <input type='radio' id='privacyChoice2' name='privacy' value='private' defaultChecked={props.initialValues ? !props.initialValues.isPublic : false}/>
       <label htmlFor='privacyChoice2'>Private</label>
       <p>Fields marked with * are required.</p>
       <button type='submit' disabled={!formState.formIsValid}>
