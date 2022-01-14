@@ -44,6 +44,18 @@ const Chessboard = (props) => {
     slideshow,
   } = useChess(loadActive, loadBoard, loadCheckmate, loadHistory, loadTurn);
 
+  let loadedGameFormValues = null;
+  if (props.gameToLoad) {
+    const {title, wPlayer, bPlayer, description, public: isPublic} = props.gameToLoad;
+    loadedGameFormValues = {
+      title,
+      wPlayer,
+      bPlayer,
+      description,
+      public: isPublic
+    }
+  }
+
   const openSaveModal = () => {
     setShowSaveForm(true);
   };
@@ -122,6 +134,7 @@ const Chessboard = (props) => {
             checkmate={checkmate}
             onSubmit={saveGame}
             onClose={closeSaveModalHandler}
+            initialValues={loadedGameFormValues}
           />
         </Modal>
       )}

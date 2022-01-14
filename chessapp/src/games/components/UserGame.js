@@ -49,7 +49,7 @@ const UserGame = (props) => {
     wPlayer: props.wPlayer ? props.wPlayer : '',
     bPlayer: props.bPlayer ? props.bPlayer : '',
     description: props.description ? props.description : '',
-    isPublic: props.public
+    public: props.public
   }
 
   return (
@@ -68,13 +68,13 @@ const UserGame = (props) => {
       </h3>
       {props.description && <p>{props.description}</p>}
       <button type='button' onClick={reviewHandler}>
-        {props.isPublic
+        {props.public
           ? 'VIEW'
           : props.victoryState.winner
           ? 'REVIEW'
           : 'CONTINUE'}
       </button>
-      {!props.isPublic && (
+      {!props.public && (
         <button type='button' onClick={deleteHandler}>
           DELETE
         </button>

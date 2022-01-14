@@ -29,7 +29,7 @@ const PublicGames = (props) => {
           victoryState={game.victoryState}
           description={game.description}
           onReview={reviewGame}
-          isPublic={true}
+          public={true}
           userId={game.userId}
         />
       );

@@ -1,13 +1,24 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+import { AuthContext } from '../../../../store/context/auth-context';
 
 import './Controls.css';
 
 const Controls = (props) => {
+  const auth = useContext(AuthContext);
+  const navigate = useNavigate();
+
   const newGameHandler = () => {
+    navigate('/');
     props.onNewGame();
   };
 
   const saveHandler = () => {
+    if (!auth.userId) {
+      alert('You must be logged in to save a game.');
+      return;
+    }
     props.onSaveGame();
   };
 
@@ -16,6 +27,7 @@ const Controls = (props) => {
   };
 
   const branchHandler = () => {
+    navigate('/');
     props.onBranch();
   }
 
@@ -78,14 +90,15 @@ const Controls = (props) => {
         NEW GAME
       </button>
       {moveSlideshowControls}
+      {resignReviewControls}
       <button
         className='chessboard__controls-save'
         type='button'
         onClick={saveHandler}
+        disabled={!auth.userId}
       >
         SAVE
       </button>
-      {resignReviewControls}
     </div>
   );
 };

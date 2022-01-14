@@ -19,7 +19,7 @@ const UserGames = (props) => {
     auth.updateGames(auth.games.filter(game => game.id !== id));
   };
 
-  // const editGame = (id, title, wPlayer, bPlayer, description, isPublic) => {
+  // const editGame = (id, title, wPlayer, bPlayer, description, public) => {
   //   const game = games.filter(game => game.userId === id);
   //   const index = games.indexOf()
   // };

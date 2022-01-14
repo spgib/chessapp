@@ -5,6 +5,7 @@ import Input from '../../shared/components/formElements/Input';
 import useForm from '../../shared/hooks/useForm';
 import {
   VALIDATOR_EMAIL,
+  VALIDATOR_MINLENGTH,
   VALIDATOR_REQUIRE,
 } from '../../shared/util/validators';
 import { AuthContext } from '../../store/context/auth-context';
@@ -57,7 +58,7 @@ const Login = (props) => {
           label='Password'
           type='password'
           invalidText='Please enter your password (at least 6 characters).'
-          validators={[VALIDATOR_REQUIRE()]}
+          validators={[VALIDATOR_REQUIRE(), VALIDATOR_MINLENGTH(6)]}
           onInput={inputHandler}
         />
         <button type='submit' disabled={!formState.formIsValid}>
