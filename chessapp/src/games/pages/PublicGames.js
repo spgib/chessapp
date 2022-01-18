@@ -4,8 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import UserGame from '../components/UserGame';
 import { AuthContext } from '../../store/context/auth-context';
 
-
-
 const PublicGames = (props) => {
   const auth = useContext(AuthContext);
   const navigate = useNavigate();
@@ -17,23 +15,27 @@ const PublicGames = (props) => {
   let content;
 
   if (auth.games.length > 0) {
-    content = auth.games.filter(game => game.public).map((game) => {
-      return (
-        <UserGame
-          id={game.id}
-          key={game.id}
-          title={game.title}
-          turns={game.turns}
-          wPlayer={game.wPlayer}
-          bPlayer={game.bPlayer}
-          victoryState={game.victoryState}
-          description={game.description}
-          onReview={reviewGame}
-          public={true}
-          userId={game.userId}
-        />
-      );
-    });
+    content = auth.games
+      .filter((game) => game.public)
+      .map((game) => {
+        return (
+          <UserGame
+            id={game.id}
+            key={game.id}
+            title={game.title}
+            turns={game.turns}
+            wPlayer={game.wPlayer}
+            bPlayer={game.bPlayer}
+            checkmate={game.checkmate}
+            resignation={game.resignation}
+            winner={game.winner}
+            description={game.description}
+            onReview={reviewGame}
+            public={true}
+            userId={game.userId}
+          />
+        );
+      });
   }
 
   return (

@@ -17,11 +17,11 @@ const Chessboard = (props) => {
   let loadActive, loadBoard, loadCheckmate, loadHistory, loadTurn;
 
   if (props.gameToLoad) {
-    loadActive = props.gameToLoad.victoryState.winner === null;
+    loadActive = props.gameToLoad.winner === null;
     loadHistory = parseGame(props.gameToLoad.string);
     if (loadActive === false) loadBoard = loadHistory[0].boardSnapshotBefore;
     else loadBoard = loadHistory[loadHistory.length - 1].boardSnapshotAfter;
-    loadCheckmate = props.gameToLoad.victoryState.checkmate;
+    loadCheckmate = props.gameToLoad.checkmate;
     loadTurn =
       loadHistory[loadHistory.length - 1].turn === 'white' ? 'black' : 'white';
   }
@@ -75,11 +75,10 @@ const Chessboard = (props) => {
       winner = playerTurn === 'white' ? '0-1' : '1-0';
     }
 
-    gameObject.victoryState = {
-      checkmate,
-      resignation: !activePlay && !checkmate,
-      winner,
-    };
+    gameObject.checkmate = checkmate;
+    gameObject.resignation = !activePlay && !checkmate;
+    gameObject.winner = winner;
+
     gameObject.string = stringifyGame(history).trim();
 
     props.onSaveGame(gameObject);

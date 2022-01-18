@@ -8,7 +8,7 @@ import './UserGame.css';
 
 const UserGame = (props) => {
   const auth = useContext(AuthContext);
-  
+
   const [showEditModal, setShowEditModal] = useState(false);
 
   const deleteHandler = () => {
@@ -25,10 +25,10 @@ const UserGame = (props) => {
 
   const closeEditHandler = () => {
     setShowEditModal(false);
-  }
+  };
 
   const submitEditHandler = (game) => {
-    const gameIndex = auth.games.findIndex(g => g.id === props.id);
+    const gameIndex = auth.games.findIndex((g) => g.id === props.id);
     const newGamesList = [...auth.games];
     const editedGame = {
       ...newGamesList[gameIndex],
@@ -36,8 +36,8 @@ const UserGame = (props) => {
       wPlayer: game.wPlayer,
       bPlayer: game.bPlayer,
       description: game.description,
-      public: game.public
-    }
+      public: game.public,
+    };
     newGamesList[gameIndex] = editedGame;
 
     auth.updateGames(newGamesList);
@@ -49,43 +49,43 @@ const UserGame = (props) => {
     wPlayer: props.wPlayer ? props.wPlayer : '',
     bPlayer: props.bPlayer ? props.bPlayer : '',
     description: props.description ? props.description : '',
-    public: props.public
-  }
+    public: props.public,
+  };
 
   return (
     <React.Fragment>
-    <li key={props.id} className='gamelist__item'>
-      <h2>{props.title}</h2>
-      {props.userId && <h2>{props.userId}</h2>}
-      <h3>
-        {props.wPlayer ? props.wPlayer : 'Unknown'} vs.{' '}
-        {props.bPlayer ? props.bPlayer : 'Unknown'}
-      </h3>
-      <h3>{props.turns} turns</h3>
-      <h3>
-        Outcome:{' '}
-        {props.victoryState.winner ? props.victoryState.winner : 'ongoing'}
-      </h3>
-      {props.description && <p>{props.description}</p>}
-      <button type='button' onClick={reviewHandler}>
-        {props.public
-          ? 'VIEW'
-          : props.victoryState.winner
-          ? 'REVIEW'
-          : 'CONTINUE'}
-      </button>
-      {!props.public && (
-        <button type='button' onClick={deleteHandler}>
-          DELETE
+      <li key={props.id} className='gamelist__item'>
+        <h2>{props.title}</h2>
+        {props.userId && <h2>{props.userId}</h2>}
+        <h3>
+          {props.wPlayer ? props.wPlayer : 'Unknown'} vs.{' '}
+          {props.bPlayer ? props.bPlayer : 'Unknown'}
+        </h3>
+        <h3>{props.turns} turns</h3>
+        <h3>Outcome: {props.winner ? props.winner : 'ongoing'}</h3>
+        {props.description && <p>{props.description}</p>}
+        <button type='button' onClick={reviewHandler}>
+          {props.winner ? 'VIEW' : 'CONTINUE'}
         </button>
+        {props.isUser && (
+          <button type='button' onClick={deleteHandler}>
+            DELETE
+          </button>
+        )}
+        {props.isUser && (
+          <button type='button' onClick={openEditHandler}>
+            EDIT
+          </button>
+        )}
+      </li>
+      {showEditModal && (
+        <Modal onClick={closeEditHandler}>
+          <SaveGameForm
+            onSubmit={submitEditHandler}
+            initialValues={editDataObject}
+          />
+        </Modal>
       )}
-      {props.isUser && (
-        <button type='button' onClick={openEditHandler}>
-          EDIT
-        </button>
-      )}
-    </li>
-    {showEditModal && <Modal onClick={closeEditHandler}><SaveGameForm onSubmit={submitEditHandler} initialValues={editDataObject} /></Modal>}
     </React.Fragment>
   );
 };

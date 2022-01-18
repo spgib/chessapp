@@ -18,11 +18,9 @@ const DUMMY_GAMES = [
     bPlayer: 'someone else',
     description: 'a very clever strategy',
     turns: 10,
-    victoryState: {
-      checkmate: false,
-      resignation: false,
-      winner: null,
-    },
+    checkmate: false,
+    resignation: false,
+    winner: null,
     public: true,
     string:
       'e4 d5 exd5 Qd6 Qf3 Qe6+ dxe6 a6 Qc6+ Bd7 exd7+ Nxd7 Qxc7 Nb6 a3 Ra7 Qxb6 a5 Qc7 b6',
@@ -35,11 +33,9 @@ const DUMMY_GAMES = [
     bPlayer: 'someone else',
     description: 'a very VERY clever strategy',
     turns: 10,
-    victoryState: {
-      checkmate: false,
-      resignation: false,
-      winner: null,
-    },
+    checkmate: false,
+    resignation: false,
+    winner: null,
     public: true,
     string:
       'e4 d5 exd5 Qd6 Qf3 Qe6+ dxe6 a6 Qc6+ Bd7 exd7+ Nxd7 Qxc7 Nb6 a3 Ra7 Qxb6 a5 Qc7 b6',
@@ -52,11 +48,9 @@ const DUMMY_GAMES = [
     bPlayer: 'someone else',
     description: 'a very VERY clever strategy',
     turns: 10,
-    victoryState: {
-      checkmate: false,
-      resignation: false,
-      winner: null,
-    },
+    checkmate: false,
+    resignation: false,
+    winner: null,
     public: false,
     string:
       'e4 d5 exd5 Qd6 Qf3 Qe6+ dxe6 a6 Qc6+ Bd7 exd7+ Nxd7 Qxc7 Nb6 a3 Ra7 Qxb6 a5 Qc7 b6',
@@ -78,22 +72,22 @@ const App = () => {
     setIsLoggedIn(false);
     setUserId(null);
     navigate('/login');
-  }
+  };
 
   const updateGames = (games) => {
     setGames(games);
-  }
+  };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, userId, games, login, logout, updateGames }}>
+    <AuthContext.Provider
+      value={{ isLoggedIn, userId, games, login, logout, updateGames }}
+    >
       <Routes>
         <Route path='/' element={<Layout />}>
           <Route index element={<Main />} />
           <Route path='/:gameId' element={<Main />} />
           <Route path='/public' element={<PublicGames />} />
-          {isLoggedIn && (
-            <Route path='games/:uid' element={<UserGames />} />
-          )}
+          {isLoggedIn && <Route path='games/:uid' element={<UserGames />} />}
           {!isLoggedIn && <Route path='login' element={<Login />} />}
           {!isLoggedIn && <Route path='signup' element={<Signup />} />}
           <Route path='*' element={<Navigate to='/' />} />

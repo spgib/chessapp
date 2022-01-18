@@ -36,7 +36,9 @@ const UserGames = (props) => {
           turns={game.turns}
           wPlayer={game.wPlayer}
           bPlayer={game.bPlayer}
-          victoryState={game.victoryState}
+          checkmate={game.checkmate}
+          resignation={game.resignation}
+          winner={game.winner}
           description={game.description}
           onDelete={deleteGame}
           onReview={reviewGame}
