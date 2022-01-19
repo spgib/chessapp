@@ -9,7 +9,7 @@ class UserRepo {
 
   static async findByEmail(email) {
     const { rows } = await pool.query(
-      'SELECT id, email, password FROM users WHERE email = $1;',
+      'SELECT * FROM users WHERE email = $1;',
       [email]
     );
 

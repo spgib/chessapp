@@ -71,6 +71,6 @@ module.exports.postLogin = async (req, res, next) => {
 
   res.status(200).json({
     userId: user.id,
-    email: user.name,
+    name: user.name,
   });
 };

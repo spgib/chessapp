@@ -1,11 +1,103 @@
-module.exports.getPublicList = (req, res, next) => {};
+const GameRepo = require('../repos/game-repo');
+const HttpError = require('../models/http-error');
 
-module.exports.getUserList = (req, res, next) => {};
+module.exports.getPublicList = async (req, res, next) => {
+  let publicGames;
+  try {
+    publicGames = await GameRepo.findAllPublic();
+  } catch (err) {
+    const error = new HttpError('Something went wrong, please try again.', 500);
+    return next(error);
+  }
 
-module.exports.postSaveGame = (req, res, next) => {};
+  if (!publicGames) {
+    const error = new HttpError('Failed to load resource.', 404);
+    return next(error);
+  }
 
-module.exports.getLoadGame = (req, res, next) => {};
+  res.status(200).json({
+    message: 'Resource successfully retrieved.',
+    publicGames,
+  });
+};
 
-module.exports.patchEditGame = (req, res, next) => {};
+module.exports.getUserList = async (req, res, next) => {
+  const { userId } = req.body;
 
-module.exports.deleteGame = (req, res, next) => {};
+  let userGames;
+  try {
+    userGames = await GameRepo.findByUser(userId);
+  } catch (err) {
+    const error = new HttpError('Something went wrong, please try again.', 500);
+    return next(error);
+  }
+
+  if (!userGames) {
+    const error = new HttpError('Failed to load resource.', 404);
+    return next(error);
+  }
+
+  res.status(200).json({
+    message: 'Resource successfully retrieved.',
+    userGames,
+  });
+};
+
+module.exports.postSaveGame = async (req, res, next) => {
+  const { gameObject } = req.body;
+
+  let game;
+  try {
+    game = await GameRepo.insert(gameObject);
+  } catch (err) {
+    const error = new HttpError('Something went wrong, please try again.', 500);
+    return next(error);
+  }
+
+  if (!game) {
+    const error = new HttpError('Failed to save game.', 500);
+    return next(error);
+  }
+
+  res.status(200).json({ message: 'Game successfully saved.', game });
+};
+
+module.exports.getLoadGame = async (req, res, next) => {
+  const gameId = req.params.gid;
+
+  let game;
+  try {
+    game = await GameRepo.findById(gameId);
+  } catch (err) {
+    const error = new HttpError('Something went wrong, please try again.', 500);
+    return next(error);
+  }
+
+  if (!game) {
+    const error = new HttpError('Failed to retrieve game.', 404);
+    return next(error);
+  }
+
+  res.status(200).json({ message: 'Game successfully retrieved.', game });
+};
+
+module.exports.patchEditGame = async (req, res, next) => {};
+
+module.exports.deleteGame = async (req, res, next) => {
+  const gameId = req.params.gid;
+
+  let game;
+  try {
+    game = await GameRepo.delete(gameId);
+  } catch (err) {
+    const error = new HttpError('Something went wrong, please try again.', 500);
+    return next(error);
+  }
+
+  if (!game) {
+    const error = new HttpError('Failed to delete game.', 500);
+    return next(error);
+  }
+
+  res.status(200).json({ message: 'Deletion successful.', game });
+};
