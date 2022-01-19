@@ -22,7 +22,7 @@ class UserRepo {
       [name, email, password]
     );
 
-    return rows;
+    return rows[0];
   }
 }
 
