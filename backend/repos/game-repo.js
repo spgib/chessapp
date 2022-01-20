@@ -19,7 +19,9 @@ class GameRepo {
   }
 
   static async findById(id) {
-    const { rows } = await pool.query('SELECT * FROM games WHERE id = $1;', [id]);
+    const { rows } = await pool.query('SELECT * FROM games WHERE id = $1;', [
+      id,
+    ]);
 
     return rows[0];
   }
@@ -38,7 +40,7 @@ class GameRepo {
       public: isPublic,
       string,
     } = gameObject;
-    
+
     const { rows } = await pool.query(
       `INSERT INTO games (user_id, title, wplayer, bplayer, description, turns, checkmate, resignation, winner, public, string) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *;`,
       [
@@ -55,25 +57,49 @@ class GameRepo {
         string,
       ]
     );
-    
+
     return rows[0];
   }
 
-  static async alter(
-    title,
-    wPlayer,
-    bPlayer,
-    desc,
-    turns,
-    checkmate,
-    resig,
-    winner,
-    isPublic,
-    string
-  ) {}
+  static async update(id, gameObject) {
+    const {
+      title,
+      wPlayer,
+      bPlayer,
+      description,
+      turns,
+      checkmate,
+      resignation,
+      public: isPublic,
+      string,
+      winner
+    } = gameObject;
+
+    const { rows } = await pool.query(
+      'UPDATE games SET title = $1, wplayer = $2, bplayer = $3, description = $4, turns = $5, checkmate = $6, resignation = $7, public = $8, string = $9, winner = $10, updated_at = CURRENT_TIMESTAMP WHERE id = $11 RETURNING *;',
+      [
+        title,
+        wPlayer,
+        bPlayer,
+        description,
+        turns,
+        checkmate,
+        resignation,
+        isPublic,
+        string,
+        winner,
+        id,
+      ]
+    );
+
+    return rows[0];
+  }
 
   static async delete(id) {
-    const { rows } = await pool.query('DELETE FROM games WHERE id = $1 RETURNING *;', [id]);
+    const { rows } = await pool.query(
+      'DELETE FROM games WHERE id = $1 RETURNING *;',
+      [id]
+    );
 
     return rows[0];
   }

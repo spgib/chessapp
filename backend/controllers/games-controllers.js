@@ -81,7 +81,25 @@ module.exports.getLoadGame = async (req, res, next) => {
   res.status(200).json({ message: 'Game successfully retrieved.', game });
 };
 
-module.exports.patchEditGame = async (req, res, next) => {};
+module.exports.patchEditGame = async (req, res, next) => {
+  const gameId = req.params.gid;
+  const { gameObject } = req.body;
+
+  let game;
+  try {
+    game = await GameRepo.update(gameId, gameObject);
+  } catch (err) {
+    const error = new HttpError('Something went wrong, please try again.', 500);
+    return next(error);
+  }
+
+  if (!game) {
+    const error = new HttpError('Failed to update game.', 500);
+    return next(error);
+  }
+
+  res.status(200).json({ message: 'Game successfully updated.', game });
+};
 
 module.exports.deleteGame = async (req, res, next) => {
   const gameId = req.params.gid;
