@@ -1,3 +1,5 @@
+const { validationResult } = require('express-validator');
+
 const GameRepo = require('../repos/game-repo');
 const HttpError = require('../models/http-error');
 
@@ -44,6 +46,13 @@ module.exports.getUserList = async (req, res, next) => {
 };
 
 module.exports.postSaveGame = async (req, res, next) => {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    const error = new HttpError('Invalid inputs, please check your data.', 422);
+    return next(error);
+  }
+
   const { gameObject } = req.body;
 
   let game;
@@ -82,6 +91,13 @@ module.exports.getLoadGame = async (req, res, next) => {
 };
 
 module.exports.patchEditGame = async (req, res, next) => {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    const error = new HttpError('Invalid inputs, please check your data.', 422);
+    return next(error);
+  }
+
   const gameId = req.params.gid;
   const { gameObject } = req.body;
 

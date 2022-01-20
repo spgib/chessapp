@@ -1,9 +1,17 @@
 const bcrypt = require('bcrypt');
+const { validationResult } = require('express-validator');
 
 const UserRepo = require('../repos/user-repo');
 const HttpError = require('../models/http-error');
 
 module.exports.postSignup = async (req, res, next) => {
+  const errors = validationResult(req);
+  
+  if (!errors.isEmpty()) {
+    const error = new HttpError('Invalid inputs, please check your data.', 422);
+    return next(error);  
+  }
+
   const { name, email, password } = req.body;
 
   let existingUser;
@@ -41,6 +49,13 @@ module.exports.postSignup = async (req, res, next) => {
 };
 
 module.exports.postLogin = async (req, res, next) => {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    const error = new HttpError('Invalid inputs, please check your data.', 422);
+    return next(error);
+  }
+
   const { email, password } = req.body;
 
   let user;
