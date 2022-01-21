@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const { validationResult } = require('express-validator');
 
 const UserRepo = require('../repos/user-repo');
@@ -6,10 +7,10 @@ const HttpError = require('../models/http-error');
 
 module.exports.postSignup = async (req, res, next) => {
   const errors = validationResult(req);
-  
+
   if (!errors.isEmpty()) {
     const error = new HttpError('Invalid inputs, please check your data.', 422);
-    return next(error);  
+    return next(error);
   }
 
   const { name, email, password } = req.body;
@@ -23,7 +24,10 @@ module.exports.postSignup = async (req, res, next) => {
   }
 
   if (existingUser) {
-    const error = new HttpError('An account already exists for this email address.', 422);
+    const error = new HttpError(
+      'An account already exists for this email address.',
+      422
+    );
     return next(error);
   }
 
@@ -43,9 +47,24 @@ module.exports.postSignup = async (req, res, next) => {
     return next(error);
   }
 
-  // add token stuff
+  let token;
+  try {
+    token = jwt.sign(
+      { userId: user.id, name: user.name },
+      'averysafesecret!!',
+      { expiresIn: '1h' }
+    );
+  } catch (err) {
+    const error = new HttpError('Failed to initialize token.', 500);
+    return next(error);
+  }
 
-  res.status(201).json({ message: 'User created!' });
+  res.status(201).json({
+    message: 'User created!',
+    userId: user.id,
+    name: user.name,
+    token: token,
+  });
 };
 
 module.exports.postLogin = async (req, res, next) => {
@@ -82,10 +101,22 @@ module.exports.postLogin = async (req, res, next) => {
     return next(error);
   }
 
-  // add token stuff
+  let token;
+  try {
+    token = jwt.sign(
+      { userId: user.id, name: user.name },
+      'averysafesecret',
+      { expiresIn: '1h' }
+    );
+  } catch (err) {
+    const error = new HttpError('Failed to initialize token.', 500);
+    return next(error);
+  }
 
   res.status(200).json({
+    message: 'Logged in!',
     userId: user.id,
     name: user.name,
+    token: token,
   });
 };
