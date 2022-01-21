@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import Input from '../../shared/components/formElements/Input';
@@ -29,14 +29,25 @@ const Login = (props) => {
     false
   );
 
-  const formSubmitHandler = (e) => {
+  const formSubmitHandler = async (e) => {
     e.preventDefault();
 
-    console.log(auth);
-    if (formState.formIsValid) {
-      auth.login();
-      navigate('/');
+    const { email, password } = formState.inputs;
+
+    let response;
+    try {
+      response = await fetch('http://localhost:5000/api/users/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email: email.value, password: password.value }),
+      });
+    } catch (err) {
+      console.log(err);
     }
+
+    
   };
 
   return (

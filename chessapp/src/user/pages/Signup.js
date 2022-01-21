@@ -28,10 +28,30 @@ const Signup = () => {
     // }
   }, false)
 
-  const formSubmitHandler = e => {
+  const formSubmitHandler = async e => {
     e.preventDefault();
+
+    const { name, email, password } = formState.inputs;
     
-    console.log(formState.inputs.name.value, formState.inputs.email.value, formState.inputs.password.value);
+    let response;
+    try {
+      response = await fetch('http://localhost:5000/api/users/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          name: name.value,
+          email: email.value,
+          password: password.value
+        })
+      });
+
+      
+    } catch (err) {
+      console.log(err);
+    }
+
     navigate('/');
   }
 
