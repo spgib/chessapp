@@ -1,11 +1,16 @@
 const express = require('express');
 const { body } = require('express-validator');
 
+const authCheck = require('../middleware/auth-check');
 const gamesControllers = require('../controllers/games-controllers');
 
 const router = express.Router();
 
 router.get('/list/public', gamesControllers.getPublicList);
+
+router.get('/:gid', gamesControllers.getLoadGame);
+
+router.use(authCheck);
 
 router.get('/list/user/:uid', gamesControllers.getUserList);
 
@@ -15,7 +20,6 @@ router.post(
   gamesControllers.postSaveGame
 );
 
-router.get('/:gid', gamesControllers.getLoadGame);
 
 router.patch(
   '/:gid',

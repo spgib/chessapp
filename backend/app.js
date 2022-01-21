@@ -1,5 +1,6 @@
 const express = require('express');
 
+const auth = require('./middleware/auth-check');
 const usersRoutes = require('./routes/users-routes');
 const gamesRoutes = require('./routes/games-routes');
 
@@ -18,6 +19,7 @@ module.exports = () => {
     next();
   });
 
+  app.use('/', auth);
   app.use('/api/users', usersRoutes);
   app.use('/api/games', gamesRoutes);
 
