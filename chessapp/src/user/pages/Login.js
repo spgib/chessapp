@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 import Input from '../../shared/components/formElements/Input';
 import useForm from '../../shared/hooks/useForm';
@@ -12,8 +11,7 @@ import { AuthContext } from '../../store/context/auth-context';
 
 import './auth.css';
 
-const Login = (props) => {
-  const navigate = useNavigate();
+const Login = () => {
   const auth = useContext(AuthContext);
   const [formState, inputHandler] = useForm(
     {
@@ -34,20 +32,27 @@ const Login = (props) => {
 
     const { email, password } = formState.inputs;
 
-    let response;
     try {
-      response = await fetch('http://localhost:5000/api/users/login', {
+      const response = await fetch('http://localhost:5000/api/users/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ email: email.value, password: password.value }),
       });
+
+      const resData = await response.json();
+
+      if (!response.ok) {
+        throw new Error(resData.message);
+      }
+
+      const { userId, name, token } = resData;
+      auth.login(userId, name, token);
     } catch (err) {
-      console.log(err);
+      throw err;
     }
 
-    
   };
 
   return (

@@ -1,14 +1,14 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useContext } from 'react';
 
 import Input from '../../shared/components/formElements/Input';
 import { VALIDATOR_REQUIRE, VALIDATOR_EMAIL, VALIDATOR_MINLENGTH } from '../../shared/util/validators';
 import useForm from '../../shared/hooks/useForm';
 
 import './auth.css';
+import { AuthContext } from '../../store/context/auth-context';
 
 const Signup = () => {
-  const navigate = useNavigate();
+  const auth = useContext(AuthContext);
   const [formState, inputHandler] = useForm({
     name: {
       value: '',
@@ -33,9 +33,8 @@ const Signup = () => {
 
     const { name, email, password } = formState.inputs;
     
-    let response;
     try {
-      response = await fetch('http://localhost:5000/api/users/signup', {
+      const response = await fetch('http://localhost:5000/api/users/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -47,12 +46,17 @@ const Signup = () => {
         })
       });
 
-      
-    } catch (err) {
-      console.log(err);
-    }
+      const resData = await response.json();
 
-    navigate('/');
+      if (!response.ok) {
+        throw new Error(resData.message);
+      }
+
+      const { name: resDataName , token, userId } = resData;
+      auth.login(userId, resDataName, token);      
+    } catch (err) {
+      throw err;
+    }
   }
 
   return (
