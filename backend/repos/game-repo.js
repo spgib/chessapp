@@ -3,7 +3,7 @@ const pool = require('../db/pool');
 class GameRepo {
   static async findAllPublic() {
     const { rows } = await pool.query(
-      'SELECT * FROM games WHERE public = TRUE;'
+      'SELECT users.name, games.* FROM users JOIN games ON users.id = games.user_id WHERE public = true;'
     );
 
     return rows;
