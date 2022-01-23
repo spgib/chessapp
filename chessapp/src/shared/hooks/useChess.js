@@ -1,22 +1,19 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 
 import { validMoves, DEFAULT_BOARD } from '../../store/logic/boardLogic';
 import { isCheckmate } from '../../store/logic/checkLogic';
+import { parseGame } from '../../store/logic/moveConversions';
 
-const useChess = (isActive = true, startBoard = DEFAULT_BOARD, isCM = false, startHistory = [], turn = 'white') => {
+const useChess = () => {
   const [activePiece, setActivePiece] = useState(null);
-  const [activePlay, setActivePlay] = useState(isActive);
-  const [board, setBoard] = useState(startBoard);
-  const [checkmate, setCheckmate] = useState(isCM);
+  const [activePlay, setActivePlay] = useState(true);
+  const [board, setBoard] = useState(DEFAULT_BOARD);
+  const [checkmate, setCheckmate] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(null);
-  const [history, setHistory] = useState(startHistory);
+  const [history, setHistory] = useState([]);
   const [legalMoves, setLegalMoves] = useState([]);
-  const [playerTurn, setPlayerTurn] = useState(turn);
+  const [playerTurn, setPlayerTurn] = useState('white');
   const [showPromotionForm, setShowPromotionForm] = useState(false);
-  
-  console.log(isActive, activePlay);
-  console.log(isCM, checkmate);
-  console.log(startHistory, history);
 
   const activatePiece = (row, column) => {
     if (!activePlay) {
@@ -206,6 +203,28 @@ const useChess = (isActive = true, startBoard = DEFAULT_BOARD, isCM = false, sta
     setActivePlay(true);
   }
 
+  const loadGame = useCallback((game) => {
+    if (game === undefined) return;
+    const { winner, string, checkmate: isCheckmate } = game;
+
+    const loadActive = winner === '';
+    const loadHistory = parseGame(string);
+
+    let loadBoard;
+    if (loadActive) {
+      loadBoard = loadHistory[loadHistory.length - 1].boardSnapshotAfter;
+    } else {
+      loadBoard = loadHistory[0].boardSnapshotBefore;
+    }
+    const loadTurn = loadHistory[loadHistory.length - 1].turn === 'white' ? 'black' : 'white';
+
+    setActivePlay(loadActive);
+    setHistory(loadHistory);
+    setBoard(loadBoard);
+    setCheckmate(isCheckmate);
+    setPlayerTurn(loadTurn);
+  }, []);
+
   return {
     activePlay,
     board,
@@ -222,6 +241,7 @@ const useChess = (isActive = true, startBoard = DEFAULT_BOARD, isCM = false, sta
     newGame,
     promotion,
     slideshow,
+    loadGame
   };
 };
 

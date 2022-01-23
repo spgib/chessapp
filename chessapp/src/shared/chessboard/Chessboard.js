@@ -6,27 +6,13 @@ import Controls from './components/controls/Controls';
 import GameInfo from './components/game-info/GameInfo';
 import PawnPromotionForm from './components/forms/PawnPromotionForm';
 import SaveGameForm from './components/forms/SaveGameForm';
-import { stringifyGame, parseGame } from '../../store/logic/moveConversions';
+import { stringifyGame } from '../../store/logic/moveConversions';
 import useChess from '../hooks/useChess';
 
 import './Chessboard.css';
 
 const Chessboard = (props) => {
   const [showSaveForm, setShowSaveForm] = useState(false);
-
-  let loadActive, loadBoard, loadCheckmate, loadHistory, loadTurn;
-  
-  if (props.gameToLoad) {
-    const { winner, string, checkmate } = props.gameToLoad;
-
-    loadActive = winner === '';
-    loadHistory = parseGame(string);
-    if (loadActive === false) loadBoard = loadHistory[0].boardSnapshotBefore;
-    else loadBoard = loadHistory[loadHistory.length - 1].boardSnapshotAfter;
-    loadCheckmate = checkmate;
-    loadTurn =
-      loadHistory[loadHistory.length - 1].turn === 'white' ? 'black' : 'white';
-  }
 
   const {
     activePlay,
@@ -44,18 +30,32 @@ const Chessboard = (props) => {
     newGame,
     promotion,
     slideshow,
-  } = useChess(loadActive, loadBoard, loadCheckmate, loadHistory, loadTurn);
+    loadGame
+  } = useChess();
+
+  useEffect(() => {
+    if (props.gameToLoad) {
+      loadGame(props.gameToLoad);
+    }
+  }, [loadGame, props.gameToLoad]);
   
+
   let loadedGameFormValues = null;
   if (props.gameToLoad) {
-    const {title, wplayer: wPlayer, bplayer: bPlayer, description, public: isPublic} = props.gameToLoad;
+    const {
+      title,
+      wplayer: wPlayer,
+      bplayer: bPlayer,
+      description,
+      public: isPublic,
+    } = props.gameToLoad;
     loadedGameFormValues = {
       title,
       wPlayer,
       bPlayer,
       description,
-      public: isPublic
-    }
+      public: isPublic,
+    };
   }
 
   const openSaveModal = () => {
@@ -67,7 +67,7 @@ const Chessboard = (props) => {
   };
 
   const saveGame = (game) => {
-    const gameObject = {...game};
+    const gameObject = { ...game };
     gameObject.turns = Math.ceil(history.length / 2);
 
     let winner = null;
