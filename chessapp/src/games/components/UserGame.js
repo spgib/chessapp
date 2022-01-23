@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import Modal from '../../shared/components/UIElements/Modal';
 import SaveGameForm from '../../shared/chessboard/components/forms/SaveGameForm';
@@ -8,6 +9,7 @@ import './UserGame.css';
 
 const UserGame = (props) => {
   const auth = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const [showEditModal, setShowEditModal] = useState(false);
 
@@ -16,7 +18,7 @@ const UserGame = (props) => {
   };
 
   const reviewHandler = () => {
-    props.onReview(props.id);
+    navigate(`/${props.id}`);
   };
 
   const openEditHandler = () => {
@@ -56,7 +58,7 @@ const UserGame = (props) => {
     <React.Fragment>
       <li key={props.id} className='gamelist__item'>
         <h2>{props.title}</h2>
-        {props.userId && <h2>{props.userId}</h2>}
+        {props.userName && <h2>{props.userName}</h2>}
         <h3>
           {props.wPlayer ? props.wPlayer : 'Unknown'} vs.{' '}
           {props.bPlayer ? props.bPlayer : 'Unknown'}

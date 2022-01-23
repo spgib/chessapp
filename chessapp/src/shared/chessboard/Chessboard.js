@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import Modal from '../components/UIElements/Modal';
 import BoardRow from './components//board/BoardRow';
@@ -15,13 +15,15 @@ const Chessboard = (props) => {
   const [showSaveForm, setShowSaveForm] = useState(false);
 
   let loadActive, loadBoard, loadCheckmate, loadHistory, loadTurn;
-
+  
   if (props.gameToLoad) {
-    loadActive = props.gameToLoad.winner === null;
-    loadHistory = parseGame(props.gameToLoad.string);
+    const { winner, string, checkmate } = props.gameToLoad;
+
+    loadActive = winner === '';
+    loadHistory = parseGame(string);
     if (loadActive === false) loadBoard = loadHistory[0].boardSnapshotBefore;
     else loadBoard = loadHistory[loadHistory.length - 1].boardSnapshotAfter;
-    loadCheckmate = props.gameToLoad.checkmate;
+    loadCheckmate = checkmate;
     loadTurn =
       loadHistory[loadHistory.length - 1].turn === 'white' ? 'black' : 'white';
   }
@@ -43,10 +45,10 @@ const Chessboard = (props) => {
     promotion,
     slideshow,
   } = useChess(loadActive, loadBoard, loadCheckmate, loadHistory, loadTurn);
-
+  
   let loadedGameFormValues = null;
   if (props.gameToLoad) {
-    const {title, wPlayer, bPlayer, description, public: isPublic} = props.gameToLoad;
+    const {title, wplayer: wPlayer, bplayer: bPlayer, description, public: isPublic} = props.gameToLoad;
     loadedGameFormValues = {
       title,
       wPlayer,

@@ -14,6 +14,10 @@ const useChess = (isActive = true, startBoard = DEFAULT_BOARD, isCM = false, sta
   const [playerTurn, setPlayerTurn] = useState(turn);
   const [showPromotionForm, setShowPromotionForm] = useState(false);
   
+  console.log(isActive, activePlay);
+  console.log(isCM, checkmate);
+  console.log(startHistory, history);
+
   const activatePiece = (row, column) => {
     if (!activePlay) {
       return;
