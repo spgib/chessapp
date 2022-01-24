@@ -10,11 +10,28 @@ import './UserGame.css';
 const UserGame = (props) => {
   const auth = useContext(AuthContext);
   const navigate = useNavigate();
-
   const [showEditModal, setShowEditModal] = useState(false);
 
-  const deleteHandler = () => {
-    props.onDelete(props.id);
+  const deleteHandler = async () => {
+    try {
+      const game = await fetch(`http://localhost:5000/api/games/${props.id}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: 'Bearer ' + auth.token
+        }
+      });
+
+      const gameData = await game.json();
+
+      if (!game.ok) {
+        throw new Error(gameData.message);
+      }
+
+      props.onDelete(props.id);
+    } catch (err) {
+      console.log(err);
+    }
+
   };
 
   const reviewHandler = () => {
@@ -29,20 +46,28 @@ const UserGame = (props) => {
     setShowEditModal(false);
   };
 
-  const submitEditHandler = (game) => {
-    const gameIndex = auth.games.findIndex((g) => g.id === props.id);
-    const newGamesList = [...auth.games];
-    const editedGame = {
-      ...newGamesList[gameIndex],
-      title: game.title,
-      wPlayer: game.wPlayer,
-      bPlayer: game.bPlayer,
-      description: game.description,
-      public: game.public,
-    };
-    newGamesList[gameIndex] = editedGame;
+  const submitEditHandler = async (game) => {
+    try {
+      const edit = await fetch(`http://localhost:5000/api/games/${props.id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + auth.token
+        },
+        body: JSON.stringify({ gameObject: game, title: game.title })
+      });
 
-    auth.updateGames(newGamesList);
+      const editData = await edit.json();
+
+      if (!edit.ok) {
+        throw new Error(editData.message);
+      }
+
+      props.onEdit(game, props.id);
+    } catch (err) {
+      console.log(err);
+    }
+    
     setShowEditModal(false);
   };
 

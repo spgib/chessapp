@@ -29,7 +29,7 @@ const UserGames = (props) => {
         if (!games.ok) {
           throw new Error(gamesData.message);
         }
-        
+
         setGames(gamesData.userGames);
       } catch (err) {
         console.log(err);
@@ -38,6 +38,33 @@ const UserGames = (props) => {
 
     fetchGames();
   }, [setGames, uid, auth.token]);
+
+  const updateListDelete = (id) => {
+    setGames((prev) => {
+      return prev.filter((g) => g.id !== id);
+    });
+  };
+
+  const updateListEdit = (game, id) => {
+    const gameIndex = games.findIndex((g) => g.id === id);
+
+    setGames((prev) => {
+      const oldGame = prev[gameIndex];
+      const editedGame = {
+        ...oldGame,
+        title: game.title,
+        wPlayer: game.wPlayer,
+        bPlayer: game.bPlayer,
+        description: game.description,
+        public: game.public,
+      };
+      
+      const newGames = [...prev];
+
+      newGames[gameIndex] = editedGame;
+      return newGames;
+    });
+  };
 
   let content;
   if (games.length > 0) {
@@ -56,6 +83,8 @@ const UserGames = (props) => {
           description={game.description}
           isUser={auth.isLoggedIn}
           public={game.public}
+          onDelete={updateListDelete}
+          onEdit={updateListEdit}
         />
       );
     });
