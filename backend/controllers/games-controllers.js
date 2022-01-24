@@ -24,8 +24,8 @@ module.exports.getPublicList = async (req, res, next) => {
 };
 
 module.exports.getUserList = async (req, res, next) => {
-  const { userId } = req.body;
-
+  const userId = req.params.uid;
+  
   let userGames;
   try {
     userGames = await GameRepo.findByUser(userId);
@@ -38,7 +38,7 @@ module.exports.getUserList = async (req, res, next) => {
     const error = new HttpError('Failed to load resource.', 404);
     return next(error);
   }
-
+  
   res.status(200).json({
     message: 'Resource successfully retrieved.',
     userGames,
