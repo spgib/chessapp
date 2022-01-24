@@ -22,7 +22,7 @@ const Main = () => {
         if (!game.ok) {
           throw new Error(gameData.message);
         }
-        
+
         setLoadedGame(gameData.game);
       } catch (err) {
         console.log(err);
@@ -32,32 +32,35 @@ const Main = () => {
     if (!gameId) return;
     fetchGame();
   }, [gameId, setLoadedGame]);
-  
-  const saveGame = (gameObject) => {
-    let id;
-    if (gameId) {
-      id = gameId;
-    } else {
-      id = Math.random();
-    }
+
+  const saveGame = async (gameObject) => {
+    if (!auth.userId) return;
 
     const game = {
       ...gameObject,
       userId: auth.userId,
-      id,
     };
+    
+    try {
+      const save = await fetch('http://localhost:5000/api/games/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + auth.token,
+        },
+        body: JSON.stringify({ gameObject: game, title: game.title, string: game.string }),
+      });
 
-    const games = JSON.parse(JSON.stringify(auth.games));
-    if (gameId) {
-      const i = games.findIndex((game) => game.id === gameId);
-      games[i] = game;
-    } else {
-      games.push(game);
+      const saveData = await save.json();
+
+      if (!save.ok) {
+        throw new Error(saveData.message);
+      }
+
+      navigate(`/games/${auth.userId}`);
+    } catch (err) {
+      console.log(err);
     }
-
-    auth.updateGames(games);
-
-    navigate(`/games/${auth.userId}`);
   };
 
   return <Chessboard onSaveGame={saveGame} gameToLoad={loadedGame} />;

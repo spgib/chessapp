@@ -40,23 +40,23 @@ const Chessboard = (props) => {
   }, [loadGame, props.gameToLoad]);
   
 
-  let loadedGameFormValues = null;
-  if (props.gameToLoad) {
-    const {
-      title,
-      wplayer: wPlayer,
-      bplayer: bPlayer,
-      description,
-      public: isPublic,
-    } = props.gameToLoad;
-    loadedGameFormValues = {
-      title,
-      wPlayer,
-      bPlayer,
-      description,
-      public: isPublic,
-    };
-  }
+  // let loadedGameFormValues = null;
+  // if (props.gameToLoad) {
+  //   const {
+  //     title,
+  //     wplayer: wPlayer,
+  //     bplayer: bPlayer,
+  //     description,
+  //     public: isPublic,
+  //   } = props.gameToLoad;
+  //   loadedGameFormValues = {
+  //     title,
+  //     wPlayer,
+  //     bPlayer,
+  //     description,
+  //     public: isPublic,
+  //   };
+  // }
 
   const openSaveModal = () => {
     setShowSaveForm(true);
@@ -70,7 +70,7 @@ const Chessboard = (props) => {
     const gameObject = { ...game };
     gameObject.turns = Math.ceil(history.length / 2);
 
-    let winner = null;
+    let winner = '';
     if (checkmate) {
       winner = playerTurn === 'white' ? '0-1' : '1-0';
     } else if (!activePlay) {
@@ -135,7 +135,6 @@ const Chessboard = (props) => {
             checkmate={checkmate}
             onSubmit={saveGame}
             onClose={closeSaveModalHandler}
-            initialValues={loadedGameFormValues}
           />
         </Modal>
       )}
