@@ -22,7 +22,7 @@ router.post(
 
 router.patch(
   '/:gid',
-  [body('title').not().isEmpty(), body('string').not().isEmpty()],
+  [body('title').not().isEmpty()],
   gamesControllers.patchEditGame
 );
 

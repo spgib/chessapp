@@ -67,27 +67,17 @@ class GameRepo {
       wPlayer,
       bPlayer,
       description,
-      turns,
-      checkmate,
-      resignation,
       public: isPublic,
-      string,
-      winner
     } = gameObject;
 
     const { rows } = await pool.query(
-      'UPDATE games SET title = $1, wplayer = $2, bplayer = $3, description = $4, turns = $5, checkmate = $6, resignation = $7, public = $8, string = $9, winner = $10, updated_at = CURRENT_TIMESTAMP WHERE id = $11 RETURNING *;',
+      'UPDATE games SET title = $1, wplayer = $2, bplayer = $3, description = $4, public = $5, updated_at = CURRENT_TIMESTAMP WHERE id = $6 RETURNING *;',
       [
         title,
         wPlayer,
         bPlayer,
         description,
-        turns,
-        checkmate,
-        resignation,
         isPublic,
-        string,
-        winner,
         id,
       ]
     );
