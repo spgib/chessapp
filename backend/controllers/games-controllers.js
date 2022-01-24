@@ -54,7 +54,7 @@ module.exports.postSaveGame = async (req, res, next) => {
   }
 
   const { gameObject } = req.body;
-
+  
   let game;
   try {
     game = await GameRepo.insert(gameObject);

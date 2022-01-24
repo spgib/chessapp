@@ -20,7 +20,6 @@ router.post(
   gamesControllers.postSaveGame
 );
 
-
 router.patch(
   '/:gid',
   [body('title').not().isEmpty(), body('string').not().isEmpty()],
