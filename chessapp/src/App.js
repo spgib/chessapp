@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Route, Routes, Navigate, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect, useCallback } from 'react';
+import { Route, Routes, Navigate } from 'react-router-dom';
 
 import Layout from './shared/layout/Layout';
 import Main from './main/pages/Main';
@@ -9,73 +9,64 @@ import Login from './user/pages/Login';
 import Signup from './user/pages/Signup';
 import { AuthContext } from './store/context/auth-context';
 
-// const DUMMY_GAMES = [
-//   {
-//     id: 1,
-//     userId: 'Spencer',
-//     title: 'A sample game',
-//     wPlayer: 'me',
-//     bPlayer: 'someone else',
-//     description: 'a very clever strategy',
-//     turns: 10,
-//     checkmate: false,
-//     resignation: false,
-//     winner: null,
-//     public: true,
-//     string:
-//       'e4 d5 exd5 Qd6 Qf3 Qe6+ dxe6 a6 Qc6+ Bd7 exd7+ Nxd7 Qxc7 Nb6 a3 Ra7 Qxb6 a5 Qc7 b6',
-//   },
-//   {
-//     id: 2,
-//     userId: 'Jasmin',
-//     title: 'A tremendous game',
-//     wPlayer: 'me',
-//     bPlayer: 'someone else',
-//     description: 'a very VERY clever strategy',
-//     turns: 10,
-//     checkmate: false,
-//     resignation: false,
-//     winner: null,
-//     public: true,
-//     string:
-//       'e4 d5 exd5 Qd6 Qf3 Qe6+ dxe6 a6 Qc6+ Bd7 exd7+ Nxd7 Qxc7 Nb6 a3 Ra7 Qxb6 a5 Qc7 b6',
-//   },
-//   {
-//     id: 3,
-//     userId: 'Jasmin',
-//     title: 'A terrific game',
-//     wPlayer: 'me',
-//     bPlayer: 'someone else',
-//     description: 'a very VERY clever strategy',
-//     turns: 10,
-//     checkmate: false,
-//     resignation: false,
-//     winner: null,
-//     public: false,
-//     string:
-//       'e4 d5 exd5 Qd6 Qf3 Qe6+ dxe6 a6 Qc6+ Bd7 exd7+ Nxd7 Qxc7 Nb6 a3 Ra7 Qxb6 a5 Qc7 b6',
-//   },
-// ];
+let logoutTime;
 
 const App = () => {
-  const navigate = useNavigate();
   const [token, setToken] = useState(null);
   const [userId, setUserId] = useState(null);
   const [name, setName] = useState(null);
+  const [tokenExpirationDate, setTokenExpirationDate] = useState(null);
 
-  const login = (uid, name, token) => {
-    setUserId(uid);
+  const login = useCallback((userId, name, token, expiration) => {
+    setUserId(userId);
     setName(name);
     setToken(token);
-    navigate('/');
-  };
+    const tokenExpiration =
+      expiration || new Date().getTime() + 1000 * 60 * 60;
+    setTokenExpirationDate(tokenExpiration);
+    localStorage.setItem(
+      'userData',
+      JSON.stringify({
+        userId,
+        name,
+        token,
+        expiration: tokenExpiration,
+      })
+    );
+  }, []);
 
-  const logout = () => {
+  const logout = useCallback(() => {
     setToken(null);
     setUserId(null);
     setName(null);
-    navigate('/login');
-  };
+    setTokenExpirationDate(null);
+    localStorage.removeItem('userData');
+  }, []);
+
+  useEffect(() => {
+    const userData = JSON.parse(localStorage.getItem('userData'));
+    if (
+      userData &&
+      userData.token &&
+      new Date(userData.expiration) > new Date()
+    ) {
+      login(
+        userData.userId,
+        userData.name,
+        userData.token,
+        userData.expiration
+      );
+    }
+  }, [login]);
+
+  useEffect(() => {
+    if (token && tokenExpirationDate) {
+      const remainingTime = new Date(tokenExpirationDate).getTime() - new Date().getTime();
+      logoutTime = setTimeout(logout, remainingTime);
+    } else {
+      clearTimeout(logoutTime);
+    }
+  }, [token, logout, tokenExpirationDate]);
 
   return (
     <AuthContext.Provider

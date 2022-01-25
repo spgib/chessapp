@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import Input from '../../shared/components/formElements/Input';
 import useForm from '../../shared/hooks/useForm';
@@ -12,6 +13,7 @@ import { AuthContext } from '../../store/context/auth-context';
 import './auth.css';
 
 const Login = () => {
+  const navigate = useNavigate();
   const auth = useContext(AuthContext);
   const [formState, inputHandler] = useForm(
     {
@@ -49,10 +51,10 @@ const Login = () => {
 
       const { userId, name, token } = resData;
       auth.login(userId, name, token);
+      navigate('/');
     } catch (err) {
       throw err;
     }
-
   };
 
   return (
