@@ -55,12 +55,14 @@ const SaveGameForm = (props) => {
   const submitHandler = (e) => {
     e.preventDefault();
 
+    const publicGame = props.activePlay ? false : e.target[4].checked;
+
     const gameObject = {
       title: formState.inputs.title.value,
       wPlayer: formState.inputs.wPlayer.value,
       bPlayer: formState.inputs.bPlayer.value,
       description: formState.inputs.description.value,
-      public: e.target[4].checked,
+      public: publicGame
     };
 
     props.onSubmit(gameObject);
@@ -119,12 +121,14 @@ const SaveGameForm = (props) => {
         id='privacyChoice1'
         name='privacy'
         value='public'
-        defaultChecked={props.initialValues ? props.initialValues.public : true}
+        defaultChecked={props.initialValues ? props.initialValues.public : false}
+        disabled={props.activePlay}
       />
       <label htmlFor='privacyChoice1'>Public</label>
-      <input type='radio' id='privacyChoice2' name='privacy' value='private' defaultChecked={props.initialValues ? !props.initialValues.public : false}/>
+      <input type='radio' id='privacyChoice2' name='privacy' value='private' defaultChecked={props.initialValues ? !props.initialValues.public : true} disabled={props.activePlay}/>
       <label htmlFor='privacyChoice2'>Private</label>
       <p>Fields marked with * are required.</p>
+      <p>Only completed games may be saved publicly.</p>
       <button type='submit' disabled={!formState.formIsValid}>
         SAVE
       </button>

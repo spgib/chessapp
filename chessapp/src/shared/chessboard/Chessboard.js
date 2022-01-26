@@ -110,6 +110,7 @@ const Chessboard = (props) => {
         currentSlide={currentSlide}
         gameEnd={checkmate}
         history={history}
+        public={props.gameToLoad ? props.gameToLoad.public : null}
         onBranch={branch}
         onResignReview={resignReview}
         onNewGame={newGame}

@@ -110,6 +110,7 @@ const UserGame = (props) => {
           <SaveGameForm
             onSubmit={submitEditHandler}
             initialValues={editDataObject}
+            activePlay={!props.winner}
           />
         </Modal>
       )}

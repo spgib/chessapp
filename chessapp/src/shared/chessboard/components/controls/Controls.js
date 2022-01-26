@@ -80,6 +80,11 @@ const Controls = (props) => {
     );
   }
 
+  let publicView = false;
+  if (props.public) {
+    publicView = true;
+  }
+
   return (
     <div className='chessboard__controls'>
       <button
@@ -91,14 +96,13 @@ const Controls = (props) => {
       </button>
       {moveSlideshowControls}
       {resignReviewControls}
-      <button
+      {auth.token && !publicView && <button
         className='chessboard__controls-save'
         type='button'
         onClick={saveHandler}
-        disabled={!auth.userId}
       >
         SAVE
-      </button>
+      </button>}
     </div>
   );
 };
