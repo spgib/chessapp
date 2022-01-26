@@ -107,36 +107,43 @@ module.exports.patchEditGame = async (req, res, next) => {
     const error = new HttpError('Invalid inputs, please check your data.', 422);
     return next(error);
   }
-
+  
   const gameId = req.params.gid;
   const { gameObject } = req.body;
-
-  if (gameObject.userId !== req.userData.userId) {
+  
+  let game;
+  try {
+    game = await GameRepo.findById(gameId);
+  } catch (err) {
+    const error = new HttpError('Something went wrong, please try again.', 500);
+    return next(error);
+  }
+  
+  if (game.user_id !== req.userData.userId) {
     const error = new HttpError('Permission to edit resource denied.', 401);
     return next(error);
   }
 
-  let game;
+  let updatedGame;
   try {
-    game = await GameRepo.update(gameId, gameObject);
+    updatedGame = await GameRepo.update(gameId, gameObject);
   } catch (err) {
     const error = new HttpError('Something went wrong, please try again.', 500);
     return next(error);
   }
 
-  if (!game) {
+  if (!updatedGame) {
     const error = new HttpError('Failed to update game.', 500);
     return next(error);
   }
 
-  res.status(200).json({ message: 'Game successfully updated.', game });
+  res.status(200).json({ message: 'Game successfully updated.', updatedGame });
 };
 
 module.exports.deleteGame = async (req, res, next) => {
   const gameId = req.params.gid;
 
   let game;
-
   try {
     game = await GameRepo.findById(gameId);
   } catch (err) {

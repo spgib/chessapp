@@ -13,7 +13,7 @@ module.exports.postSignup = async (req, res, next) => {
     return next(error);
   }
 
-  const { name, email, password } = req.body;
+  const { username, email, password } = req.body;
 
   let existingUser;
   try {
@@ -41,7 +41,7 @@ module.exports.postSignup = async (req, res, next) => {
 
   let user;
   try {
-    user = await UserRepo.insert(name, email, hashedPassword);
+    user = await UserRepo.insert(username, email, hashedPassword);
   } catch (err) {
     const error = new HttpError(err, 500);
     return next(error);
@@ -50,7 +50,7 @@ module.exports.postSignup = async (req, res, next) => {
   let token;
   try {
     token = jwt.sign(
-      { userId: user.id, name: user.name },
+      { userId: user.id, username: user.username },
       'averysafesecret!!',
       { expiresIn: '1h' }
     );
@@ -62,7 +62,7 @@ module.exports.postSignup = async (req, res, next) => {
   res.status(201).json({
     message: 'User created!',
     userId: user.id,
-    name: user.name,
+    username: user.username,
     token: token,
   });
 };
@@ -104,7 +104,7 @@ module.exports.postLogin = async (req, res, next) => {
   let token;
   try {
     token = jwt.sign(
-      { userId: user.id, name: user.name },
+      { userId: user.id, username: user.username },
       'averysafesecret',
       { expiresIn: '1h' }
     );
@@ -116,7 +116,7 @@ module.exports.postLogin = async (req, res, next) => {
   res.status(200).json({
     message: 'Logged in!',
     userId: user.id,
-    name: user.name,
+    username: user.username,
     token: token,
   });
 };
