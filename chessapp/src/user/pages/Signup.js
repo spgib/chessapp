@@ -17,7 +17,7 @@ const Signup = () => {
   const auth = useContext(AuthContext);
   const [formState, inputHandler] = useForm(
     {
-      name: {
+      username: {
         value: '',
         isValid: false,
       },
@@ -40,7 +40,7 @@ const Signup = () => {
   const formSubmitHandler = async (e) => {
     e.preventDefault();
 
-    const { name, email, password } = formState.inputs;
+    const { username, email, password } = formState.inputs;
 
     try {
       const response = await fetch('http://localhost:5000/api/users/signup', {
@@ -49,7 +49,7 @@ const Signup = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          name: name.value,
+          username: username.value,
           email: email.value,
           password: password.value,
         }),
@@ -61,8 +61,8 @@ const Signup = () => {
         throw new Error(resData.message);
       }
 
-      const { name: resDataName, token, userId } = resData;
-      auth.login(userId, resDataName, token);
+      const { username: resUserame, token, userId } = resData;
+      auth.login(userId, resUserame, token);
       navigate('/');
     } catch (err) {
       throw err;
@@ -74,11 +74,11 @@ const Signup = () => {
       <h2>Sign Up</h2>
       <form onSubmit={formSubmitHandler}>
         <Input
-          id='name'
-          name='name'
-          label='Name'
+          id='username'
+          name='username'
+          label='Username'
           type='text'
-          invalidText='Please enter your name.'
+          invalidText='Please enter a username for your account.'
           validators={[VALIDATOR_REQUIRE()]}
           onInput={inputHandler}
         />

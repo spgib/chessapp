@@ -44,7 +44,7 @@ const PublicGames = () => {
           winner={game.winner}
           description={game.description}
           public={true}
-          userName={game.name}
+          username={game.username}
         />
       );
     });

@@ -49,8 +49,8 @@ const Login = () => {
         throw new Error(resData.message);
       }
 
-      const { userId, name, token } = resData;
-      auth.login(userId, name, token);
+      const { userId, username, token } = resData;
+      auth.login(userId, username, token);
       navigate('/');
     } catch (err) {
       throw err;

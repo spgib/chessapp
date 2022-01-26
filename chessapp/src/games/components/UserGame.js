@@ -83,7 +83,7 @@ const UserGame = (props) => {
     <React.Fragment>
       <li key={props.id} className='gamelist__item'>
         <h2>{props.title}</h2>
-        {props.userName && <h2>{props.userName}</h2>}
+        {props.username && <h2>{props.username}</h2>}
         <h3>
           {props.wPlayer ? props.wPlayer : 'Unknown'} vs.{' '}
           {props.bPlayer ? props.bPlayer : 'Unknown'}

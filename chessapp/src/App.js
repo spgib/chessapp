@@ -14,12 +14,12 @@ let logoutTime;
 const App = () => {
   const [token, setToken] = useState(null);
   const [userId, setUserId] = useState(null);
-  const [name, setName] = useState(null);
+  const [username, setUsername] = useState(null);
   const [tokenExpirationDate, setTokenExpirationDate] = useState(null);
 
-  const login = useCallback((userId, name, token, expiration) => {
+  const login = useCallback((userId, username, token, expiration) => {
     setUserId(userId);
-    setName(name);
+    setUsername(username);
     setToken(token);
     const tokenExpiration =
       expiration || new Date().getTime() + 1000 * 60 * 60;
@@ -28,7 +28,7 @@ const App = () => {
       'userData',
       JSON.stringify({
         userId,
-        name,
+        username,
         token,
         expiration: tokenExpiration,
       })
@@ -38,7 +38,7 @@ const App = () => {
   const logout = useCallback(() => {
     setToken(null);
     setUserId(null);
-    setName(null);
+    setUsername(null);
     setTokenExpirationDate(null);
     localStorage.removeItem('userData');
   }, []);
@@ -52,7 +52,7 @@ const App = () => {
     ) {
       login(
         userData.userId,
-        userData.name,
+        userData.username,
         userData.token,
         userData.expiration
       );
@@ -70,7 +70,7 @@ const App = () => {
 
   return (
     <AuthContext.Provider
-      value={{ isLoggedIn: !!token, token, userId, name, login, logout }}
+      value={{ isLoggedIn: !!token, token, userId, username, login, logout }}
     >
       <Routes>
         <Route path='/' element={<Layout />}>
