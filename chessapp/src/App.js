@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React from 'react';
 import { Route, Routes, Navigate } from 'react-router-dom';
 
 import Layout from './shared/layout/Layout';
@@ -8,65 +8,10 @@ import UserGames from './games/pages/UserGames';
 import Login from './user/pages/Login';
 import Signup from './user/pages/Signup';
 import { AuthContext } from './store/context/auth-context';
-
-let logoutTime;
+import useAuth from './shared/hooks/useAuth';
 
 const App = () => {
-  const [token, setToken] = useState(null);
-  const [userId, setUserId] = useState(null);
-  const [username, setUsername] = useState(null);
-  const [tokenExpirationDate, setTokenExpirationDate] = useState(null);
-
-  const login = useCallback((userId, username, token, expiration) => {
-    setUserId(userId);
-    setUsername(username);
-    setToken(token);
-    const tokenExpiration =
-      expiration || new Date().getTime() + 1000 * 60 * 60;
-    setTokenExpirationDate(tokenExpiration);
-    localStorage.setItem(
-      'userData',
-      JSON.stringify({
-        userId,
-        username,
-        token,
-        expiration: tokenExpiration,
-      })
-    );
-  }, []);
-
-  const logout = useCallback(() => {
-    setToken(null);
-    setUserId(null);
-    setUsername(null);
-    setTokenExpirationDate(null);
-    localStorage.removeItem('userData');
-  }, []);
-
-  useEffect(() => {
-    const userData = JSON.parse(localStorage.getItem('userData'));
-    if (
-      userData &&
-      userData.token &&
-      new Date(userData.expiration) > new Date()
-    ) {
-      login(
-        userData.userId,
-        userData.username,
-        userData.token,
-        userData.expiration
-      );
-    }
-  }, [login]);
-
-  useEffect(() => {
-    if (token && tokenExpirationDate) {
-      const remainingTime = new Date(tokenExpirationDate).getTime() - new Date().getTime();
-      logoutTime = setTimeout(logout, remainingTime);
-    } else {
-      clearTimeout(logoutTime);
-    }
-  }, [token, logout, tokenExpirationDate]);
+  const [token, userId, username, login, logout] = useAuth();
 
   return (
     <AuthContext.Provider
