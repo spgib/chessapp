@@ -8,6 +8,7 @@ import {
   VALIDATOR_MINLENGTH,
 } from '../../shared/util/validators';
 import useForm from '../../shared/hooks/useForm';
+import useHttp from '../../shared/hooks/useHttp';
 
 import './auth.css';
 import { AuthContext } from '../../store/context/auth-context';
@@ -15,6 +16,7 @@ import { AuthContext } from '../../store/context/auth-context';
 const Signup = () => {
   const navigate = useNavigate();
   const auth = useContext(AuthContext);
+  const sendReq = useHttp();
   const [formState, inputHandler] = useForm(
     {
       username: {
@@ -42,31 +44,20 @@ const Signup = () => {
 
     const { username, email, password } = formState.inputs;
 
-    try {
-      const response = await fetch('http://localhost:5000/api/users/signup', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          username: username.value,
-          email: email.value,
-          password: password.value,
-        }),
-      });
-
-      const resData = await response.json();
-
-      if (!response.ok) {
-        throw new Error(resData.message);
-      }
-
-      const { username: resUserame, token, userId } = resData;
-      auth.login(userId, resUserame, token);
-      navigate('/');
-    } catch (err) {
-      throw err;
-    }
+    const userData = await sendReq(
+      'http://localhost:5000/api/users/signup',
+      'POST',
+      JSON.stringify({
+        username: username.value,
+        email: email.value,
+        password: password.value,
+      }),
+      { 'Content-Type': 'application/json' }
+    );
+    
+    const { username: resUsername, token, userId } = userData;
+    auth.login(userId, resUsername, token);
+    navigate('/');
   };
 
   return (
