@@ -25,7 +25,7 @@ module.exports.getPublicList = async (req, res, next) => {
 
 module.exports.getUserList = async (req, res, next) => {
   const userId = req.params.uid;
-  
+
   if (parseInt(userId) !== req.userData.userId) {
     const error = new HttpError('Permission to access resource denied.', 401);
     return next(error);
@@ -43,7 +43,7 @@ module.exports.getUserList = async (req, res, next) => {
     const error = new HttpError('Failed to load resource.', 404);
     return next(error);
   }
-  
+
   res.status(200).json({
     message: 'Resource successfully retrieved.',
     userGames,
@@ -52,14 +52,14 @@ module.exports.getUserList = async (req, res, next) => {
 
 module.exports.postSaveGame = async (req, res, next) => {
   const errors = validationResult(req);
-  
+
   if (!errors.isEmpty()) {
     const error = new HttpError('Invalid inputs, please check your data.', 422);
     return next(error);
   }
 
   const { gameObject } = req.body;
-  
+
   if (gameObject.userId !== req.userData.userId) {
     const error = new HttpError('Permission to save resource denied.', 401);
     return next(error);
@@ -107,10 +107,10 @@ module.exports.patchEditGame = async (req, res, next) => {
     const error = new HttpError('Invalid inputs, please check your data.', 422);
     return next(error);
   }
-  
+
   const gameId = req.params.gid;
   const { gameObject } = req.body;
-  
+
   let game;
   try {
     game = await GameRepo.findById(gameId);
@@ -118,7 +118,7 @@ module.exports.patchEditGame = async (req, res, next) => {
     const error = new HttpError('Something went wrong, please try again.', 500);
     return next(error);
   }
-  
+
   if (game.user_id !== req.userData.userId) {
     const error = new HttpError('Permission to edit resource denied.', 401);
     return next(error);
@@ -126,7 +126,11 @@ module.exports.patchEditGame = async (req, res, next) => {
 
   let updatedGame;
   try {
-    updatedGame = await GameRepo.update(gameId, gameObject);
+    if (gameObject.string) {
+      updatedGame = await GameRepo.updateAll(gameId, gameObject);
+    } else {
+      updatedGame = await GameRepo.updateSome(gameId, gameObject);
+    }
   } catch (err) {
     const error = new HttpError('Something went wrong, please try again.', 500);
     return next(error);

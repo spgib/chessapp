@@ -61,7 +61,7 @@ class GameRepo {
     return rows[0];
   }
 
-  static async update(id, gameObject) {
+  static async updateSome(id, gameObject) {
     const {
       title,
       wPlayer,
@@ -72,12 +72,39 @@ class GameRepo {
 
     const { rows } = await pool.query(
       'UPDATE games SET title = $1, wplayer = $2, bplayer = $3, description = $4, public = $5, updated_at = CURRENT_TIMESTAMP WHERE id = $6 RETURNING *;',
+      [title, wPlayer, bPlayer, description, isPublic, id]
+    );
+
+    return rows[0];
+  }
+
+  static async updateAll(id, gameObject) {
+    const {
+      title,
+      wPlayer,
+      bPlayer,
+      description,
+      public: isPublic,
+      turns,
+      checkmate,
+      resignation,
+      winner,
+      string,
+    } = gameObject;
+
+    const { rows } = await pool.query(
+      'UPDATE games SET title = $1, wplayer = $2, bplayer = $3, description = $4, public = $5, turns = $6, checkmate = $7, resignation = $8, winner = $9, string = $10, updated_at = CURRENT_TIMESTAMP WHERE id = $11 RETURNING *;',
       [
         title,
         wPlayer,
         bPlayer,
         description,
         isPublic,
+        turns,
+        checkmate,
+        resignation,
+        winner,
+        string,
         id,
       ]
     );
