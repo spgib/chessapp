@@ -40,30 +40,74 @@ const Main = () => {
       ...gameObject,
       userId: auth.userId,
     };
-    
-    try {
-      const save = await fetch('http://localhost:5000/api/games/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Bearer ' + auth.token,
-        },
-        body: JSON.stringify({ gameObject: game, title: game.title, string: game.string }),
-      });
 
-      const saveData = await save.json();
+    if (loadedGame) {
+      try {
+        const update = await fetch(
+          `http://localhost:5000/api/games/${gameId}`,
+          {
+            method: 'PATCH',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: 'Bearer ' + auth.token,
+            },
+            body: JSON.stringify({
+              gameObject: game,
+              title: game.title,
+              string: game.string,
+            }),
+          }
+        );
 
-      if (!save.ok) {
-        throw new Error(saveData.message);
+        const updateData = await update.json();
+
+        if (!update.ok) {
+          throw new Error(updateData.message);
+        }
+
+        navigate(`/games/${auth.userId}`);
+      } catch (err) {
+        console.log(err);
       }
+    } else {
+      try {
+        const save = await fetch('http://localhost:5000/api/games/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + auth.token,
+          },
+          body: JSON.stringify({
+            gameObject: game,
+            title: game.title,
+            string: game.string,
+          }),
+        });
 
-      navigate(`/games/${auth.userId}`);
-    } catch (err) {
-      console.log(err);
+        const saveData = await save.json();
+
+        if (!save.ok) {
+          throw new Error(saveData.message);
+        }
+
+        navigate(`/games/${auth.userId}`);
+      } catch (err) {
+        console.log(err);
+      }
     }
   };
 
-  return <Chessboard onSaveGame={saveGame} gameToLoad={loadedGame} />;
+  const branchGame = () => {
+    setLoadedGame(null);
+  };
+
+  return (
+    <Chessboard
+      onSaveGame={saveGame}
+      gameToLoad={loadedGame}
+      onBranch={branchGame}
+    />
+  );
 };
 
 export default Main;

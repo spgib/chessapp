@@ -79,11 +79,8 @@ const Controls = (props) => {
       </React.Fragment>
     );
   }
-
-  let publicView = false;
-  if (props.public) {
-    publicView = true;
-  }
+  
+  const publicView = props.public ? true : false;
 
   return (
     <div className='chessboard__controls'>

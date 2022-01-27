@@ -40,23 +40,23 @@ const Chessboard = (props) => {
   }, [loadGame, props.gameToLoad]);
   
 
-  // let loadedGameFormValues = null;
-  // if (props.gameToLoad) {
-  //   const {
-  //     title,
-  //     wplayer: wPlayer,
-  //     bplayer: bPlayer,
-  //     description,
-  //     public: isPublic,
-  //   } = props.gameToLoad;
-  //   loadedGameFormValues = {
-  //     title,
-  //     wPlayer,
-  //     bPlayer,
-  //     description,
-  //     public: isPublic,
-  //   };
-  // }
+  let loadedGameFormValues = null;
+  if (props.gameToLoad) {
+    const {
+      title,
+      wplayer: wPlayer,
+      bplayer: bPlayer,
+      description,
+      public: isPublic,
+    } = props.gameToLoad;
+    loadedGameFormValues = {
+      title,
+      wPlayer,
+      bPlayer,
+      description,
+      public: isPublic,
+    };
+  }
 
   const openSaveModal = () => {
     setShowSaveForm(true);
@@ -86,6 +86,11 @@ const Chessboard = (props) => {
     props.onSaveGame(gameObject);
   };
 
+  const branchHandler = () => {
+    branch();
+    props.onBranch();
+  };
+
   const rows = [0, 1, 2, 3, 4, 5, 6, 7];
 
   const chessRows = rows.map((index) => {
@@ -111,7 +116,7 @@ const Chessboard = (props) => {
         gameEnd={checkmate}
         history={history}
         public={props.gameToLoad ? props.gameToLoad.public : null}
-        onBranch={branch}
+        onBranch={branchHandler}
         onResignReview={resignReview}
         onNewGame={newGame}
         onSaveGame={openSaveModal}
@@ -136,6 +141,7 @@ const Chessboard = (props) => {
             checkmate={checkmate}
             onSubmit={saveGame}
             onClose={closeSaveModalHandler}
+            initialValues={loadedGameFormValues}
           />
         </Modal>
       )}
