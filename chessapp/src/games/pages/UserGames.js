@@ -3,41 +3,33 @@ import { useParams } from 'react-router-dom';
 
 import UserGame from '../components/UserGame';
 import { AuthContext } from '../../store/context/auth-context';
+import useHttp from '../../shared/hooks/useHttp';
 
 const UserGames = (props) => {
   const [games, setGames] = useState([]);
   const auth = useContext(AuthContext);
   const params = useParams();
+  const sendReq = useHttp();
 
   const uid = params.uid;
 
   useEffect(() => {
     const fetchGames = async () => {
-      try {
-        const games = await fetch(
-          `http://localhost:5000/api/games/list/user/${uid}`,
-          {
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: 'Bearer ' + auth.token,
-            },
-          }
-        );
-
-        const gamesData = await games.json();
-
-        if (!games.ok) {
-          throw new Error(gamesData.message);
+      const gamesData = await sendReq(
+        `http://localhost:5000/api/games/list/user/${uid}`,
+        'GET',
+        null,
+        {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + auth.token,
         }
+      );
 
-        setGames(gamesData.userGames);
-      } catch (err) {
-        console.log(err);
-      }
+      setGames(gamesData.userGames);
     };
 
     fetchGames();
-  }, [setGames, uid, auth.token]);
+  }, [setGames, uid, auth.token, sendReq]);
 
   const updateListDelete = (id) => {
     setGames((prev) => {
@@ -58,7 +50,7 @@ const UserGames = (props) => {
         description: game.description,
         public: game.public,
       };
-      
+
       const newGames = [...prev];
 
       newGames[gameIndex] = editedGame;

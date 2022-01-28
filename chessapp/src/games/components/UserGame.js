@@ -4,34 +4,22 @@ import { useNavigate } from 'react-router-dom';
 import Modal from '../../shared/components/UIElements/Modal';
 import SaveGameForm from '../../shared/chessboard/components/forms/SaveGameForm';
 import { AuthContext } from '../../store/context/auth-context';
+import useHttp from '../../shared/hooks/useHttp';
 
 import './UserGame.css';
 
 const UserGame = (props) => {
   const auth = useContext(AuthContext);
+  const sendReq = useHttp();
   const navigate = useNavigate();
   const [showEditModal, setShowEditModal] = useState(false);
 
   const deleteHandler = async () => {
-    try {
-      const game = await fetch(`http://localhost:5000/api/games/${props.id}`, {
-        method: 'DELETE',
-        headers: {
-          Authorization: 'Bearer ' + auth.token
-        }
-      });
+    await sendReq(`http://localhost:5000/api/games/${props.id}`, 'DELETE', null, {
+      Authorization: 'Bearer ' + auth.token,
+    });
 
-      const gameData = await game.json();
-
-      if (!game.ok) {
-        throw new Error(gameData.message);
-      }
-
-      props.onDelete(props.id);
-    } catch (err) {
-      console.log(err);
-    }
-
+    props.onDelete(props.id);
   };
 
   const reviewHandler = () => {
@@ -47,27 +35,18 @@ const UserGame = (props) => {
   };
 
   const submitEditHandler = async (game) => {
-    try {
-      const edit = await fetch(`http://localhost:5000/api/games/${props.id}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Bearer ' + auth.token
-        },
-        body: JSON.stringify({ gameObject: game, title: game.title })
-      });
-
-      const editData = await edit.json();
-
-      if (!edit.ok) {
-        throw new Error(editData.message);
+    await sendReq(
+      `http://localhost:5000/api/games/${props.id}`,
+      'PATCH',
+      JSON.stringify({ gameObject: game, title: game.title }),
+      {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + auth.token,
       }
+    );
 
-      props.onEdit(game, props.id);
-    } catch (err) {
-      console.log(err);
-    }
-    
+    props.onEdit(game, props.id);
+
     setShowEditModal(false);
   };
 

@@ -1,31 +1,23 @@
 import React, { useEffect, useState } from 'react';
 
 import UserGame from '../components/UserGame';
+import useHttp from '../../shared/hooks/useHttp';
 
 const PublicGames = () => {
   const [games, setGames] = useState([]);
+  const sendReq = useHttp();
 
   useEffect(() => {
     const fetchGames = async () => {
-      try {
-        const games = await fetch(
-          'http://localhost:5000/api/games/list/public'
-        );
+      const gamesData = await sendReq(
+        'http://localhost:5000/api/games/list/public'
+      );
 
-        const gamesData = await games.json();
-
-        if (!games.ok) {
-          throw new Error(gamesData.message);
-        }
-        
-        setGames(gamesData.publicGames);
-      } catch (err) {
-        console.log(err);
-      }
+      setGames(gamesData.publicGames)
     };
 
     fetchGames();
-  }, [setGames]);
+  }, [setGames, sendReq]);
 
   let content;
 

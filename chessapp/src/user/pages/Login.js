@@ -9,12 +9,14 @@ import {
   VALIDATOR_REQUIRE,
 } from '../../shared/util/validators';
 import { AuthContext } from '../../store/context/auth-context';
+import useHttp from '../../shared/hooks/useHttp';
 
 import './auth.css';
 
 const Login = () => {
   const navigate = useNavigate();
   const auth = useContext(AuthContext);
+  const sendReq = useHttp();
   const [formState, inputHandler] = useForm(
     {
       email: {
@@ -34,27 +36,15 @@ const Login = () => {
 
     const { email, password } = formState.inputs;
 
-    try {
-      const response = await fetch('http://localhost:5000/api/users/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email: email.value, password: password.value }),
-      });
-
-      const resData = await response.json();
-
-      if (!response.ok) {
-        throw new Error(resData.message);
-      }
-
-      const { userId, username, token } = resData;
-      auth.login(userId, username, token);
-      navigate('/');
-    } catch (err) {
-      throw err;
-    }
+    const userData = await sendReq(
+      'http://localhost:5000/api/users/login',
+      'POST',
+      JSON.stringify({ email: email.value, password: password.value }),
+      { 'Content-Type': 'application/json' }
+    );
+    const { userId, username, token } = userData;
+    auth.login(userId, username, token);
+    navigate('/');
   };
 
   return (
