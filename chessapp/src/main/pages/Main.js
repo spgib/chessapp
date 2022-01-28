@@ -16,16 +16,34 @@ const Main = () => {
 
   useEffect(() => {
     const fetchGame = async () => {
-      const gameData = await sendReq(
-        `http://localhost:5000/api/games/${gameId}`
+      const { isPublic } = await sendReq(
+        `http://localhost:5000/api/games/lookup/${gameId}`,
+        'GET'
       );
 
+      let gameData;
+
+      if (isPublic) {
+        gameData = await sendReq(`http://localhost:5000/api/games/public/${gameId}`);
+      } else {
+        gameData = await sendReq(
+          `http://localhost:5000/api/games/private/${gameId}`,
+          'GET',
+          null,
+          { Authorization: 'Bearer ' + auth.token }
+        );
+      }
+
+      if (!gameData) {
+        navigate('/');
+        return;
+      }
       setLoadedGame(gameData.game);
     };
 
     if (!gameId) return;
     fetchGame();
-  }, [gameId, setLoadedGame, sendReq]);
+  }, [gameId, setLoadedGame, sendReq, navigate, auth.token]);
 
   const saveGame = async (gameObject) => {
     if (!auth.userId) return;
