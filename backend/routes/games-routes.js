@@ -8,9 +8,13 @@ const router = express.Router();
 
 router.get('/list/public', gamesControllers.getPublicList);
 
-router.get('/:gid', gamesControllers.getLoadGame);
+router.get('/lookup/:gid', gamesControllers.getGameLookup);
+
+router.get('/public/:gid', gamesControllers.getLoadPublic);
 
 router.use(authCheck);
+
+router.get('/private/:gid', gamesControllers.getLoadPrivate);
 
 router.get('/list/user/:uid', gamesControllers.getUserList);
 

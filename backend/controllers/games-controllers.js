@@ -50,6 +50,27 @@ module.exports.getUserList = async (req, res, next) => {
   });
 };
 
+module.exports.getGameLookup = async (req, res, next) => {
+  const gameId = req.params.gid;
+
+  let publicLookup;
+  try {
+    publicLookup = await GameRepo.findPublicInfo(gameId);
+  } catch (err) {
+    const error = new HttpError('Something went wrong, please try again.', 500);
+    return next(error);
+  }
+
+  if (!publicLookup) {
+    const error = new HttpError('Failed to load resource.', 404);
+    return next(error);
+  }
+
+  res
+    .status(200)
+    .json({ message: 'Resource successfully retrieved.', isPublic: publicLookup.public });
+};
+
 module.exports.postSaveGame = async (req, res, next) => {
   const errors = validationResult(req);
 
@@ -81,7 +102,7 @@ module.exports.postSaveGame = async (req, res, next) => {
   res.status(200).json({ message: 'Game successfully saved.', game });
 };
 
-module.exports.getLoadGame = async (req, res, next) => {
+module.exports.getLoadPublic = async (req, res, next) => {
   const gameId = req.params.gid;
 
   let game;
@@ -94,6 +115,30 @@ module.exports.getLoadGame = async (req, res, next) => {
 
   if (!game) {
     const error = new HttpError('Failed to retrieve game.', 404);
+    return next(error);
+  }
+
+  res.status(200).json({ message: 'Game successfully retrieved.', game });
+};
+
+module.exports.getLoadPrivate = async (req, res, next) => {
+  const gameId = req.params.gid;
+
+  let game;
+  try {
+    game = await GameRepo.findById(gameId);
+  } catch (err) {
+    const error = new HttpError('Something went wrong, please try again.', 500);
+    return next(error);
+  }
+
+  if (!game) {
+    const error = new HttpError('Failed to retrieve game.', 404);
+    return next(error);
+  }
+
+  if (game.user_id !== req.userData.userId) {
+    const error = new HttpError('Permission to access resource denied.', 401);
     return next(error);
   }
 
