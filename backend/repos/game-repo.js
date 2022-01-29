@@ -26,15 +26,6 @@ class GameRepo {
     return rows[0];
   }
 
-  static async findPublicInfo(id) {
-    const { rows } = await pool.query(
-      'SELECT public FROM games WHERE id = $1;',
-      [id]
-    );
-
-    return rows[0];
-  }
-
   static async insert(gameObject) {
     const {
       userId,

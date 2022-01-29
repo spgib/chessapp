@@ -50,25 +50,52 @@ module.exports.getUserList = async (req, res, next) => {
   });
 };
 
-module.exports.getGameLookup = async (req, res, next) => {
+module.exports.getLoadPublic = async (req, res, next) => {
   const gameId = req.params.gid;
-
-  let publicLookup;
+  
+  let game;
   try {
-    publicLookup = await GameRepo.findPublicInfo(gameId);
+    game = await GameRepo.findById(gameId);
   } catch (err) {
     const error = new HttpError('Something went wrong, please try again.', 500);
     return next(error);
   }
-
-  if (!publicLookup) {
-    const error = new HttpError('Failed to load resource.', 404);
+  
+  if (!game) {
+    const error = new HttpError('Failed to retrieve game.', 404);
     return next(error);
   }
 
-  res
-    .status(200)
-    .json({ message: 'Resource successfully retrieved.', isPublic: publicLookup.public });
+  if (game.public === false) {
+    const error = new HttpError('Resource not available for public access', 401);
+    return next(error);
+  }
+  
+  res.status(200).json({ message: 'Game successfully retrieved.', game });
+};
+
+module.exports.getLoadPrivate = async (req, res, next) => {
+  const gameId = req.params.gid;
+  
+  let game;
+  try {
+    game = await GameRepo.findById(gameId);
+  } catch (err) {
+    const error = new HttpError('Something went wrong, please try again.', 500);
+    return next(error);
+  }
+  
+  if (!game) {
+    const error = new HttpError('Failed to retrieve game.', 404);
+    return next(error);
+  }
+  
+  if (game.user_id !== req.userData.userId) {
+    const error = new HttpError('Permission to access resource denied.', 401);
+    return next(error);
+  }
+  
+  res.status(200).json({ message: 'Game successfully retrieved.', game });
 };
 
 module.exports.postSaveGame = async (req, res, next) => {
@@ -102,52 +129,9 @@ module.exports.postSaveGame = async (req, res, next) => {
   res.status(200).json({ message: 'Game successfully saved.', game });
 };
 
-module.exports.getLoadPublic = async (req, res, next) => {
-  const gameId = req.params.gid;
-
-  let game;
-  try {
-    game = await GameRepo.findById(gameId);
-  } catch (err) {
-    const error = new HttpError('Something went wrong, please try again.', 500);
-    return next(error);
-  }
-
-  if (!game) {
-    const error = new HttpError('Failed to retrieve game.', 404);
-    return next(error);
-  }
-
-  res.status(200).json({ message: 'Game successfully retrieved.', game });
-};
-
-module.exports.getLoadPrivate = async (req, res, next) => {
-  const gameId = req.params.gid;
-
-  let game;
-  try {
-    game = await GameRepo.findById(gameId);
-  } catch (err) {
-    const error = new HttpError('Something went wrong, please try again.', 500);
-    return next(error);
-  }
-
-  if (!game) {
-    const error = new HttpError('Failed to retrieve game.', 404);
-    return next(error);
-  }
-
-  if (game.user_id !== req.userData.userId) {
-    const error = new HttpError('Permission to access resource denied.', 401);
-    return next(error);
-  }
-
-  res.status(200).json({ message: 'Game successfully retrieved.', game });
-};
-
 module.exports.patchEditGame = async (req, res, next) => {
   const errors = validationResult(req);
-
+  
   if (!errors.isEmpty()) {
     const error = new HttpError('Invalid inputs, please check your data.', 422);
     return next(error);
