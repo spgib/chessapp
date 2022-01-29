@@ -12,38 +12,30 @@ const Main = () => {
   const navigate = useNavigate();
   const params = useParams();
 
-  const gameId = params.gameId;
-
+  const publicGameId = params.publicGameId;
+  const userGameId = params.userGameId;
+  const gameId = publicGameId ? publicGameId : userGameId;
+  
   useEffect(() => {
     const fetchGame = async () => {
-      const { isPublic } = await sendReq(
-        `http://localhost:5000/api/games/lookup/${gameId}`,
-        'GET'
-      );
-
       let gameData;
-
-      if (isPublic) {
-        gameData = await sendReq(`http://localhost:5000/api/games/public/${gameId}`);
-      } else {
-        gameData = await sendReq(
-          `http://localhost:5000/api/games/private/${gameId}`,
-          'GET',
-          null,
-          { Authorization: 'Bearer ' + auth.token }
-        );
+      if (publicGameId) {
+        gameData = await sendReq(`http://localhost:5000/api/games/public/${publicGameId}`);
       }
 
-      if (!gameData) {
-        navigate('/');
+      if (userGameId) {
+        gameData = await sendReq(`http://localhost:5000/api/games/user/${userGameId}`, 'GET', null, { Authorization: 'Bearer ' + auth.token })
+      }
+
+      if (gameId === undefined) {
         return;
       }
+
       setLoadedGame(gameData.game);
     };
 
-    if (!gameId) return;
     fetchGame();
-  }, [gameId, setLoadedGame, sendReq, navigate, auth.token]);
+  }, [auth.token, gameId, publicGameId, userGameId, sendReq, setLoadedGame]);
 
   const saveGame = async (gameObject) => {
     if (!auth.userId) return;

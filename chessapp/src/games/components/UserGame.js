@@ -23,7 +23,11 @@ const UserGame = (props) => {
   };
 
   const reviewHandler = () => {
-    navigate(`/${props.id}`);
+    if (props.access === 'public') {
+      navigate(`/public/${props.id}`);
+    } else if (props.access === 'user') {
+      navigate(`/user/${props.id}`)
+    }
   };
 
   const openEditHandler = () => {

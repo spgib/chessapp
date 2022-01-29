@@ -37,6 +37,7 @@ const PublicGames = () => {
           description={game.description}
           public={true}
           username={game.username}
+          access='public'
         />
       );
     });

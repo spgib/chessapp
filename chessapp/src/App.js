@@ -20,7 +20,8 @@ const App = () => {
       <Routes>
         <Route path='/' element={<Layout />}>
           <Route index element={<Main />} />
-          <Route path='/:gameId' element={<Main />} />
+          <Route path='/public/:publicGameId' element={<Main />} />
+          <Route path='/user/:userGameId' element={<Main />} />
           <Route path='/public' element={<PublicGames />} />
           {token && <Route path='games/:uid' element={<UserGames />} />}
           {!token && <Route path='login' element={<Login />} />}

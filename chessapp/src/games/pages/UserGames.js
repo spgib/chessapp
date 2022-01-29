@@ -75,6 +75,7 @@ const UserGames = (props) => {
           description={game.description}
           isUser={auth.isLoggedIn}
           public={game.public}
+          access='user'
           onDelete={updateListDelete}
           onEdit={updateListEdit}
         />
