@@ -109,7 +109,6 @@ const Chessboard = (props) => {
   return (
     <React.Fragment>
       <div className='chessboard'>{chessRows}</div>
-
       <Controls
         activePlay={activePlay}
         currentSlide={currentSlide}

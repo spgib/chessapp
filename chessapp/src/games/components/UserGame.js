@@ -5,28 +5,36 @@ import Modal from '../../shared/components/UIElements/Modal';
 import SaveGameForm from '../../shared/chessboard/components/forms/SaveGameForm';
 import { AuthContext } from '../../store/context/auth-context';
 import useHttp from '../../shared/hooks/useHttp';
+import ErrorModal from '../../shared/components/UIElements/ErrorModal';
 
 import './UserGame.css';
 
 const UserGame = (props) => {
   const auth = useContext(AuthContext);
-  const sendReq = useHttp();
+  const { isLoading, error, sendReq, clearError } = useHttp();
   const navigate = useNavigate();
   const [showEditModal, setShowEditModal] = useState(false);
 
   const deleteHandler = async () => {
-    await sendReq(`http://localhost:5000/api/games/${props.id}`, 'DELETE', null, {
-      Authorization: 'Bearer ' + auth.token,
-    });
+    try {
+      await sendReq(
+        `http://localhost:5000/api/games/${props.id}`,
+        'DELETE',
+        null,
+        {
+          Authorization: 'Bearer ' + auth.token,
+        }
+      );
 
-    props.onDelete(props.id);
+      props.onDelete(props.id);
+    } catch (err) {}
   };
 
   const reviewHandler = () => {
     if (props.access === 'public') {
       navigate(`/public/${props.id}`);
     } else if (props.access === 'user') {
-      navigate(`/user/${props.id}`)
+      navigate(`/user/${props.id}`);
     }
   };
 
@@ -39,19 +47,21 @@ const UserGame = (props) => {
   };
 
   const submitEditHandler = async (game) => {
-    await sendReq(
-      `http://localhost:5000/api/games/${props.id}`,
-      'PATCH',
-      JSON.stringify({ gameObject: game, title: game.title }),
-      {
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + auth.token,
-      }
-    );
+    try {
+      await sendReq(
+        `http://localhost:5000/api/games/${props.id}`,
+        'PATCH',
+        JSON.stringify({ gameObject: game, title: game.title }),
+        {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + auth.token,
+        }
+      );
 
-    props.onEdit(game, props.id);
+      props.onEdit(game, props.id);
 
-    setShowEditModal(false);
+      setShowEditModal(false);
+    } catch (err) {}
   };
 
   const editDataObject = {
@@ -64,6 +74,7 @@ const UserGame = (props) => {
 
   return (
     <React.Fragment>
+      {error && <ErrorModal message={error} clear={clearError} />}
       <li key={props.id} className='gamelist__item'>
         <h2>{props.title}</h2>
         {props.username && <h2>{props.username}</h2>}
@@ -88,7 +99,7 @@ const UserGame = (props) => {
           </button>
         )}
       </li>
-      {showEditModal && (
+      {showEditModal && !error && (
         <Modal onClick={closeEditHandler}>
           <SaveGameForm
             onSubmit={submitEditHandler}

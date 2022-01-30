@@ -9,14 +9,15 @@ import {
 } from '../../shared/util/validators';
 import useForm from '../../shared/hooks/useForm';
 import useHttp from '../../shared/hooks/useHttp';
+import { AuthContext } from '../../store/context/auth-context';
+import ErrorModal from '../../shared/components/UIElements/ErrorModal';
 
 import './auth.css';
-import { AuthContext } from '../../store/context/auth-context';
 
 const Signup = () => {
   const navigate = useNavigate();
   const auth = useContext(AuthContext);
-  const sendReq = useHttp();
+  const {isLoading, error, sendReq, clearError} = useHttp();
   const [formState, inputHandler] = useForm(
     {
       username: {
@@ -44,24 +45,28 @@ const Signup = () => {
 
     const { username, email, password } = formState.inputs;
 
-    const userData = await sendReq(
-      'http://localhost:5000/api/users/signup',
-      'POST',
-      JSON.stringify({
-        username: username.value,
-        email: email.value,
-        password: password.value,
-      }),
-      { 'Content-Type': 'application/json' }
-    );
-    
-    const { username: resUsername, token, userId } = userData;
-    auth.login(userId, resUsername, token);
-    navigate('/');
+    let userData;
+    try {
+      userData = await sendReq(
+        'http://localhost:5000/api/users/signup',
+        'POST',
+        JSON.stringify({
+          username: username.value,
+          email: email.value,
+          password: password.value,
+        }),
+        { 'Content-Type': 'application/json' }
+      );
+
+      const { username: resUsername, token, userId } = userData;
+      auth.login(userId, resUsername, token);
+      navigate('/');
+    } catch (err) {};
   };
 
   return (
     <React.Fragment>
+      {error && <ErrorModal clear={clearError} message={error}/>}
       <h2>Sign Up</h2>
       <form onSubmit={formSubmitHandler}>
         <Input

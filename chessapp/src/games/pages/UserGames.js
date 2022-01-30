@@ -4,28 +4,31 @@ import { useParams } from 'react-router-dom';
 import UserGame from '../components/UserGame';
 import { AuthContext } from '../../store/context/auth-context';
 import useHttp from '../../shared/hooks/useHttp';
+import ErrorModal from '../../shared/components/UIElements/ErrorModal';
 
 const UserGames = (props) => {
   const [games, setGames] = useState([]);
   const auth = useContext(AuthContext);
   const params = useParams();
-  const sendReq = useHttp();
+  const { isLoading, error, sendReq, clearError } = useHttp();
 
   const uid = params.uid;
 
   useEffect(() => {
     const fetchGames = async () => {
-      const gamesData = await sendReq(
-        `http://localhost:5000/api/games/list/user/${uid}`,
-        'GET',
-        null,
-        {
-          'Content-Type': 'application/json',
-          Authorization: 'Bearer ' + auth.token,
-        }
-      );
+      try {
+        const gamesData = await sendReq(
+          `http://localhost:5000/api/games/list/user/${uid}`,
+          'GET',
+          null,
+          {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + auth.token,
+          }
+        );
 
-      setGames(gamesData.userGames);
+        setGames(gamesData.userGames);
+      } catch (err) {}
     };
 
     fetchGames();
@@ -85,6 +88,7 @@ const UserGames = (props) => {
 
   return (
     <React.Fragment>
+      {error && <ErrorModal message={error} clear={clearError} />}
       {content && <ul className='gamelist'>{content}</ul>}
       {!content && <h2>No games found! Go play some chess!</h2>}
     </React.Fragment>

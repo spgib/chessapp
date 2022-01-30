@@ -2,18 +2,21 @@ import React, { useEffect, useState } from 'react';
 
 import UserGame from '../components/UserGame';
 import useHttp from '../../shared/hooks/useHttp';
+import ErrorModal from '../../shared/components/UIElements/ErrorModal';
 
 const PublicGames = () => {
   const [games, setGames] = useState([]);
-  const sendReq = useHttp();
+  const { isLoading, error, sendReq, clearError } = useHttp();
 
   useEffect(() => {
     const fetchGames = async () => {
-      const gamesData = await sendReq(
-        'http://localhost:5000/api/games/list/public'
-      );
+      try {
+        const gamesData = await sendReq(
+          'http://localhost:5000/api/games/list/public'
+        );
 
-      setGames(gamesData.publicGames)
+        setGames(gamesData.publicGames);
+      } catch (err) {}
     };
 
     fetchGames();
@@ -45,6 +48,7 @@ const PublicGames = () => {
 
   return (
     <React.Fragment>
+      {error && <ErrorModal message={error} clear={clearError} />}
       {content && <ul className='gamelist'>{content}</ul>}
       {!content && <h2>No games found! Go play some chess!</h2>}
     </React.Fragment>

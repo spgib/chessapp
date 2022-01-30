@@ -10,13 +10,14 @@ import {
 } from '../../shared/util/validators';
 import { AuthContext } from '../../store/context/auth-context';
 import useHttp from '../../shared/hooks/useHttp';
+import ErrorModal from '../../shared/components/UIElements/ErrorModal';
 
 import './auth.css';
 
 const Login = () => {
   const navigate = useNavigate();
   const auth = useContext(AuthContext);
-  const sendReq = useHttp();
+  const { isLoading, error, sendReq, clearError } = useHttp();
   const [formState, inputHandler] = useForm(
     {
       email: {
@@ -36,19 +37,23 @@ const Login = () => {
 
     const { email, password } = formState.inputs;
 
-    const userData = await sendReq(
-      'http://localhost:5000/api/users/login',
-      'POST',
-      JSON.stringify({ email: email.value, password: password.value }),
-      { 'Content-Type': 'application/json' }
-    );
-    const { userId, username, token } = userData;
-    auth.login(userId, username, token);
-    navigate('/');
+    let userData;
+    try {
+      userData = await sendReq(
+        'http://localhost:5000/api/users/login',
+        'POST',
+        JSON.stringify({ email: email.value, password: password.value }),
+        { 'Content-Type': 'application/json' }
+      );
+      const { userId, username, token } = userData;
+      auth.login(userId, username, token);
+      navigate('/');
+    } catch (err) {};
   };
 
   return (
     <React.Fragment>
+      {error && <ErrorModal message={error} clear={clearError} />}
       <h2>Login</h2>
       <form onSubmit={formSubmitHandler}>
         <Input
