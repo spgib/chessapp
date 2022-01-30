@@ -11,6 +11,7 @@ import useForm from '../../shared/hooks/useForm';
 import useHttp from '../../shared/hooks/useHttp';
 import { AuthContext } from '../../store/context/auth-context';
 import ErrorModal from '../../shared/components/UIElements/ErrorModal';
+import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
 
 import './auth.css';
 
@@ -67,6 +68,7 @@ const Signup = () => {
   return (
     <React.Fragment>
       {error && <ErrorModal clear={clearError} message={error}/>}
+      {isLoading && <LoadingSpinner />}
       <h2>Sign Up</h2>
       <form onSubmit={formSubmitHandler}>
         <Input

@@ -1,0 +1,40 @@
+.lds {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+  width: 100px;
+  animation: lds 1s ease infinite;
+}
+
+.lds__center {
+  height: 100%;
+  width: 100%;
+}
+
+.lds__center img {
+  height: 100%;
+  width: 100%;
+}
+
+@keyframes lds {
+  from {
+    height: 100px;
+    width: 100px;
+  }
+
+  25% {
+    height: 75px;
+    width: 75px;
+  }
+
+  50% {
+    height: 125px;
+    width: 125px;
+  }
+
+  to {
+    height: 100px;
+    width: 100px;
+  }
+}

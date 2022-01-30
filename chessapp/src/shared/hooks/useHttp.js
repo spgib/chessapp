@@ -23,8 +23,8 @@ const useHttp = () => {
         setIsLoading(false);
         return responseData;
       } catch (err) {
-        setError(err.message);
         setIsLoading(false);
+        setError(err.message);
         throw err;
       }
     },

@@ -5,6 +5,7 @@ import Chessboard from '../../shared/chessboard/Chessboard';
 import { AuthContext } from '../../store/context/auth-context';
 import useHttp from '../../shared/hooks/useHttp';
 import ErrorModal from '../../shared/components/UIElements/ErrorModal';
+import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
 
 const Main = () => {
   const [loadedGame, setLoadedGame] = useState(null);
@@ -95,6 +96,7 @@ const Main = () => {
   return (
     <React.Fragment>
       {error && <ErrorModal message={error} clear={clearError} />}
+      {isLoading && <LoadingSpinner />}
       <Chessboard
         onSaveGame={saveGame}
         gameToLoad={loadedGame}

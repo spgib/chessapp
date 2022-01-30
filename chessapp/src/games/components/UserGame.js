@@ -6,6 +6,7 @@ import SaveGameForm from '../../shared/chessboard/components/forms/SaveGameForm'
 import { AuthContext } from '../../store/context/auth-context';
 import useHttp from '../../shared/hooks/useHttp';
 import ErrorModal from '../../shared/components/UIElements/ErrorModal';
+import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
 
 import './UserGame.css';
 
@@ -75,6 +76,7 @@ const UserGame = (props) => {
   return (
     <React.Fragment>
       {error && <ErrorModal message={error} clear={clearError} />}
+      {isLoading && <LoadingSpinner />}
       <li key={props.id} className='gamelist__item'>
         <h2>{props.title}</h2>
         {props.username && <h2>{props.username}</h2>}

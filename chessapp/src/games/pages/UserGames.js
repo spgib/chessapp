@@ -5,6 +5,7 @@ import UserGame from '../components/UserGame';
 import { AuthContext } from '../../store/context/auth-context';
 import useHttp from '../../shared/hooks/useHttp';
 import ErrorModal from '../../shared/components/UIElements/ErrorModal';
+import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
 
 const UserGames = (props) => {
   const [games, setGames] = useState([]);
@@ -89,8 +90,9 @@ const UserGames = (props) => {
   return (
     <React.Fragment>
       {error && <ErrorModal message={error} clear={clearError} />}
+      {isLoading && <LoadingSpinner />}
       {content && <ul className='gamelist'>{content}</ul>}
-      {!content && <h2>No games found! Go play some chess!</h2>}
+      {!content && !isLoading && <h2>No games found! Go play some chess!</h2>}
     </React.Fragment>
   );
 };

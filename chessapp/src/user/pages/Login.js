@@ -11,6 +11,7 @@ import {
 import { AuthContext } from '../../store/context/auth-context';
 import useHttp from '../../shared/hooks/useHttp';
 import ErrorModal from '../../shared/components/UIElements/ErrorModal';
+import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
 
 import './auth.css';
 
@@ -54,6 +55,7 @@ const Login = () => {
   return (
     <React.Fragment>
       {error && <ErrorModal message={error} clear={clearError} />}
+      {isLoading && <LoadingSpinner />}
       <h2>Login</h2>
       <form onSubmit={formSubmitHandler}>
         <Input
