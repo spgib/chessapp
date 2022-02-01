@@ -6,25 +6,25 @@
 }
 
 .chessboard__square--white {
-  background: white;
+  background: #c7d59f;
 }
 
 .chessboard__square--black {
-  background-color: rgb(155, 35, 35);
+  background-color: #65743a;
 }
 
 .chessboard__square--white-active {
   background: linear-gradient(
-      rgba(38, 238, 31, 0.534),
-      rgba(38, 238, 31, 0.534)
+    rgba(219, 84, 97, .5),
+      rgba(219, 84, 97, .5)
     ),
-    linear-gradient(white, white);
+    linear-gradient(rgb(199, 213, 159), rgb(199, 213, 159));
 }
 
 .chessboard__square--black-active {
   background: linear-gradient(
-      rgba(38, 238, 31, 0.534),
-      rgba(38, 238, 31, 0.534)
+      rgba(219, 84, 97, 0.5),
+      rgba(219, 84, 97, 0.5)
     ),
-    linear-gradient(rgb(155, 35, 35), rgb(155, 35, 35));
+    linear-gradient(rgb(101, 116, 58), rgb(101, 116, 58));
 }

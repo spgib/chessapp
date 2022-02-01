@@ -10,5 +10,34 @@ html {
 
 body {
   margin: 0;
-  background-color: darkgray
+  background-color: #000f08;
 }
+
+.first-color { 
+	background: #daddd8; 
+}
+	
+.second-color { 
+	background: #c7d59f; 
+}
+
+.third-color { 
+	background: #65743a; 
+}
+
+.fourth-color { 
+	background: #592941; 
+}
+
+.fifth-color {
+  background: #db5461;
+}
+
+.sixth-color {
+  background: #3d5467;
+}
+
+.seventh-color {
+  background: #000f08;
+}
+
