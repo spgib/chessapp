@@ -10,34 +10,29 @@ html {
 
 body {
   margin: 0;
-  background-color: #000f08;
+  background-color: #EBEBEB;
 }
 
 .first-color { 
-	background: #daddd8; 
+	background: #EBEBEB; 
 }
 	
 .second-color { 
-	background: #c7d59f; 
+	background: #BEBBBB; 
 }
 
 .third-color { 
-	background: #65743a; 
+	background: #0a0a0a; 
 }
 
 .fourth-color { 
-	background: #592941; 
+	background: #2F243A; 
 }
 
 .fifth-color {
-  background: #db5461;
+  background: #0a0a0a;
 }
 
 .sixth-color {
-  background: #3d5467;
+  background: #5D5874;
 }
-
-.seventh-color {
-  background: #000f08;
-}
-

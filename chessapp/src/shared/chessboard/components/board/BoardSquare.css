@@ -6,11 +6,11 @@
 }
 
 .chessboard__square--white {
-  background: #c7d59f;
+  background: #EBEBEB;
 }
 
 .chessboard__square--black {
-  background-color: #65743a;
+  background-color: #5D5874;
 }
 
 .chessboard__square--white-active {
