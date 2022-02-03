@@ -12,11 +12,11 @@
 .main-navigation__menu-btn span {
   width: 3rem;
   height: 2.6px;
-  background: white;
+  background: #e9eceb;
 }
 
 .main-navigation__title a {
-  color: white;
+  color: #e9eceb;
   text-decoration: none;
 }
 

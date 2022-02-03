@@ -7,6 +7,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  border: 3px solid black;
-  box-shadow: 2px 2px 5px rgba(0,0,0,.5);
+  border: 10px double #e9eceb;
+  box-shadow: 10px 10px rgba(225, 126, 102, 1);
 }

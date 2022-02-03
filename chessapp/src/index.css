@@ -1,38 +1,35 @@
-@import url('https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Lora&family=Shippori+Mincho+B1&display=swap');
 
 * {
   box-sizing: border-box;
 }
 
 html {
-  font-family: 'PT Sans', sans-serif;
+  font-family: 'Lora', serif;
 }
 
 body {
   margin: 0;
-  background-color: #EBEBEB;
+  background-color: #111418;
 }
 
-.first-color { 
-	background: #EBEBEB; 
-}
-	
-.second-color { 
-	background: #BEBBBB; 
+.first-color {
+  background: #111418;
 }
 
-.third-color { 
-	background: #0a0a0a; 
+.second-color {
+  background: #e9eceb;
 }
 
-.fourth-color { 
-	background: #2F243A; 
+.third-color {
+  background: #e17e66;
+}
+
+.fourth-color {
+  background: #34A4E5;
 }
 
 .fifth-color {
-  background: #0a0a0a;
-}
-
-.sixth-color {
-  background: #5D5874;
+  background: #FF859D;
 }

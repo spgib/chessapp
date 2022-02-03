@@ -15,15 +15,24 @@
 }
 
 .nav-links a {
+  font-size: 120%;
   text-decoration: none;
-  border: 1px solid black;
+  border: 2px solid #111418;
   padding: .5rem;
+  background-color: #e17e66;
+  color: #111418;
 }
 
 .nav-links a:hover,
-.nav-links a:active,
+.nav-links a:active {
+  border: 5px solid #FF859D;
+  background-color: #e9eceb;
+  box-shadow: 10px 10px #34A4E5;
+}
+
 .nav-links a.active {
- text-decoration: underline;
+ text-decoration: 3px #34A4E5 underline;
+
 }
 
 .nav-links button {
