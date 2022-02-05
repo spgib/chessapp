@@ -11,31 +11,39 @@
 }
 
 .nav-links li {
-  margin: 1rem;
+  margin: 2rem;
 }
 
 .nav-links a {
   font-size: 120%;
   text-decoration: none;
-  border: 2px solid #111418;
+  /* border: 2px solid #111418; */
   padding: .5rem;
-  background-color: #e17e66;
+  background-color: transparent;
   color: #111418;
 }
 
-.nav-links a:hover,
+/* .nav-links a:hover,
 .nav-links a:active {
   border: 5px solid #FF859D;
   background-color: #e9eceb;
   box-shadow: 10px 10px #34A4E5;
-}
+} */
 
+.nav-links a:hover,
+.nav-links a:active,
 .nav-links a.active {
  text-decoration: 3px #34A4E5 underline;
-
 }
 
 .nav-links button {
+  padding: .5rem;
+  font: inherit;
+  font-size: 120%;
+  cursor: pointer;
+  background-color: #e17e66;
+  border-color: #e17e66;
+  color: #e9eceb;
 }
 
 .nav-links button:focus {
@@ -43,6 +51,12 @@
 
 .nav-links button:active,
 .nav-links button:hover {
+  /* background-color: #111418;
+  border-color: #FF859D;
+  color: #FF859D;
+  text-decoration: 3px #34a4e5 underline; */
+  background-color: #ff859d;
+  box-shadow: 0px 0px 4px #ff859d;
 }
 
 @media (min-width: 768px) {
@@ -55,15 +69,14 @@
   }
 
   .nav-links a {
-    color: white;
+    color: #e9eceb;
     text-decoration: none;
+    border: none;
   }
 
   .nav-links a:hover,
-  .nav-links a:active,
-  .nav-links a.active {
-    color: yellow;
-    text-decoration: underline;
+  .nav-links a:active {
+    
   }
 
   .nav-links button {
