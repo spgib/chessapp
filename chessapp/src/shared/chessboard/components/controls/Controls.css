@@ -1,0 +1,7 @@
+.chessboard__controls {
+  display: flex;
+  margin: 15px auto 0;
+  width: 600px;
+  max-width: 90%;
+  justify-content: space-evenly;
+}

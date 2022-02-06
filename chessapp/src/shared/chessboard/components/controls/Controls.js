@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { AuthContext } from '../../../../store/context/auth-context';
+import Button from '../../../components/formElements/Button';
 
 import './Controls.css';
 
@@ -52,30 +53,29 @@ const Controls = (props) => {
 
   if (props.activePlay) {
     resignReviewControls = (
-      <button
-        className='chessboard__controls-resign'
+      <Button
         type='button'
         onClick={resignReviewHandler}
       >
         {props.gameEnd ? 'REVIEW' : 'RESIGN'}
-      </button>
+      </Button>
     );
   } else {
     moveSlideshowControls = (
       <React.Fragment>
-        <button type='button' onClick={resetSlideshowHandler} disabled={props.currentSlide === null}>
+        <Button type='button' onClick={resetSlideshowHandler} disabled={props.currentSlide === null}>
           &lt;&lt;
-        </button>
-        <button type='button' onClick={backSlideshowHandler}>
+        </Button>
+        <Button type='button' onClick={backSlideshowHandler}>
           &lt;
-        </button>
-        <button type='button' onClick={forwardSlideshowHandler} disabled={props.currentSlide === props.history.length - 1}>
+        </Button>
+        <Button type='button' onClick={forwardSlideshowHandler} disabled={props.currentSlide === props.history.length - 1}>
           &gt;
-        </button>
-        <button type='button' onClick={endSlideshowHandler} disabled={props.currentSlide === props.history.length - 1}>
+        </Button>
+        <Button type='button' onClick={endSlideshowHandler} disabled={props.currentSlide === props.history.length - 1}>
           &gt;&gt;
-        </button>
-        <button type='button' onClick={branchHandler} disabled={props.currentSlide === props.history.length - 1 && props.gameEnd}>BRANCH</button>
+        </Button>
+        <Button type='button' onClick={branchHandler} disabled={props.currentSlide === props.history.length - 1 && props.gameEnd}>BRANCH</Button>
       </React.Fragment>
     );
   }
@@ -84,22 +84,20 @@ const Controls = (props) => {
 
   return (
     <div className='chessboard__controls'>
-      <button
-        className='chessboard__controls-new-game'
+      <Button
         type='button'
         onClick={newGameHandler}
       >
         NEW GAME
-      </button>
+      </Button>
       {moveSlideshowControls}
       {resignReviewControls}
-      {auth.token && !publicView && <button
-        className='chessboard__controls-save'
+      {auth.token && !publicView && <Button
         type='button'
         onClick={saveHandler}
       >
         SAVE
-      </button>}
+      </Button>}
     </div>
   );
 };

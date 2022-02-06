@@ -46,8 +46,8 @@
   color: #e9eceb;
 }
 
-.nav-links button:focus {
-}
+/* .nav-links button:focus {
+} */
 
 .nav-links button:active,
 .nav-links button:hover {
@@ -74,7 +74,7 @@
     border: none;
   }
 
-  .nav-links a:hover,
+  /* .nav-links a:hover,
   .nav-links a:active {
     
   }
@@ -84,5 +84,5 @@
 
   .nav-links button:hover,
   .nav-links button:active {
-  }
+  } */
 }
