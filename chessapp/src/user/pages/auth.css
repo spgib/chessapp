@@ -1,14 +1,14 @@
 .auth {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   height: 100%;
   width: 100%;
 }
 
-.auth__form {
-  display: flex;
-  flex-direction: column;
-  margin: auto;
-  padding: 1rem;
+.auth hr {
+  color: #111418;
+  width: 85%;
+}
+
+.auth h2 {
+  margin: 0; 
+  text-align: center;
 }
