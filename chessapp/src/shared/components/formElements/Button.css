@@ -3,7 +3,7 @@
   width: 15%;
   padding: .5rem;
   cursor: pointer;
-  border: none;
+  border: 1px solid #e9eceb;
   background-color: #111418;
   color: #e9eceb;
 }
@@ -12,3 +12,4 @@
 .button:hover {
   background-color: #34A4E5;
 }
+

@@ -32,7 +32,7 @@ const Chessboard = (props) => {
     slideshow,
     loadGame
   } = useChess();
-
+  
   useEffect(() => {
     if (props.gameToLoad) {
       loadGame(props.gameToLoad);

@@ -148,6 +148,7 @@ const useChess = () => {
     setPlayerTurn('white');
     setHistory([]);
     setCheckmate(false);
+    setCurrentSlide(null);
   };
 
   const resignReview = () => {

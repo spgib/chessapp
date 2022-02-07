@@ -19,23 +19,25 @@ const GameInfo = (props) => {
       <div className='game-info__resignation'>
         <h3>RESIGNATION {props.turn === 'white' ? '0-1' : '1-0'}</h3>
       </div>
-    )
+    );
   } else {
     gameStateContent = (
       <div className='game-info__player-turn'>
-        <p>Player Turn: {props.turn.toUpperCase()}</p>
+        <h3>Player Turn: {props.turn.toUpperCase()}</h3>
       </div>
     );
   }
 
   return (
     <Card>
-      {gameStateContent}
-      <div className='game-info__move-list'>
-        <MoveList
-          history={props.history}
-          slideshowActiveItem={props.slideshowActiveItem}
-        />
+      <div className='game-info'>
+        {gameStateContent}
+        <div className='game-info__move-list'>
+          <MoveList
+            history={props.history}
+            slideshowActiveItem={props.slideshowActiveItem}
+          />
+        </div>
       </div>
     </Card>
   );
