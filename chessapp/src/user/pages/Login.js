@@ -12,6 +12,7 @@ import { AuthContext } from '../../store/context/auth-context';
 import useHttp from '../../shared/hooks/useHttp';
 import ErrorModal from '../../shared/components/UIElements/ErrorModal';
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
+import Card from '../../shared/components/UIElements/Card';
 
 import './auth.css';
 
@@ -49,37 +50,41 @@ const Login = () => {
       const { userId, username, token } = userData;
       auth.login(userId, username, token);
       navigate('/');
-    } catch (err) {};
+    } catch (err) {}
   };
 
   return (
     <React.Fragment>
       {error && <ErrorModal message={error} clear={clearError} />}
       {isLoading && <LoadingSpinner />}
-      <h2>Login</h2>
-      <form onSubmit={formSubmitHandler}>
-        <Input
-          id='email'
-          name='email'
-          label='Email'
-          type='email'
-          invalidText='Please enter the email address associated with your account.'
-          validators={[VALIDATOR_REQUIRE(), VALIDATOR_EMAIL()]}
-          onInput={inputHandler}
-        />
-        <Input
-          id='password'
-          name='password'
-          label='Password'
-          type='password'
-          invalidText='Please enter your password (at least 6 characters).'
-          validators={[VALIDATOR_REQUIRE(), VALIDATOR_MINLENGTH(6)]}
-          onInput={inputHandler}
-        />
-        <button type='submit' disabled={!formState.formIsValid}>
-          LOGIN
-        </button>
-      </form>
+      <Card>
+        <div className='auth'>
+          <h2>Login</h2>
+          <form onSubmit={formSubmitHandler} className='auth__form'>
+            <Input
+              id='email'
+              name='email'
+              label='Email'
+              type='email'
+              invalidText='Please enter the email address associated with your account.'
+              validators={[VALIDATOR_REQUIRE(), VALIDATOR_EMAIL()]}
+              onInput={inputHandler}
+            />
+            <Input
+              id='password'
+              name='password'
+              label='Password'
+              type='password'
+              invalidText='Please enter your password (at least 6 characters).'
+              validators={[VALIDATOR_REQUIRE(), VALIDATOR_MINLENGTH(6)]}
+              onInput={inputHandler}
+            />
+            <button type='submit' disabled={!formState.formIsValid}>
+              LOGIN
+            </button>
+          </form>
+        </div>
+      </Card>
     </React.Fragment>
   );
 };
