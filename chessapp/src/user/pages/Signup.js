@@ -2,6 +2,8 @@ import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import Input from '../../shared/components/formElements/Input';
+import Card from '../../shared/components/UIElements/Card';
+import Button from '../../shared/components/formElements/Button';
 import {
   VALIDATOR_REQUIRE,
   VALIDATOR_EMAIL,
@@ -18,7 +20,7 @@ import './auth.css';
 const Signup = () => {
   const navigate = useNavigate();
   const auth = useContext(AuthContext);
-  const {isLoading, error, sendReq, clearError} = useHttp();
+  const { isLoading, error, sendReq, clearError } = useHttp();
   const [formState, inputHandler] = useForm(
     {
       username: {
@@ -62,43 +64,45 @@ const Signup = () => {
       const { username: resUsername, token, userId } = userData;
       auth.login(userId, resUsername, token);
       navigate('/');
-    } catch (err) {};
+    } catch (err) {}
   };
 
   return (
     <React.Fragment>
-      {error && <ErrorModal clear={clearError} message={error}/>}
+      {error && <ErrorModal clear={clearError} message={error} />}
       {isLoading && <LoadingSpinner />}
-      <h2>Sign Up</h2>
-      <form onSubmit={formSubmitHandler}>
-        <Input
-          id='username'
-          name='username'
-          label='Username'
-          type='text'
-          invalidText='Please enter a username for your account.'
-          validators={[VALIDATOR_REQUIRE()]}
-          onInput={inputHandler}
-        />
-        <Input
-          id='email'
-          name='email'
-          label='Email Address'
-          type='email'
-          invalidText='Please enter a valid email address.'
-          validators={[VALIDATOR_REQUIRE(), VALIDATOR_EMAIL()]}
-          onInput={inputHandler}
-        />
-        <Input
-          id='password'
-          name='password'
-          label='Password'
-          type='password'
-          invalidText='Please enter a password (at least 6 characters).'
-          validators={[VALIDATOR_REQUIRE(), VALIDATOR_MINLENGTH(6)]}
-          onInput={inputHandler}
-        />
-        {/* <Input
+      <Card className='auth'>
+        <h2>Sign Up</h2>
+        <hr />
+        <form onSubmit={formSubmitHandler}>
+          <Input
+            id='username'
+            name='username'
+            label='Username'
+            type='text'
+            invalidText='Please enter a username for your account.'
+            validators={[VALIDATOR_REQUIRE()]}
+            onInput={inputHandler}
+          />
+          <Input
+            id='email'
+            name='email'
+            label='Email Address'
+            type='email'
+            invalidText='Please enter a valid email address.'
+            validators={[VALIDATOR_REQUIRE(), VALIDATOR_EMAIL()]}
+            onInput={inputHandler}
+          />
+          <Input
+            id='password'
+            name='password'
+            label='Password'
+            type='password'
+            invalidText='Please enter a password (at least 6 characters).'
+            validators={[VALIDATOR_REQUIRE(), VALIDATOR_MINLENGTH(6)]}
+            onInput={inputHandler}
+          />
+          {/* <Input
         id='verifyPassword'
         name='password'
         label='Re-enter Password'
@@ -107,10 +111,11 @@ const Signup = () => {
         validators={[VALIDATOR_REQUIRE(), VALIDATOR_MINLENGTH()]}
         onInput={inputHandler}
       /> */}
-        <button type='submit' disabled={!formState.formIsValid}>
-          SIGN UP
-        </button>
-      </form>
+          <Button type='submit' disabled={!formState.formIsValid}>
+            SIGN UP
+          </Button>
+        </form>
+      </Card>
     </React.Fragment>
   );
 };
