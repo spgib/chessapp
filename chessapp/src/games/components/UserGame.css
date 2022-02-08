@@ -1,0 +1,25 @@
+.gamelist__item {
+  width: 100%;
+  padding: 1rem .5rem;
+}
+
+.gamelist__item h3 {
+  text-align: center;
+  margin: 0;
+}
+
+.gamelist__item hr {
+  width: 85%;
+}
+
+.gamelist__item h4 {
+  margin: 0;
+}
+
+.gamelist__item p {
+  margin: .5rem 0;
+}
+
+.gamelist__item button {
+  margin: auto;
+}

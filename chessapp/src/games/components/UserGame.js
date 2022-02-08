@@ -1,7 +1,9 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import Card from '../../shared/components/UIElements/Card';
 import Modal from '../../shared/components/UIElements/Modal';
+import Button from '../../shared/components/formElements/Button';
 import SaveGameForm from '../../shared/chessboard/components/forms/SaveGameForm';
 import { AuthContext } from '../../store/context/auth-context';
 import useHttp from '../../shared/hooks/useHttp';
@@ -77,30 +79,32 @@ const UserGame = (props) => {
     <React.Fragment>
       {error && <ErrorModal message={error} clear={clearError} />}
       {isLoading && <LoadingSpinner />}
-      <li key={props.id} className='gamelist__item'>
-        <h2>{props.title}</h2>
-        {props.username && <h2>{props.username}</h2>}
-        <h3>
-          {props.wPlayer ? props.wPlayer : 'Unknown'} vs.{' '}
-          {props.bPlayer ? props.bPlayer : 'Unknown'}
-        </h3>
-        <h3>{props.turns} turns</h3>
-        <h3>Outcome: {props.winner ? props.winner : 'ongoing'}</h3>
-        {props.description && <p>{props.description}</p>}
-        <button type='button' onClick={reviewHandler}>
-          {props.winner ? 'VIEW' : 'CONTINUE'}
-        </button>
-        {props.isUser && (
-          <button type='button' onClick={deleteHandler}>
-            DELETE
-          </button>
-        )}
-        {props.isUser && (
-          <button type='button' onClick={openEditHandler}>
-            EDIT
-          </button>
-        )}
-      </li>
+      <Card className='gamelist__item'>
+        <li key={props.id}>
+          <h3>{props.title}</h3>
+          <hr />
+          <h4>
+            {props.wPlayer ? props.wPlayer : 'Unknown'} vs.{' '}
+            {props.bPlayer ? props.bPlayer : 'Unknown'}, {props.turns} turns,{' '}
+            {props.winner ? props.winner : 'ongoing'}
+          </h4>
+          {props.description && <p>{props.description}</p>}
+
+          <Button type='button' onClick={reviewHandler}>
+            {props.winner ? 'VIEW' : 'CONTINUE'}
+          </Button>
+          {props.isUser && (
+            <Button type='button' onClick={deleteHandler}>
+              DELETE
+            </Button>
+          )}
+          {props.isUser && (
+            <Button type='button' onClick={openEditHandler}>
+              EDIT
+            </Button>
+          )}
+        </li>
+      </Card>
       {showEditModal && !error && (
         <Modal onClick={closeEditHandler}>
           <SaveGameForm

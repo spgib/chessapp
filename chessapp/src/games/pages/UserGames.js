@@ -7,6 +7,8 @@ import useHttp from '../../shared/hooks/useHttp';
 import ErrorModal from '../../shared/components/UIElements/ErrorModal';
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
 
+import './gamelist.css';
+
 const UserGames = (props) => {
   const [games, setGames] = useState([]);
   const auth = useContext(AuthContext);
@@ -91,8 +93,10 @@ const UserGames = (props) => {
     <React.Fragment>
       {error && <ErrorModal message={error} clear={clearError} />}
       {isLoading && <LoadingSpinner />}
-      {content && <ul className='gamelist'>{content}</ul>}
-      {!content && !isLoading && <h2>No games found! Go play some chess!</h2>}
+      <div className='gamelist'>
+        {content && <ul>{content}</ul>}
+        {!content && !isLoading && <h2 className='gamelist__default-text'>No games found! Go play some chess!</h2>}
+      </div>
     </React.Fragment>
   );
 };

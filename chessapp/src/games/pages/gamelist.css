@@ -1,0 +1,10 @@
+.gamelist__default-text {
+  text-align: center;
+  color: #e9eceb;
+}
+
+.gamelist ul {
+  list-style: none;
+  width: 100%;
+  padding: 0;
+}
