@@ -89,6 +89,9 @@ const UserGame = (props) => {
             {props.winner ? props.winner : 'ongoing'}
           </h4>
           {props.description && <p>{props.description}</p>}
+          {props.username && <p className='gamelist__item-author'>
+            Created by: {props.username}
+          </p>}
 
           <Button type='button' onClick={reviewHandler}>
             {props.winner ? 'VIEW' : 'CONTINUE'}

@@ -20,6 +20,13 @@
   margin: .5rem 0;
 }
 
+.gamelist__item-author {
+  font-style: italic;
+  font-size: 80%;
+  text-align: right;
+}
+
 .gamelist__item button {
-  margin: auto;
+  width: 20%;
+  margin-left: 80%;
 }
