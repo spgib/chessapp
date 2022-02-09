@@ -1,4 +1,4 @@
-.gamelist__item {
+/* .gamelist__item {
   width: 100%;
   padding: 1rem .5rem;
 }
@@ -29,4 +29,67 @@
 .gamelist__item button {
   width: 20%;
   margin-left: 80%;
+} */
+
+.gamelist__item {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: .5rem;
+}
+
+.gamelist__item-info {
+  width: 70%;
+}
+
+.gamelist__item-info h4,
+.gamelist__item-info p {
+  margin: 0;
+}
+
+.gamelist__item-author {
+  font-style: italic;
+  color: rgb(163, 157, 157);
+}
+
+.gamelist__item-actions {
+  display: flex;
+  flex-direction: column;
+  justify-content: right;
+  align-items:flex-end;
+  width: 30%;
+}
+
+.gamelist__item-actions button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 3rem;
+  width: 3rem;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  margin-bottom: .5rem;
+}
+
+.gamelist__button-view {
+  background-color: #e17e66;
+}
+
+.gamelist__button-edit {
+  background-color: #34A4E5;
+}
+
+.gamelist__button-delete {
+  background-color: #E9353E;
+}
+
+@media (min-width: 768px) {
+  .gamelist__item-actions {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
 }

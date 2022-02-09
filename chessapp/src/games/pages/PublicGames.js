@@ -53,10 +53,16 @@ const PublicGames = () => {
     <React.Fragment>
       {error && <ErrorModal message={error} clear={clearError} />}
       {isLoading && <LoadingSpinner />}
-      <div className='gamelist'>
-        {content && <ul>{content}</ul>}
-        {!content && !isLoading && <h2 className='gamelist__default-text'>No games found! Go play some chess!</h2>}
-      </div>
+      {!content && !isLoading && (
+        <h2 className='gamelist__default-text'>
+          No games found! Go play some chess!
+        </h2>
+      )}
+      {content && (
+        <div className='gamelist'>
+          <ul>{content}</ul>
+        </div>
+      )}
     </React.Fragment>
   );
 };

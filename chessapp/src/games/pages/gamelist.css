@@ -3,6 +3,19 @@
   color: #e9eceb;
 }
 
+/* .gamelist ul {
+  list-style: none;
+  width: 100%;
+  padding: 0;
+} */
+
+.gamelist {
+  background-color: #e9eceb;
+  border-radius: 8px;
+  width: 90%;
+  margin: auto;
+}
+
 .gamelist ul {
   list-style: none;
   width: 100%;

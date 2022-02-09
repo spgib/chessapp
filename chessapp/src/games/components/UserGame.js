@@ -1,7 +1,9 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import Card from '../../shared/components/UIElements/Card';
+import viewIcon from '../../shared/assets/icons/view.svg';
+import editIcon from '../../shared/assets/icons/edit.svg';
+import deleteIcon from '../../shared/assets/icons/delete.svg';
 import Modal from '../../shared/components/UIElements/Modal';
 import Button from '../../shared/components/formElements/Button';
 import SaveGameForm from '../../shared/chessboard/components/forms/SaveGameForm';
@@ -79,35 +81,51 @@ const UserGame = (props) => {
     <React.Fragment>
       {error && <ErrorModal message={error} clear={clearError} />}
       {isLoading && <LoadingSpinner />}
-      <Card className='gamelist__item'>
-        <li key={props.id}>
-          <h3>{props.title}</h3>
-          <hr />
-          <h4>
+      {/* <Card className='gamelist__item'> */}
+      <li key={props.id} className='gamelist__item'>
+        <div className='gamelist__item-info'>
+          <h4>{props.title}</h4>
+          <p>
             {props.wPlayer ? props.wPlayer : 'Unknown'} vs.{' '}
             {props.bPlayer ? props.bPlayer : 'Unknown'}, {props.turns} turns,{' '}
             {props.winner ? props.winner : 'ongoing'}
-          </h4>
+          </p>
           {props.description && <p>{props.description}</p>}
-          {props.username && <p className='gamelist__item-author'>
-            Created by: {props.username}
-          </p>}
-
-          <Button type='button' onClick={reviewHandler}>
-            {props.winner ? 'VIEW' : 'CONTINUE'}
-          </Button>
+          {props.username && (
+            <p className='gamelist__item-author'>
+              Created by: {props.username}
+            </p>
+          )}
+        </div>
+        <div className='gamelist__item-actions'>
+          <button
+            type='button'
+            className='gamelist__button-view'
+            onClick={reviewHandler}
+          >
+            <img src={viewIcon} alt='View icon' />
+          </button>
           {props.isUser && (
-            <Button type='button' onClick={deleteHandler}>
-              DELETE
-            </Button>
+            <button
+              type='button'
+              className='gamelist__button-edit'
+              onClick={openEditHandler}
+            >
+              <img src={editIcon} alt='Edit icon' />
+            </button>
           )}
           {props.isUser && (
-            <Button type='button' onClick={openEditHandler}>
-              EDIT
-            </Button>
+            <button
+              type='button'
+              className='gamelist__button-delete'
+              onClick={deleteHandler}
+            >
+              <img src={deleteIcon} alt='Delete icon' />
+            </button>
           )}
-        </li>
-      </Card>
+        </div>
+      </li>
+      {/* </Card> */}
       {showEditModal && !error && (
         <Modal onClick={closeEditHandler}>
           <SaveGameForm
