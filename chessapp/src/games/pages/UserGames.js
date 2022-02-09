@@ -66,25 +66,28 @@ const UserGames = (props) => {
 
   let content;
   if (games.length > 0) {
-    content = games.map((game) => {
+    content = games.map((game, index) => {
       return (
-        <UserGame
-          id={game.id}
-          key={game.id}
-          title={game.title}
-          turns={game.turns}
-          wPlayer={game.wplayer}
-          bPlayer={game.bplayer}
-          checkmate={game.checkmate}
-          resignation={game.resignation}
-          winner={game.winner}
-          description={game.description}
-          isUser={auth.isLoggedIn}
-          public={game.public}
-          access='user'
-          onDelete={updateListDelete}
-          onEdit={updateListEdit}
-        />
+        
+          <UserGame
+            id={game.id}
+            key={game.id}
+            title={game.title}
+            turns={game.turns}
+            wPlayer={game.wplayer}
+            bPlayer={game.bplayer}
+            checkmate={game.checkmate}
+            resignation={game.resignation}
+            winner={game.winner}
+            description={game.description}
+            isUser={auth.isLoggedIn}
+            public={game.public}
+            access='user'
+            isListEnd={index === games.length - 1}
+            onDelete={updateListDelete}
+            onEdit={updateListEdit}
+          />
+        
       );
     });
   }

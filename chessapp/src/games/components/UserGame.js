@@ -125,6 +125,7 @@ const UserGame = (props) => {
           )}
         </div>
       </li>
+      {!props.isListEnd && <hr />}
       {/* </Card> */}
       {showEditModal && !error && (
         <Modal onClick={closeEditHandler}>

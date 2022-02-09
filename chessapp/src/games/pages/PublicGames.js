@@ -28,7 +28,7 @@ const PublicGames = () => {
   let content;
 
   if (games.length > 0) {
-    content = games.map((game) => {
+    content = games.map((game, index) => {
       return (
         <UserGame
           id={game.id}
@@ -43,6 +43,7 @@ const PublicGames = () => {
           description={game.description}
           public={true}
           username={game.username}
+          isListEnd={index === games.length - 1}
           access='public'
         />
       );
