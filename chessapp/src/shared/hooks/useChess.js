@@ -97,6 +97,7 @@ const useChess = () => {
       setBoard(newBoard);
       setActivePiece(null);
       setLegalMoves([]);
+      if (checkmateCheck) setActivePlay(false);
 
       setPlayerTurn((prev) => {
         return prev === 'white' ? 'black' : 'white';
