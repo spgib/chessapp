@@ -6,6 +6,7 @@ import {
   VALIDATOR_REQUIRE,
 } from "../../../util/validators";
 import useForm from "../../../hooks/useForm";
+import Button from "../../../components/formElements/Button";
 
 import "./SaveGameForm.css";
 
@@ -146,9 +147,9 @@ const SaveGameForm = (props) => {
       </div>
       <p>Fields marked with * are required.</p>
       <p>Only completed games may be saved publicly.</p>
-      <button type="submit" disabled={!formState.formIsValid}>
+      <Button type="submit" disabled={!formState.formIsValid}>
         SAVE
-      </button>
+      </Button>
     </form>
   );
 };

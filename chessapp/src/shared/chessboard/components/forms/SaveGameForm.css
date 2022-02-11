@@ -1,9 +1,6 @@
 .save-game-form {
-    padding: .5rem;
-}
-
-.save-game-form textarea {
-    font: inherit;
+    width: 100%;
+    padding: .5rem 1rem;
 }
 
 .save-game-form label {
@@ -13,4 +10,13 @@
 .save-game-form__radio-inputs {
     display: flex;
     justify-content: space-around;
-  }
+}
+
+[type="radio"] {
+    accent-color: #34A4E5;
+}
+
+.save-game-form button {
+    display: block;
+    margin: auto;
+}
