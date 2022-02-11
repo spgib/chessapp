@@ -3,11 +3,9 @@
   justify-content: center;
   align-items: center;
   background: white;
-  width: 50%;
-  max-width: 90%;
-  height: 25vh;
+  width: 90%;
   z-index: 20;
   position: fixed;
-  left: 25%;
+  left: 5%;
   border-radius: 8px;
 }

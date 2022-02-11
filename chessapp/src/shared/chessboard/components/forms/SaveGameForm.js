@@ -1,13 +1,13 @@
-import React from 'react';
+import React from "react";
 
-import Input from '../../../components/formElements/Input';
+import Input from "../../../components/formElements/Input";
 import {
   VALIDATOR_MAXLENGTH,
   VALIDATOR_REQUIRE,
-} from '../../../util/validators';
-import useForm from '../../../hooks/useForm';
+} from "../../../util/validators";
+import useForm from "../../../hooks/useForm";
 
-import './SaveGameForm.css';
+import "./SaveGameForm.css";
 
 const SaveGameForm = (props) => {
   const initialValues = props.initialValues
@@ -31,19 +31,19 @@ const SaveGameForm = (props) => {
       }
     : {
         title: {
-          value: '',
+          value: "",
           isValid: false,
         },
         wPlayer: {
-          value: '',
+          value: "",
           isValid: false,
         },
         bPlayer: {
-          value: '',
+          value: "",
           isValid: false,
         },
         description: {
-          value: '',
+          value: "",
           isValid: false,
         },
       };
@@ -62,74 +62,91 @@ const SaveGameForm = (props) => {
       wPlayer: formState.inputs.wPlayer.value,
       bPlayer: formState.inputs.bPlayer.value,
       description: formState.inputs.description.value,
-      public: publicGame
+      public: publicGame,
     };
 
     props.onSubmit(gameObject);
   };
 
   return (
-    <form className='save-game-form' onSubmit={submitHandler}>
+    <form className="save-game-form" onSubmit={submitHandler}>
       <Input
-        label='Title*'
-        id='title'
-        name='title'
-        type='text'
-        invalidText='Please enter a title for this match.'
+        label="Title*"
+        id="title"
+        name="title"
+        type="text"
+        invalidText="Please enter a title for this match."
         validators={[VALIDATOR_REQUIRE()]}
         onInput={inputHandler}
-        initialValue={props.initialValues ? props.initialValues.title : ''}
+        initialValue={props.initialValues ? props.initialValues.title : ""}
         initialIsValid={props.initialValues ? true : false}
       />
       <Input
-        label='White Player'
-        id='wPlayer'
-        name='white-player'
-        type='text'
-        invalidText='Please enter the name of the player playing white.'
+        label="White Player"
+        id="wPlayer"
+        name="white-player"
+        type="text"
+        invalidText="Please enter the name of the player playing white."
         validators={[]}
-        initialValue={props.initialValues ? props.initialValues.wPlayer : ''}
+        initialValue={props.initialValues ? props.initialValues.wPlayer : ""}
         initialIsValid={true}
         onInput={inputHandler}
       />
       <Input
-        label='Black Player'
-        id='bPlayer'
-        name='black-player'
-        type='text'
-        invalidText='Please enter the name of the player playing black.'
+        label="Black Player"
+        id="bPlayer"
+        name="black-player"
+        type="text"
+        invalidText="Please enter the name of the player playing black."
         validators={[]}
-        initialValue={props.initialValues ? props.initialValues.bPlayer : ''}
+        initialValue={props.initialValues ? props.initialValues.bPlayer : ""}
         initialIsValid={true}
         onInput={inputHandler}
       />
       <Input
-        element='textarea'
-        label='Description'
-        id='description'
-        name='description'
-        invalidText='Please enter a short description of the game (no more than 50 characters).'
+        element="textarea"
+        label="Description"
+        id="description"
+        name="description"
+        invalidText="Please enter a short description of the game (no more than 50 characters)."
         validators={[VALIDATOR_MAXLENGTH(50)]}
         initialIsValid={true}
         initialValue={
-          props.initialValues ? props.initialValues.description : ''
+          props.initialValues ? props.initialValues.description : ""
         }
         onInput={inputHandler}
       />
-      <input
-        type='radio'
-        id='privacyChoice1'
-        name='privacy'
-        value='public'
-        defaultChecked={props.initialValues ? props.initialValues.public : false}
-        disabled={props.activePlay}
-      />
-      <label htmlFor='privacyChoice1'>Public</label>
-      <input type='radio' id='privacyChoice2' name='privacy' value='private' defaultChecked={props.initialValues ? !props.initialValues.public : true} disabled={props.activePlay}/>
-      <label htmlFor='privacyChoice2'>Private</label>
+      <div className="save-game-form__radio-inputs">
+        <div>
+          <input
+            type="radio"
+            id="privacyChoice1"
+            name="privacy"
+            value="public"
+            defaultChecked={
+              props.initialValues ? props.initialValues.public : false
+            }
+            disabled={props.activePlay}
+          />
+          <label htmlFor="privacyChoice1">Public</label>
+        </div>
+        <div>
+          <input
+            type="radio"
+            id="privacyChoice2"
+            name="privacy"
+            value="private"
+            defaultChecked={
+              props.initialValues ? !props.initialValues.public : true
+            }
+            disabled={props.activePlay}
+          />
+          <label htmlFor="privacyChoice2">Private</label>
+        </div>
+      </div>
       <p>Fields marked with * are required.</p>
       <p>Only completed games may be saved publicly.</p>
-      <button type='submit' disabled={!formState.formIsValid}>
+      <button type="submit" disabled={!formState.formIsValid}>
         SAVE
       </button>
     </form>

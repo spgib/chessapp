@@ -1,0 +1,16 @@
+.save-game-form {
+    padding: .5rem;
+}
+
+.save-game-form textarea {
+    font: inherit;
+}
+
+.save-game-form label {
+    font-weight: bold;
+}
+
+.save-game-form__radio-inputs {
+    display: flex;
+    justify-content: space-around;
+  }
