@@ -1,11 +1,11 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import Button from '../../shared/components/formElements/Button';
 import viewIcon from '../../shared/assets/icons/view.svg';
 import editIcon from '../../shared/assets/icons/edit.svg';
 import deleteIcon from '../../shared/assets/icons/delete.svg';
 import Modal from '../../shared/components/UIElements/Modal';
-import Button from '../../shared/components/formElements/Button';
 import SaveGameForm from '../../shared/chessboard/components/forms/SaveGameForm';
 import { AuthContext } from '../../store/context/auth-context';
 import useHttp from '../../shared/hooks/useHttp';
@@ -19,8 +19,17 @@ const UserGame = (props) => {
   const { isLoading, error, sendReq, clearError } = useHttp();
   const navigate = useNavigate();
   const [showEditModal, setShowEditModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
-  const deleteHandler = async () => {
+  const openDeleteModal = () => {
+    setShowDeleteModal(true);
+  };
+
+  const closeDeleteModal = () => {
+    setShowDeleteModal(false);
+  };
+
+  const deleteGame = async () => {
     try {
       await sendReq(
         `http://localhost:5000/api/games/${props.id}`,
@@ -81,7 +90,6 @@ const UserGame = (props) => {
     <React.Fragment>
       {error && <ErrorModal message={error} clear={clearError} />}
       {isLoading && <LoadingSpinner />}
-      {/* <Card className='gamelist__item'> */}
       <li key={props.id} className='gamelist__item'>
         <div className='gamelist__item-info'>
           <h4>{props.title}</h4>
@@ -118,7 +126,7 @@ const UserGame = (props) => {
             <button
               type='button'
               className='gamelist__button-delete'
-              onClick={deleteHandler}
+              onClick={openDeleteModal}
             >
               <img src={deleteIcon} alt='Delete icon' />
             </button>
@@ -126,7 +134,6 @@ const UserGame = (props) => {
         </div>
       </li>
       {!props.isListEnd && <hr />}
-      {/* </Card> */}
       {showEditModal && !error && (
         <Modal onClick={closeEditHandler}>
           <SaveGameForm
@@ -134,6 +141,18 @@ const UserGame = (props) => {
             initialValues={editDataObject}
             activePlay={!props.winner}
           />
+        </Modal>
+      )}
+      {showDeleteModal && !error && (
+        <Modal className='delete-modal' onClick={closeDeleteModal}>
+          <h2>Are you sure?</h2>
+          <p>This game will be deleted permanently. Do you wish to continue?</p>
+          <div className='delete-modal__actions'>
+            <Button onClick={closeDeleteModal}>Cancel</Button>
+            <Button onClick={deleteGame} danger>
+              Delete
+            </Button>
+          </div>
         </Modal>
       )}
     </React.Fragment>
