@@ -72,7 +72,7 @@ const Main = () => {
       } else {
         await sendReq(
           'http://localhost:5000/api/games/',
-          'SAVE',
+          'POST',
           JSON.stringify({
             gameObject: game,
             title: game.title,
