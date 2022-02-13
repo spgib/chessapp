@@ -7,7 +7,7 @@ import './LoadingSpinner.css';
 
 const LoadingSpinner = () => {
   return (
-    <Modal>
+    <Modal className='loading-modal'>
       <div className='lds'>
         <div className='lds__center'>
           <Rook color='black'/>

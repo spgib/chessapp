@@ -1,3 +1,7 @@
+.loading-modal {
+  height: 200px;
+}
+
 .lds {
   display: flex;
   justify-content: center;
