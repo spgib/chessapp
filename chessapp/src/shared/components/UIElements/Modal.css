@@ -1,7 +1,4 @@
 .modal {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   background: white;
   width: 600px;
   max-width: 90%;
