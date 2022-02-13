@@ -16,10 +16,10 @@ const Controls = (props) => {
   };
 
   const saveHandler = () => {
-    //if (!auth.userId) {
-      //alert('You must be logged in to save a game.');
-      //return;
-    //}
+    if (!auth.userId) {
+      alert('You must be logged in to save a game.');
+      return;
+    }
     props.onSaveGame();
   };
 
@@ -92,12 +92,12 @@ const Controls = (props) => {
       </Button>
       {moveSlideshowControls}
       {resignReviewControls}
-      <Button
+      {auth.token && !publicView && <Button
         type='button'
         onClick={saveHandler}
       >
         SAVE
-      </Button>
+      </Button>}
     </div>
   );
 };
