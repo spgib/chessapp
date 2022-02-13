@@ -30,15 +30,14 @@ const Chessboard = (props) => {
     newGame,
     promotion,
     slideshow,
-    loadGame
+    loadGame,
   } = useChess();
-  
+
   useEffect(() => {
     if (props.gameToLoad) {
       loadGame(props.gameToLoad);
     }
   }, [loadGame, props.gameToLoad]);
-  
 
   let loadedGameFormValues = null;
   if (props.gameToLoad) {
@@ -128,11 +127,7 @@ const Chessboard = (props) => {
         gameEnd={checkmate}
         slideshowActiveItem={currentSlide}
       />
-      {showPromotionForm && (
-        <Modal>
-          <PawnPromotionForm onSubmit={promotion} />
-        </Modal>
-      )}
+      {showPromotionForm && <PawnPromotionForm onSubmit={promotion} />}
       {showSaveForm && (
         <Modal onClick={closeSaveModalHandler}>
           <SaveGameForm

@@ -1,29 +1,40 @@
 import React from 'react';
 
+import Modal from '../../../components/UIElements/Modal';
+import Button from '../../../components/formElements/Button';
+
 import './PawnPromotionForm.css';
 
-const PawnPromotionForm = props => {
-  const submitHandler = e => {
+const PawnPromotionForm = (props) => {
+  const submitHandler = (e) => {
     e.preventDefault();
     props.onSubmit(e);
-  }
+  };
 
   return (
-    <form className='pawn-promotion-form' onSubmit={submitHandler}>
-      <label htmlFor='pawn-promotion' className='pawn-promotion-form__label'>
-        Choose a promotion:
-      </label>
+    <Modal className='promotion-modal'>
+      <form className='pawn-promotion-form' onSubmit={submitHandler}>
+        <label htmlFor='pawn-promotion' className='pawn-promotion-form__label'>
+          Choose a promotion:
+        </label>
 
-      <select name='promotion options' id="pawn-promotion" className='pawn-promotion-form__options'>
-        <option value=''>--Please choose a promotion--</option>
-        <option value='bishop'>Bishop</option>
-        <option value='knight'>Knight</option>
-        <option value='rook'>Rook</option>
-        <option value='queen'>Queen</option>
-      </select>
-      <button type='submit' className='pawn-promotion-form__button'>OK</button>
-    </form>
-  )
-}
+        <select
+          name='promotion options'
+          id='pawn-promotion'
+          className='pawn-promotion-form__options'
+        >
+          <option value=''>--Please choose a promotion--</option>
+          <option value='bishop'>Bishop</option>
+          <option value='knight'>Knight</option>
+          <option value='rook'>Rook</option>
+          <option value='queen'>Queen</option>
+        </select>
+        <Button type='submit'>
+          OK
+        </Button>
+      </form>
+    </Modal>
+  );
+};
 
 export default PawnPromotionForm;
