@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 
-import Modal from '../components/UIElements/Modal';
 import BoardRow from './components//board/BoardRow';
 import Controls from './components/controls/Controls';
 import GameInfo from './components/game-info/GameInfo';
@@ -113,7 +112,6 @@ const Chessboard = (props) => {
         currentSlide={currentSlide}
         gameEnd={checkmate}
         history={history}
-        public={props.gameToLoad ? props.gameToLoad.public : null}
         onBranch={branchHandler}
         onResignReview={resignReview}
         onNewGame={newGame}
@@ -129,15 +127,13 @@ const Chessboard = (props) => {
       />
       {showPromotionForm && <PawnPromotionForm onSubmit={promotion} />}
       {showSaveForm && (
-        <Modal onClick={closeSaveModalHandler}>
-          <SaveGameForm
-            activePlay={activePlay}
-            checkmate={checkmate}
-            onSubmit={saveGame}
-            onClose={closeSaveModalHandler}
-            initialValues={loadedGameFormValues}
-          />
-        </Modal>
+        <SaveGameForm
+          activePlay={activePlay}
+          checkmate={checkmate}
+          onSubmit={saveGame}
+          onClose={closeSaveModalHandler}
+          initialValues={loadedGameFormValues}
+        />
       )}
     </React.Fragment>
   );

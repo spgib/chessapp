@@ -79,8 +79,6 @@ const Controls = (props) => {
       </React.Fragment>
     );
   }
-  
-  const publicView = props.public ? true : false;
 
   return (
     <div className='chessboard__controls'>
@@ -92,7 +90,7 @@ const Controls = (props) => {
       </Button>
       {moveSlideshowControls}
       {resignReviewControls}
-      {auth.token && !publicView && <Button
+      {auth.token && <Button
         type='button'
         onClick={saveHandler}
       >

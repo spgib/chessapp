@@ -16,7 +16,7 @@
     accent-color: #34A4E5;
 }
 
-.save-game-form button {
-    display: block;
-    margin: auto;
+.save-game-form__actions {
+    display: flex;
+    justify-content: space-around;
 }
