@@ -1,40 +1,39 @@
 import React from 'react';
 
 import Modal from '../../../../shared/components/UIElements/Modal';
-import Button from '../../../../shared/components/formElements/Button';
+import Bishop from '../pieces/Bishop';
+import Knight from '../pieces/Knight';
+import Rook from '../pieces/Rook';
+import Queen from '../pieces/Queen';
 
 import './PawnPromotionForm.css';
 
 const PawnPromotionForm = (props) => {
-  const submitHandler = (e) => {
+  const promotionHandler = e => {
     e.preventDefault();
-    props.onSubmit(e);
-  };
+    const value = e.target.alt.split(' ')[1];
+    props.onSubmit(value);
+  }
 
   return (
-    <Modal className='promotion-modal'>
-      <form className='pawn-promotion-form' onSubmit={submitHandler}>
-        <label htmlFor='pawn-promotion' className='pawn-promotion-form__label'>
-          Choose a promotion:
-        </label>
-
-        <select
-          name='promotion options'
-          id='pawn-promotion'
-          className='pawn-promotion-form__options'
-        >
-          <option value=''>--Please choose a promotion--</option>
-          <option value='bishop'>Bishop</option>
-          <option value='knight'>Knight</option>
-          <option value='rook'>Rook</option>
-          <option value='queen'>Queen</option>
-        </select>
-        <Button type='submit'>
-          OK
-        </Button>
-      </form>
+    <Modal className="promotion-modal">
+      <h2>Choose a promotion:</h2>
+      <div className="promotion__options">
+        <button type='button' onClick={promotionHandler}>
+          <Bishop color={props.color} />
+        </button>
+        <button type='button' onClick={promotionHandler}>
+          <Knight color={props.color} />
+        </button>
+        <button type='button' onClick={promotionHandler}>
+          <Rook color={props.color} />
+        </button>
+        <button type='button' onClick={promotionHandler}>
+          <Queen color={props.color} />
+        </button>
+      </div>
     </Modal>
-  );
+  )
 };
 
 export default PawnPromotionForm;

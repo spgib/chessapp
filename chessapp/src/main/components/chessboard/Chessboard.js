@@ -125,7 +125,7 @@ const Chessboard = (props) => {
         gameEnd={checkmate}
         slideshowActiveItem={currentSlide}
       />
-      {showPromotionForm && <PawnPromotionForm onSubmit={promotion} />}
+      {showPromotionForm && <PawnPromotionForm onSubmit={promotion} color={playerTurn === 'white' ? 'black' : 'white'} />}
       {showSaveForm && (
         <SaveGameForm
           activePlay={activePlay}

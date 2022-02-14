@@ -126,8 +126,8 @@ const useChess = () => {
     setLegalMoves(validMoves(board, row, column, history));
   };
 
-  const promotion = (e) => {
-    const promotionType = e.target[0].value;
+  const promotion = (value) => {
+    const promotionType = value;
     const newHistory = JSON.parse(JSON.stringify(history));
     const lastMove = newHistory[newHistory.length - 1];
     lastMove.promotion = promotionType;
