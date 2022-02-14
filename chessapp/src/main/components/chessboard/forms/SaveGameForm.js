@@ -150,7 +150,7 @@ const SaveGameForm = (props) => {
         <p>Fields marked with * are required.</p>
         <p>Only completed games may be saved publicly.</p>
         <div className='save-game-form__actions'>
-          <Button type='button' inverted onClick={props.onClose}>
+          <Button type='button' inverse onClick={props.onClose}>
             Cancel
           </Button>
           <Button type='submit' disabled={!formState.formIsValid}>

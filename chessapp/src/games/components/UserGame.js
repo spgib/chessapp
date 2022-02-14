@@ -1,16 +1,15 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import Button from '../../shared/components/formElements/Button';
 import viewIcon from '../../shared/assets/icons/view.svg';
 import editIcon from '../../shared/assets/icons/edit.svg';
 import deleteIcon from '../../shared/assets/icons/delete.svg';
-import Modal from '../../shared/components/UIElements/Modal';
 import SaveGameForm from '../../main/components/chessboard/forms/SaveGameForm';
 import { AuthContext } from '../../store/context/auth-context';
 import useHttp from '../../shared/hooks/useHttp';
 import ErrorModal from '../../shared/components/UIElements/ErrorModal';
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
+import DeleteModal from './DeleteModal';
 
 import './UserGame.css';
 
@@ -143,16 +142,7 @@ const UserGame = (props) => {
         />
       )}
       {showDeleteModal && !error && (
-        <Modal className='delete-modal' onClick={closeDeleteModal}>
-          <h2>Are you sure?</h2>
-          <p>This game will be deleted permanently. Do you wish to continue?</p>
-          <div className='delete-modal__actions'>
-            <Button onClick={closeDeleteModal}>Cancel</Button>
-            <Button onClick={deleteGame} danger>
-              Delete
-            </Button>
-          </div>
-        </Modal>
+        <DeleteModal onClose={closeDeleteModal} onDelete={deleteGame} />
       )}
     </React.Fragment>
   );
