@@ -135,13 +135,12 @@ const UserGame = (props) => {
       </li>
       {!props.isListEnd && <hr />}
       {showEditModal && !error && (
-        <Modal onClick={closeEditHandler}>
-          <SaveGameForm
-            onSubmit={submitEditHandler}
-            initialValues={editDataObject}
-            activePlay={!props.winner}
-          />
-        </Modal>
+        <SaveGameForm
+          onSubmit={submitEditHandler}
+          initialValues={editDataObject}
+          activePlay={!props.winner}
+          onClose={closeEditHandler}
+        />
       )}
       {showDeleteModal && !error && (
         <Modal className='delete-modal' onClick={closeDeleteModal}>
