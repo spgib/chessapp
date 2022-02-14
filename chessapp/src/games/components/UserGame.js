@@ -6,7 +6,7 @@ import viewIcon from '../../shared/assets/icons/view.svg';
 import editIcon from '../../shared/assets/icons/edit.svg';
 import deleteIcon from '../../shared/assets/icons/delete.svg';
 import Modal from '../../shared/components/UIElements/Modal';
-import SaveGameForm from '../../shared/chessboard/components/forms/SaveGameForm';
+import SaveGameForm from '../../main/components/chessboard/forms/SaveGameForm';
 import { AuthContext } from '../../store/context/auth-context';
 import useHttp from '../../shared/hooks/useHttp';
 import ErrorModal from '../../shared/components/UIElements/ErrorModal';

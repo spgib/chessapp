@@ -1,7 +1,7 @@
 import React from 'react';
 
-import Modal from '../../../components/UIElements/Modal';
-import Button from '../../../components/formElements/Button';
+import Modal from '../../../../shared/components/UIElements/Modal';
+import Button from '../../../../shared/components/formElements/Button';
 
 import './PawnPromotionForm.css';
 

@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { AuthContext } from '../../../../store/context/auth-context';
-import Button from '../../../components/formElements/Button';
+import Button from '../../../../shared/components/formElements/Button';
 
 import './Controls.css';
 

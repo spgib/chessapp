@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Modal from './Modal';
-import Rook from '../../chessboard/components/pieces/Rook';
+import Rook from '../../../main/components/chessboard/pieces/Rook';
 
 import './LoadingSpinner.css';
 

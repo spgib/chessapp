@@ -1,7 +1,7 @@
 import React from 'react';
 
-import whiteBishop from '../../../assets/chess-pieces/bishop_w.svg';
-import blackBishop from '../../../assets/chess-pieces/bishop_b.svg';
+import whiteBishop from '../../../../shared/assets/chess-pieces/bishop_w.svg';
+import blackBishop from '../../../../shared/assets/chess-pieces/bishop_b.svg';
 
 const Bishop = props => {
   const white = props.color === 'white';

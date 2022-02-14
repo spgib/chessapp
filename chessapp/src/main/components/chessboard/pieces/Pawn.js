@@ -1,7 +1,7 @@
 import React from 'react';
 
-import whitePawn from '../../../assets/chess-pieces/pawn_w.svg';
-import blackPawn from '../../../assets/chess-pieces/pawn_b.svg';
+import whitePawn from '../../../../shared/assets/chess-pieces/pawn_w.svg';
+import blackPawn from '../../../../shared/assets/chess-pieces/pawn_b.svg';
 
 const Pawn = props => {
   const white = props.color === 'white';

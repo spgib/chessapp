@@ -1,7 +1,7 @@
 import React from 'react';
 
 import MoveList from './MoveList';
-import Card from '../../../components/UIElements/Card';
+import Card from '../../../../shared/components/UIElements/Card';
 
 import './GameInfo.css';
 

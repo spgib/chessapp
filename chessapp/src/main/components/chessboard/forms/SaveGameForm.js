@@ -1,13 +1,13 @@
 import React from 'react';
 
-import Modal from '../../../components/UIElements/Modal';
-import Input from '../../../components/formElements/Input';
+import Modal from '../../../../shared/components/UIElements/Modal';
+import Input from '../../../../shared/components/formElements/Input';
 import {
   VALIDATOR_MAXLENGTH,
   VALIDATOR_REQUIRE,
-} from '../../../util/validators';
-import useForm from '../../../hooks/useForm';
-import Button from '../../../components/formElements/Button';
+} from '../../../../shared/util/validators';
+import useForm from '../../../../shared/hooks/useForm';
+import Button from '../../../../shared/components/formElements/Button';
 
 import './SaveGameForm.css';
 

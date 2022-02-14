@@ -1,7 +1,7 @@
 import React from 'react';
 
-import whiteQueen from '../../../assets/chess-pieces/queen_w.svg';
-import blackQueen from '../../../assets/chess-pieces/queen_b.svg';
+import whiteQueen from '../../../../shared/assets/chess-pieces/queen_w.svg';
+import blackQueen from '../../../../shared/assets/chess-pieces/queen_b.svg';
 
 const Queen = props => {
   const white = props.color === 'white';
