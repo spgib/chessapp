@@ -1,0 +1,17 @@
+.delete-modal {
+  padding: 1rem;
+}
+
+.delete-modal h2 {
+  margin: 0;
+  text-align: center;
+}
+
+.delete-modal p {
+  text-align: center;
+}
+
+.delete-modal__actions {
+  display: flex;
+  justify-content: space-around;
+}
