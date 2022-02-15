@@ -227,6 +227,10 @@ const useChess = () => {
     setPlayerTurn(loadTurn);
   }, []);
 
+  const clearLegalMoves = () => {
+    setLegalMoves([]);
+  };
+
   return {
     activePlay,
     board,
@@ -243,7 +247,8 @@ const useChess = () => {
     newGame,
     promotion,
     slideshow,
-    loadGame
+    loadGame,
+    clearLegalMoves
   };
 };
 

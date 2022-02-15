@@ -30,6 +30,7 @@ const Chessboard = (props) => {
     promotion,
     slideshow,
     loadGame,
+    clearLegalMoves
   } = useChess();
 
   useEffect(() => {
@@ -106,7 +107,7 @@ const Chessboard = (props) => {
 
   return (
     <React.Fragment>
-      <div className='chessboard'>{chessRows}</div>
+      <div className='chessboard' onMouseLeave={clearLegalMoves}>{chessRows}</div>
       <Controls
         activePlay={activePlay}
         currentSlide={currentSlide}
