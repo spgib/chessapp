@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 
 import { AuthContext } from '../../../../store/context/auth-context';
 import newGameIcon from '../../../../shared/assets/icons/arrow-clockwise.svg';
-import resignIcon from '../../../../shared/assets/icons/person-x-fill.svg';
-import saveIcon from '../../../../shared/assets/icons/save-fill.svg';
+import resignIcon from '../../../../shared/assets/icons/person-x.svg';
+import saveIcon from '../../../../shared/assets/icons/save.svg';
 import branchIcon from '../../../../shared/assets/icons/alt.svg';
 import chevronRight from '../../../../shared/assets/icons/chevron-right.svg';
 import chevronLeft from '../../../../shared/assets/icons/chevron-left.svg';

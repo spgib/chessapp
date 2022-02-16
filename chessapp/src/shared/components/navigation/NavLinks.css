@@ -41,7 +41,7 @@
   font: inherit;
   font-size: 120%;
   cursor: pointer;
-  background-color: #e17e66;
+  background-color: #191e24;
   border: none;
   color: #e9eceb;
   border-radius: 10px;
@@ -52,12 +52,10 @@
 
 .nav-links button:active,
 .nav-links button:hover {
-  /* background-color: #111418;
-  border-color: #FF859D;
-  color: #FF859D;
-  text-decoration: 3px #34a4e5 underline; */
-  background-color: #E48D77;
-  box-shadow: 0px 0px 4px #E48D77;
+  
+  text-decoration: 3px #34a4e5 underline;
+  /* background-color: #E48D77;
+  box-shadow: 0px 0px 4px #E48D77; */
 }
 
 @media (min-width: 768px) {
