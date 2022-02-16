@@ -60,6 +60,7 @@ const Controls = (props) => {
       <button
         className='chessboard__controls--ng-btn'
         type='button'
+        title='New Game'
         onClick={newGameHandler}
       >
         <img src={newGameIcon} alt='New game icon' />
@@ -68,6 +69,7 @@ const Controls = (props) => {
         <button
         className='chessboard__controls--save-btn'
         type='button'
+        title='Save Game'
         onClick={saveHandler}
         >
           <img src={saveIcon} alt='Save icon' />
@@ -77,6 +79,7 @@ const Controls = (props) => {
         <button
           className='chessboard__controls--resign-btn'
           type='button'
+          title='Resign'
           onClick={resignReviewHandler}
         >
           <img src={resignIcon} alt='Resign icon' />
@@ -118,6 +121,7 @@ const Controls = (props) => {
       <button
         className='chessboard__controls-slideshow--branch-btn'
         type='button'
+        title='Branch Game'
         onClick={branchHandler}
         disabled={
           props.currentSlide === props.history.length - 1 && props.gameEnd

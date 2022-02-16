@@ -106,16 +106,18 @@ const UserGame = (props) => {
         </div>
         <div className='gamelist__item-actions'>
           <button
-            type='button'
             className='gamelist__button-view'
+            type='button'
+            title='View'
             onClick={reviewHandler}
           >
             <img src={viewIcon} alt='View icon' />
           </button>
           {props.isUser && (
             <button
+            className='gamelist__button-edit'
               type='button'
-              className='gamelist__button-edit'
+              title='Edit'
               onClick={openEditHandler}
             >
               <img src={editIcon} alt='Edit icon' />
@@ -123,8 +125,9 @@ const UserGame = (props) => {
           )}
           {props.isUser && (
             <button
+            className='gamelist__button-delete'
               type='button'
-              className='gamelist__button-delete'
+              title='Delete'
               onClick={openDeleteModal}
             >
               <img src={deleteIcon} alt='Delete icon' />
