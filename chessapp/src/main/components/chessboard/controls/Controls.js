@@ -57,17 +57,29 @@ const Controls = (props) => {
 
   const coreControls = (
     <div className='chessboard__controls-core'>
-      <button className='chessboard__controls--new-game' type='button' onClick={newGameHandler}>
+      <button
+        className='chessboard__controls--ng-btn'
+        type='button'
+        onClick={newGameHandler}
+      >
         <img src={newGameIcon} alt='New game icon' />
       </button>
-      {props.activePlay && (
-        <button className='chessboard__controls--resign' type='button' onClick={resignReviewHandler}>
-          <img src={resignIcon} alt='Resign icon' />
+      {auth.token && (
+        <button
+        className='chessboard__controls--save-btn'
+        type='button'
+        onClick={saveHandler}
+        >
+          <img src={saveIcon} alt='Save icon' />
         </button>
       )}
-      {auth.token && (
-        <button className='chessboard__controls--save' type='button' onClick={saveHandler}>
-          <img src={saveIcon} alt='Save icon' />
+      {props.activePlay && (
+        <button
+          className='chessboard__controls--resign-btn'
+          type='button'
+          onClick={resignReviewHandler}
+        >
+          <img src={resignIcon} alt='Resign icon' />
         </button>
       )}
     </div>
@@ -76,38 +88,42 @@ const Controls = (props) => {
   const moveSlideshowControls = (
     <div className='chessboard__controls-slideshow'>
       <button
-        className='chessboard__controls--beginning'
         type='button'
         onClick={resetSlideshowHandler}
         disabled={props.currentSlide === null}
       >
-        <img src={chevronBarLeft} alt='Beginning icon' />
+        <img src={chevronBarLeft} alt='First turn icon' />
       </button>
-      <button type='button' onClick={backSlideshowHandler}>
-        &lt;
+      <button
+        type='button'
+        onClick={backSlideshowHandler}
+        disabled={props.currentSlide === null}
+      >
+        <img src={chevronLeft} alt='Previous turn icon' />
       </button>
       <button
         type='button'
         onClick={forwardSlideshowHandler}
         disabled={props.currentSlide === props.history.length - 1}
       >
-        &gt;
+        <img src={chevronRight} alt='Next turn icon' />
       </button>
       <button
         type='button'
         onClick={endSlideshowHandler}
         disabled={props.currentSlide === props.history.length - 1}
       >
-        &gt;&gt;
+        <img src={chevronBarRight} alt='Last turn icon' />
       </button>
       <button
+        className='chessboard__controls-slideshow--branch-btn'
         type='button'
         onClick={branchHandler}
         disabled={
           props.currentSlide === props.history.length - 1 && props.gameEnd
         }
       >
-        BRANCH
+        <img src={branchIcon} alt='Branch icon' />
       </button>
     </div>
   );

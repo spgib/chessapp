@@ -1,7 +1,106 @@
 .chessboard__controls {
   display: flex;
-  margin: 15px auto 0;
+  margin: .5rem auto;
+  height: 3rem;
   width: 600px;
   max-width: 90%;
-  justify-content: space-evenly;
+  justify-content: left;
+  align-items: center;
+}
+
+.chessboard__controls-core {
+  width: 30%;
+  min-width: 10rem;
+  height: 3rem;
+  display: flex;
+  justify-content: left;
+}
+
+.chessboard__controls-core button {
+  height: 100%;
+  width: 3rem;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: .33rem;
+}
+
+.chessboard__controls--ng-btn {
+  background-color: #e17e66;
+  border: 1px solid #e17e66;
+}
+
+.chessboard__controls--ng-btn:hover,
+.chessboard__controls--ng-btn:focus {
+  background-color: #e48d77;
+  border-color: #e48d77;
+}
+
+.chessboard__controls--resign-btn {
+  background-color: #ff859d;
+  border: 1px solid #ff859d;
+}
+
+.chessboard__controls--resign-btn:hover,
+.chessboard__controls--resign-btn:focus {
+  background-color: #ff99ad;
+  border-color: #ff99ad;
+}
+
+.chessboard__controls--save-btn {
+  background-color: #34a4e5;
+  border: 1px solid #34a4e5;
+}
+
+.chessboard__controls--save-btn:hover,
+.chessboard__controls--save-btn:focus {
+  background-color: #4aaee8;
+  border-color: #4aaee8;
+}
+
+.chessboard__controls-slideshow {
+  width: 70%;
+  height: 65%;
+  display: flex;
+  justify-content: right;
+}
+
+.chessboard__controls-slideshow button {
+  width: 20%;
+  cursor: pointer;
+  background-color: #111418;
+  border: 1px solid #111418;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.chessboard__controls-slideshow button:hover,
+.chessboard__controls-slideshow button:focus {
+  border-bottom: 2px solid #34a4e5;
+  background-color: #4aaee821;
+}
+
+
+.chessboard__controls-slideshow--branch-btn {
+  margin-left: 1rem;
+}
+
+.chessboard__controls-slideshow--branch-btn:hover,
+.chessboard__controls-slideshow--branch-btn:focus {
+  border-color:#ff99ad;
+  border-left: 1px solid #34a4e5;
+}
+
+.chessboard__controls-slideshow button:disabled {
+  border-color: #111418;
+  border-bottom: 2px solid #556477;
+  background-color: #55647723;
+}
+
+.chessboard__controls img {
+  width: 90%;
+  height: 90%;
 }
