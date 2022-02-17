@@ -7,3 +7,8 @@
   margin: 0; 
   text-align: center;
 }
+
+.auth button {
+  display: block;
+  margin: 0 auto;
+}
