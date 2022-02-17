@@ -228,6 +228,10 @@ const useChess = () => {
   }, []);
 
   const clearLegalMoves = () => {
+    if (activePiece) {
+      setActivePiece(null);
+    }
+
     setLegalMoves([]);
   };
 
