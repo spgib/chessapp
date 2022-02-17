@@ -117,12 +117,10 @@ const useChess = () => {
   };
 
   const mouseOver = (row, column) => {
-    if (
-      activePiece ||
-      (board[row][column].type && board[row][column].color !== playerTurn) ||
-      !activePlay
-    )
-      return;
+    if (activePiece || !activePlay) return;
+    if (board[row][column].type && board[row][column].color !== playerTurn) {
+      return setLegalMoves([]);
+    }
     setLegalMoves(validMoves(board, row, column, history));
   };
 
@@ -157,7 +155,6 @@ const useChess = () => {
     setLegalMoves([]);
     setCurrentSlide(history.length - 1);
   };
-
 
   const slideshow = (command) => {
     const actualize = (slide = 'reset') => {
@@ -198,12 +195,14 @@ const useChess = () => {
     const newHistory = [...history];
     newHistory.splice(currentSlide + 1);
     setHistory(newHistory);
-    setBoard(prev => JSON.parse(JSON.stringify(prev)));
-    setPlayerTurn(newHistory[newHistory.length - 1].turn === 'white' ? 'black' : 'white');
+    setBoard((prev) => JSON.parse(JSON.stringify(prev)));
+    setPlayerTurn(
+      newHistory[newHistory.length - 1].turn === 'white' ? 'black' : 'white'
+    );
     setCheckmate(newHistory[newHistory.length - 1].isCheckmate);
     setCurrentSlide(null);
     setActivePlay(true);
-  }
+  };
 
   const loadGame = useCallback((game) => {
     if (game === undefined) return;
@@ -218,7 +217,8 @@ const useChess = () => {
     } else {
       loadBoard = loadHistory[0].boardSnapshotBefore;
     }
-    const loadTurn = loadHistory[loadHistory.length - 1].turn === 'white' ? 'black' : 'white';
+    const loadTurn =
+      loadHistory[loadHistory.length - 1].turn === 'white' ? 'black' : 'white';
 
     setActivePlay(loadActive);
     setHistory(loadHistory);
@@ -252,7 +252,7 @@ const useChess = () => {
     promotion,
     slideshow,
     loadGame,
-    clearLegalMoves
+    clearLegalMoves,
   };
 };
 
