@@ -38,14 +38,22 @@ const BoardSquare = (props) => {
   const dragStartHandler = (e) => {
     e.dataTransfer.effectAllowed = 'move';
     e.dataTransfer.setData('text/plain', `${props.row} ${props.column}`)
-
+    
     const el = e.target.closest('div');
     el.click();
   };
 
-  const dragOverHandler = (e) => {
+  const dragEnterHandler = (e) => {
     e.preventDefault();
+    const targetEl = e.target.closest('div');
+    targetEl.classList.add('chessboard__square-drag');
   };
+
+  const dragLeaveHandler = e => {
+    e.preventDefault();
+    const targetEl = e.target.closest('div');
+    targetEl.classList.remove('chessboard__square-drag');
+  }
 
   const dropHandler = (e) => {
     e.preventDefault();
@@ -69,7 +77,8 @@ const BoardSquare = (props) => {
       onMouseEnter={mouseOverHandler}
       onClick={onClickHandler}
       onDragStart={dragStartHandler}
-      onDragOver={dragOverHandler}
+      onDragOver={dragEnterHandler}
+      onDragLeave={dragLeaveHandler}
       onDrop={dropHandler}
     >
       {content}
