@@ -37,36 +37,44 @@ const BoardSquare = (props) => {
 
   const dragStartHandler = (e) => {
     e.dataTransfer.effectAllowed = 'move';
-    e.dataTransfer.setData('text/plain', `${props.row} ${props.column}`)
-    
-    const el = e.target.closest('div');
+    e.dataTransfer.setData('text/plain', `${props.row} ${props.column}`);
+
+    const el = e.target.closest('.chessboard__square');
     el.click();
   };
 
   const dragEnterHandler = (e) => {
     e.preventDefault();
-    const targetEl = e.target.closest('div');
-    targetEl.classList.add('chessboard__square-drag');
+    const targetEl = e.target.closest('.chessboard__square');
+    console.log(targetEl);
+    if (targetEl.classList[1] && targetEl.classList[1].includes('active')) {
+      targetEl.classList.add('chessboard__square--drag-active');
+    } else {
+      targetEl.classList.add('chessboard__square--drag');
+    }
   };
 
-  const dragLeaveHandler = e => {
+  const dragLeaveHandler = (e) => {
     e.preventDefault();
-    const targetEl = e.target.closest('div');
-    targetEl.classList.remove('chessboard__square-drag');
-  }
+    const targetEl = e.target.closest('.chessboard__square');
+    targetEl.classList.remove('chessboard__square--drag');
+    targetEl.classList.remove('chessboard__square--drag-active');
+  };
 
   const dropHandler = (e) => {
     e.preventDefault();
-    
+
     const data = e.dataTransfer.getData('text/plain');
     const [row, column] = data.split(' ');
-    
 
     const targetEl = e.target.closest('.chessboard__square');
-    if (targetEl.classList[1].includes('active')) {
+    if (targetEl.classList[1] && targetEl.classList[1].includes('active')) {
       targetEl.click();
     } else {
-      const originEl = document.querySelectorAll('.chessboard__row')[row].querySelectorAll('.chessboard__square')[column];
+      targetEl.classList.remove('chessboard__square--drag');
+      const originEl = document
+        .querySelectorAll('.chessboard__row')
+        [row].querySelectorAll('.chessboard__square')[column];
       originEl.click();
     }
   };
