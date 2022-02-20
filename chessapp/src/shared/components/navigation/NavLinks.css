@@ -39,7 +39,6 @@
 .nav-links button {
   padding: .5rem;
   font: inherit;
-  font-size: 120%;
   cursor: pointer;
   background-color: #191e24;
   border: none;
@@ -52,7 +51,6 @@
 
 .nav-links button:active,
 .nav-links button:hover {
-  
   text-decoration: 3px #34a4e5 underline;
   /* background-color: #E48D77;
   box-shadow: 0px 0px 4px #E48D77; */
