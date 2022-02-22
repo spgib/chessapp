@@ -8,3 +8,13 @@
   height: 100%;
   width: 100%;
 }
+
+/* .chessboard__piece img:hover {
+  cursor: grab;
+}
+
+.drag {
+  position: absolute;
+  cursor: grabbing;
+  transform: translate(-50%, -50%);
+} */

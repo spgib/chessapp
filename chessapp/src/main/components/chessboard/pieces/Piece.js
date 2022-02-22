@@ -24,6 +24,22 @@ const Piece = props => {
     piece = <Queen color={props.color} />;
   } else piece = <King color={props.color} />;
 
+  // const fakeDrag = (e) => {
+  //   const width = e.target.width;
+    
+  //   e.target.className += ' drag';
+  //   e.target.style.width = width + 'px';
+  //   e.target.style.height = width + 'px';
+
+  //   document.addEventListener('mousemove', (e) => {
+  //     const piece = document.querySelector('.drag');
+  //     const left = e.clientX;
+  //     const top = e.clientY;
+  //     piece.style.left = left + 'px';
+  //     piece.style.top = top + 'px';
+  //   })
+  // };
+
   return <div className='chessboard__piece'>{piece}</div>
 }
 

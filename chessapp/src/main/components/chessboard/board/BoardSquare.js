@@ -38,7 +38,7 @@ const BoardSquare = (props) => {
   const dragStartHandler = (e) => {
     e.dataTransfer.effectAllowed = 'move';
     e.dataTransfer.setData('text/plain', `${props.row} ${props.column}`);
-
+    
     const el = e.target.closest('.chessboard__square');
     el.click();
   };
@@ -46,7 +46,7 @@ const BoardSquare = (props) => {
   const dragEnterHandler = (e) => {
     e.preventDefault();
     const targetEl = e.target.closest('.chessboard__square');
-    console.log(targetEl);
+    
     if (targetEl.classList[1] && targetEl.classList[1].includes('active')) {
       targetEl.classList.add('chessboard__square--drag-active');
     } else {
