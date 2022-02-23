@@ -6,6 +6,7 @@ import './BoardSquare.css';
 
 const BoardSquare = (props) => {
   const squareColor = (props.row + props.column) % 2 === 0 ? 'white' : 'black';
+
   const isLegalMoveSquare = props.legalMoves.some((move) => {
     return move[0] === props.row && move[1] === props.column;
   });
@@ -22,7 +23,6 @@ const BoardSquare = (props) => {
       <Piece
         type={contentPiece.type}
         color={contentPiece.color}
-        draggable='true'
       />
     );
   }
