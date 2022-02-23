@@ -35,59 +35,13 @@ const BoardSquare = (props) => {
     props.onClick(props.row, props.column);
   };
 
-  const dragStartHandler = (e) => {
-    e.dataTransfer.effectAllowed = 'move';
-    e.dataTransfer.setData('text/plain', `${props.row} ${props.column}`);
-    
-    const el = e.target.closest('.chessboard__square');
-    el.click();
-  };
-
-  const dragEnterHandler = (e) => {
-    e.preventDefault();
-    const targetEl = e.target.closest('.chessboard__square');
-    
-    if (targetEl.classList[1] && targetEl.classList[1].includes('active')) {
-      targetEl.classList.add('chessboard__square--drag-active');
-    } else {
-      targetEl.classList.add('chessboard__square--drag');
-    }
-  };
-
-  const dragLeaveHandler = (e) => {
-    e.preventDefault();
-    const targetEl = e.target.closest('.chessboard__square');
-    targetEl.classList.remove('chessboard__square--drag');
-    targetEl.classList.remove('chessboard__square--drag-active');
-  };
-
-  const dropHandler = (e) => {
-    e.preventDefault();
-
-    const data = e.dataTransfer.getData('text/plain');
-    const [row, column] = data.split(' ');
-
-    const targetEl = e.target.closest('.chessboard__square');
-    if (targetEl.classList[1] && targetEl.classList[1].includes('active')) {
-      targetEl.click();
-    } else {
-      targetEl.classList.remove('chessboard__square--drag');
-      const originEl = document
-        .querySelectorAll('.chessboard__row')
-        [row].querySelectorAll('.chessboard__square')[column];
-      originEl.click();
-    }
-  };
+  
 
   return (
     <div
       className={classes}
       onMouseEnter={mouseOverHandler}
       onClick={onClickHandler}
-      onDragStart={dragStartHandler}
-      onDragOver={dragEnterHandler}
-      onDragLeave={dragLeaveHandler}
-      onDrop={dropHandler}
     >
       {content}
     </div>
