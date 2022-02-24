@@ -13,7 +13,7 @@ import './Chessboard.css';
 let dragTimeout;
 const Chessboard = (props) => {
   const [showSaveForm, setShowSaveForm] = useState(false);
-  const [dragging, setDragging] = useState(true);
+  const [dragging, setDragging] = useState(false);
 
   const {
     activePlay,
@@ -92,34 +92,45 @@ const Chessboard = (props) => {
     props.onBranch();
   };
 
+  const dragHandler = (e) => {
+    if (!dragging) return;
+    else {
+      const pieceEl = document.querySelector('.drag');
+      const left = e.clientX;
+      const top = e.clientY;
+  
+      pieceEl.style.left = left + 'px';
+      pieceEl.style.top = top + 'px';
+    }
+  };
+
   const mouseDownHandler = (e) => {
     dragTimeout = setTimeout(() => {
       setDragging(true);
-      
+
       const width = e.target.width;
       const pieceEl = e.target.closest('.chessboard__piece');
-     
+      pieceEl.click();
+
+      const left = e.clientX;
+      const top = e.clientY;
       pieceEl.classList.add('drag');
       pieceEl.style.width = width + 'px';
       pieceEl.style.height = width + 'px';
-
-      document.addEventListener('mousemove', (e) => {
-        const piece = document.querySelector('.drag');
-        const left = e.clientX;
-        const top = e.clientY;
-        
-        piece.style.left = (left - .5 * width) + 'px';
-        piece.style.top = (top - .5 * width) + 'px';
-        piece.style.cursor = 'grabbing';
-      });
+      pieceEl.style.left = left + 'px';
+      pieceEl.style.top = top + 'px';
     }, 200);
   };
 
   const mouseUpHandler = (e) => {
     clearTimeout(dragTimeout);
+
     setDragging(false);
     const pieceEl = document.querySelector('.drag');
     pieceEl.classList.remove('drag');
+    const left = e.clientX;
+    const top = e.clientY;
+    document.elementFromPoint(left, top).click();
   };
 
   const rows = [0, 1, 2, 3, 4, 5, 6, 7];
@@ -143,7 +154,11 @@ const Chessboard = (props) => {
 
   return (
     <React.Fragment>
-      <div className='chessboard' onMouseLeave={clearLegalMoves}>
+      <div
+        className='chessboard'
+        onMouseLeave={clearLegalMoves}
+        onMouseMove={dragHandler}
+      >
         {chessRows}
       </div>
       <Controls

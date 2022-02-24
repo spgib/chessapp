@@ -13,7 +13,7 @@ const BoardSquare = (props) => {
     isLegalMoveSquare ? squareColor + '-active' : squareColor
   }`;
 
-  const mouseOverHandler = () => {
+  const mouseOverHandler = (e) => {
     props.onMouseOver(props.row, props.column);
   };
 
