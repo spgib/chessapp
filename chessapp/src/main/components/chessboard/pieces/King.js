@@ -8,8 +8,8 @@ const King = props => {
 
   return (
     <React.Fragment>
-      {white && <img src={whiteKing} alt="White king" />}
-      {!white && <img src={blackKing} alt="Black king" />}
+      {white && <img src={whiteKing} alt="White king" draggable="false" />}
+      {!white && <img src={blackKing} alt="Black king" draggable="false" />}
     </React.Fragment>
   )
 }

@@ -8,8 +8,8 @@ const Rook = props => {
 
   return (
     <React.Fragment>
-      {white && <img src={whiteRook} alt="White rook" />}
-      {!white && <img src={blackRook} alt="Black rook" />}
+      {white && <img src={whiteRook} alt="White rook" draggable="false" />}
+      {!white && <img src={blackRook} alt="Black rook" draggable="false" />}
     </React.Fragment>
   )
 }

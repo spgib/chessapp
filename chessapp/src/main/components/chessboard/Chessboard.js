@@ -119,7 +119,7 @@ const Chessboard = (props) => {
       pieceEl.style.height = width + 'px';
       pieceEl.style.left = left + 'px';
       pieceEl.style.top = top + 'px';
-    }, 200);
+    }, 100);
   };
 
   const mouseUpHandler = (e) => {
@@ -127,6 +127,7 @@ const Chessboard = (props) => {
 
     setDragging(false);
     const pieceEl = document.querySelector('.drag');
+    if (!pieceEl) return;
     pieceEl.classList.remove('drag');
     const left = e.clientX;
     const top = e.clientY;
