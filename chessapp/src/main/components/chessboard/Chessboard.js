@@ -101,11 +101,34 @@ const Chessboard = (props) => {
   
       pieceEl.style.left = left + 'px';
       pieceEl.style.top = top + 'px';
+
+      const elList = document.elementsFromPoint(left, top);
+      const bottomIsPiece = elList[2].nodeName === 'IMG';
+      const activeSquare = bottomIsPiece ? elList[4] : elList[2];
+      
+      if (!activeSquare.classList.contains('active-drag-square') && !activeSquare.classList.contains('active-drag-square-valid')) {
+        const prevActiveSquare = document.querySelector('.active-drag-square');
+        if (prevActiveSquare) {
+          prevActiveSquare.classList.remove('active-drag-square');
+        }
+        const prevActiveValidSquare = document.querySelector('.active-drag-square-valid');
+        if (prevActiveValidSquare) {
+          prevActiveValidSquare.classList.remove('active-drag-square-valid');
+        }
+        if (activeSquare.classList[1].includes('active')) {
+          activeSquare.classList.add('active-drag-square-valid');
+        } else {
+          activeSquare.classList.add('active-drag-square');
+        }
+      }
     }
   };
 
   const mouseDownHandler = (e) => {
     dragTimeout = setTimeout(() => {
+      const pieceColor = e.target.alt.includes('White') ? 'white' : 'black';
+      if (pieceColor !== playerTurn) return;
+
       setDragging(true);
 
       const width = e.target.width;
@@ -132,6 +155,11 @@ const Chessboard = (props) => {
     const left = e.clientX;
     const top = e.clientY;
     document.elementFromPoint(left, top).click();
+    const prevActiveSquare = document.querySelector('.active-drag-square');
+    if (prevActiveSquare) {
+      prevActiveSquare.classList.remove('active-drag-square');
+      prevActiveSquare.classList.remove('active-drag-square-valid');
+    }
   };
 
   const rows = [0, 1, 2, 3, 4, 5, 6, 7];
