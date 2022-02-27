@@ -9,12 +9,15 @@
   width: 100%;
 }
 
-/* .chessboard__piece img:hover {
+.chessboard__piece img:hover {
   cursor: grab;
 }
 
 .drag {
   position: absolute;
-  cursor: grabbing;
   transform: translate(-50%, -50%);
-} */
+}
+
+.drag img:hover {
+  cursor: grabbing;
+}

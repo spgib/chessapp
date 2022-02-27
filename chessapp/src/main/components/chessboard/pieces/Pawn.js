@@ -8,8 +8,8 @@ const Pawn = props => {
 
   return (
     <React.Fragment>
-      {white && <img src={whitePawn} alt="White pawn" />}
-      {!white && <img src={blackPawn} alt="Black pawn" />}
+      {white && <img src={whitePawn} alt="White pawn" draggable="false" />}
+      {!white && <img src={blackPawn} alt="Black pawn" draggable="false" />}
     </React.Fragment>
   )
 }

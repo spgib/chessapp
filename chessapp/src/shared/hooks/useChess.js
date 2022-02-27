@@ -4,6 +4,7 @@ import { validMoves, DEFAULT_BOARD } from '../../store/logic/boardLogic';
 import { isCheckmate } from '../../store/logic/checkLogic';
 import { parseGame } from '../../store/logic/moveConversions';
 
+let clickTime = Date.now();
 const useChess = () => {
   const [activePiece, setActivePiece] = useState(null);
   const [activePlay, setActivePlay] = useState(true);
@@ -16,6 +17,9 @@ const useChess = () => {
   const [showPromotionForm, setShowPromotionForm] = useState(false);
 
   const activatePiece = (row, column) => {
+    if (Date.now() - clickTime < 25) return;
+    clickTime = Date.now();
+    
     if (!activePlay) {
       return;
     }
