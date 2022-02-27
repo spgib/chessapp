@@ -88,7 +88,7 @@ const enPassant = (board, row, column, history, moves) => {
       lastMove.origin.row > lastMove.target.row
         ? lastMove.origin.row - 1
         : lastMove.origin.row + 1;
-    moves.push([newRow, lastMove.target.column])
+    moves.push([newRow, lastMove.target.column]);
   }
 
   return moves;

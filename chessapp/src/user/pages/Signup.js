@@ -35,10 +35,6 @@ const Signup = () => {
         value: '',
         isValid: false,
       },
-      // verifyPassword: {
-      //   value: '',
-      //   isValid: false
-      // }
     },
     false
   );
@@ -102,15 +98,6 @@ const Signup = () => {
             validators={[VALIDATOR_REQUIRE(), VALIDATOR_MINLENGTH(6)]}
             onInput={inputHandler}
           />
-          {/* <Input
-        id='verifyPassword'
-        name='password'
-        label='Re-enter Password'
-        type='password'
-        invalidText='Please enter the same password as you entered above.'
-        validators={[VALIDATOR_REQUIRE(), VALIDATOR_MINLENGTH()]}
-        onInput={inputHandler}
-      /> */}
           <Button type='submit' disabled={!formState.formIsValid}>
             SIGN UP
           </Button>

@@ -13,29 +13,4 @@ html {
 body {
   margin: 0;
   background-color: #111418;
-  /* font-size: 120%; */
-}
-
-.first-color {
-  background: #111418;
-}
-
-.second-color {
-  background: #e9eceb;
-}
-
-.third-color {
-  background: #e17e66;
-}
-
-.fourth-color {
-  background: #34A4E5;
-}
-
-.fifth-color {
-  background: #FF859D;
-}
-
-.sixth-color {
-  background: #E9353E;
 }

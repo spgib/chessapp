@@ -2,7 +2,6 @@
   font: inherit;
   font-size: large;
   width: 8rem;
-  /* padding: .5rem 1rem; */
   padding: .5rem 0;
   cursor: pointer;
   border: 1px solid #e9eceb;
@@ -12,8 +11,6 @@
 
 .button:active,
 .button:hover {
-  /* background-color: #111418;
-  text-decoration: 2px underline #34A4E5; */
   background-color: #34A4E5;
 }
 

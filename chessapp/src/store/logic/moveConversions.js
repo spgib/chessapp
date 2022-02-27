@@ -60,12 +60,6 @@ const stringifyMove = (move) => {
     }
   }
 
-  // if (move.originType === 'queen') {
-  //   string = `Q${move.targetType ? 'x' : ''}${
-  //     convertColumns(move.target.column) + convertRows(move.target.row)
-  //   }`;
-  // }
-
   if (
     move.originType === 'rook' ||
     move.originType === 'bishop' ||

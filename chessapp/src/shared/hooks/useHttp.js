@@ -33,7 +33,7 @@ const useHttp = () => {
 
   const clearError = () => {
     setError(null);
-  }
+  };
 
   return { isLoading, error, sendReq, clearError };
 };
