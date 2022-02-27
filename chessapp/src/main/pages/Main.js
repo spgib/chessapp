@@ -24,13 +24,13 @@ const Main = () => {
       try {
         if (publicGameId) {
           gameData = await sendReq(
-            `http://localhost:5000/api/games/public/${publicGameId}`
+            `${process.env.REACT_APP_BACKEND_URL}/games/public/${publicGameId}`
           );
         }
 
         if (userGameId) {
           gameData = await sendReq(
-            `http://localhost:5000/api/games/user/${userGameId}`,
+            `${process.env.REACT_APP_BACKEND_URL}/games/user/${userGameId}`,
             'GET',
             null,
             { Authorization: 'Bearer ' + auth.token }
@@ -59,7 +59,7 @@ const Main = () => {
     try {
       if (loadedGame) {
         await sendReq(
-          `http://localhost:5000/api/games/${gameId}`,
+          `${process.env.REACT_APP_BACKEND_URL}/games/${gameId}`,
           'PATCH',
           JSON.stringify({ gameObject: game, title: game.title }),
           {
@@ -71,7 +71,7 @@ const Main = () => {
         navigate(`/games/${auth.userId}`);
       } else {
         await sendReq(
-          'http://localhost:5000/api/games/',
+          process.env.REACT_APP_BACKEND_URL + '/games/',
           'POST',
           JSON.stringify({
             gameObject: game,

@@ -51,7 +51,7 @@ module.exports.postSignup = async (req, res, next) => {
   try {
     token = jwt.sign(
       { userId: user.id, username: user.username },
-      'averysafesecret!!',
+      process.env.JWT_KEY,
       { expiresIn: '1h' }
     );
   } catch (err) {
@@ -105,7 +105,7 @@ module.exports.postLogin = async (req, res, next) => {
   try {
     token = jwt.sign(
       { userId: user.id, username: user.username },
-      'averysafesecret',
+      process.env.JWT_KEY,
       { expiresIn: '1h' }
     );
   } catch (err) {

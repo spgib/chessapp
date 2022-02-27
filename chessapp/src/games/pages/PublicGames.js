@@ -15,7 +15,7 @@ const PublicGames = () => {
     const fetchGames = async () => {
       try {
         const gamesData = await sendReq(
-          'http://localhost:5000/api/games/list/public'
+          process.env.REACT_APP_BACKEND_URL + '/games/list/public'
         );
 
         setGames(gamesData.publicGames);

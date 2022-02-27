@@ -5,9 +5,9 @@ pool
   .connect({
     host: 'localhost',
     port: 5432,
-    database: 'chessapp',
-    user: 'postgres',
-    password: 'password',
+    database: process.env.DB_NAME,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
   })
   .then(() => {
     app().listen(5000, () => {

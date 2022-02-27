@@ -21,7 +21,7 @@ const UserGames = (props) => {
     const fetchGames = async () => {
       try {
         const gamesData = await sendReq(
-          `http://localhost:5000/api/games/list/user/${uid}`,
+          `${process.env.REACT_APP_BACKEND_URL}/games/list/user/${uid}`,
           'GET',
           null,
           {

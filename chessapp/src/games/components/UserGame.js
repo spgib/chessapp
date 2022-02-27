@@ -31,7 +31,7 @@ const UserGame = (props) => {
   const deleteGame = async () => {
     try {
       await sendReq(
-        `http://localhost:5000/api/games/${props.id}`,
+        `${process.env.REACT_APP_BACKEND_URL}/games/${props.id}`,
         'DELETE',
         null,
         {
@@ -62,7 +62,7 @@ const UserGame = (props) => {
   const submitEditHandler = async (game) => {
     try {
       await sendReq(
-        `http://localhost:5000/api/games/${props.id}`,
+        `${process.env.REACT_APP_BACKEND_URL}/games/${props.id}`,
         'PATCH',
         JSON.stringify({ gameObject: game, title: game.title }),
         {

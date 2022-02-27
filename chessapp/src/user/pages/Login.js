@@ -43,7 +43,7 @@ const Login = () => {
     let userData;
     try {
       userData = await sendReq(
-        'http://localhost:5000/api/users/login',
+        process.env.REACT_APP_BACKEND_URL + '/users/login',
         'POST',
         JSON.stringify({ email: email.value, password: password.value }),
         { 'Content-Type': 'application/json' }
