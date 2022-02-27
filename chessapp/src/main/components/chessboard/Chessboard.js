@@ -10,8 +10,10 @@ import useChess from '../../../shared/hooks/useChess';
 
 import './Chessboard.css';
 
+let dragTimeout;
 const Chessboard = (props) => {
   const [showSaveForm, setShowSaveForm] = useState(false);
+  const [dragging, setDragging] = useState(false);
 
   const {
     activePlay,
@@ -30,7 +32,7 @@ const Chessboard = (props) => {
     promotion,
     slideshow,
     loadGame,
-    clearLegalMoves
+    clearLegalMoves,
   } = useChess();
 
   useEffect(() => {
@@ -90,6 +92,85 @@ const Chessboard = (props) => {
     props.onBranch();
   };
 
+  const dragHandler = (e) => {
+    if (!dragging) return;
+    else {
+      const pieceEl = document.querySelector('.drag');
+      const left = e.clientX;
+      const top = e.clientY;
+  
+      pieceEl.style.left = left + 'px';
+      pieceEl.style.top = top + 'px';
+
+      const elList = document.elementsFromPoint(left, top);
+      const chessboard = document.querySelector('.chessboard');
+      const isOverBoard = elList.includes(chessboard);
+      
+      if (!isOverBoard) {
+        pieceEl.classList.remove('drag');
+        setDragging(false);
+        return;
+      }
+
+      const bottomIsPiece = elList[2].nodeName === 'IMG';
+      const activeSquare = bottomIsPiece ? elList[4] : elList[2];
+      
+      if (!activeSquare.classList.contains('active-drag-square') && !activeSquare.classList.contains('active-drag-square-valid')) {
+        const prevActiveSquare = document.querySelector('.active-drag-square');
+        if (prevActiveSquare) {
+          prevActiveSquare.classList.remove('active-drag-square');
+        }
+        const prevActiveValidSquare = document.querySelector('.active-drag-square-valid');
+        if (prevActiveValidSquare) {
+          prevActiveValidSquare.classList.remove('active-drag-square-valid');
+        }
+        if (activeSquare.classList[1].includes('active')) {
+          activeSquare.classList.add('active-drag-square-valid');
+        } else {
+          activeSquare.classList.add('active-drag-square');
+        }
+      }
+    }
+  };
+
+  const mouseDownHandler = (e) => {
+    dragTimeout = setTimeout(() => {
+      const pieceColor = e.target.alt.includes('White') ? 'white' : 'black';
+      if (pieceColor !== playerTurn) return;
+
+      setDragging(true);
+
+      const width = e.target.width;
+      const pieceEl = e.target.closest('.chessboard__piece');
+      pieceEl.click();
+
+      const left = e.clientX;
+      const top = e.clientY;
+      pieceEl.classList.add('drag');
+      pieceEl.style.width = width + 'px';
+      pieceEl.style.height = width + 'px';
+      pieceEl.style.left = left + 'px';
+      pieceEl.style.top = top + 'px';
+    }, 100);
+  };
+
+  const mouseUpHandler = (e) => {
+    clearTimeout(dragTimeout);
+
+    setDragging(false);
+    const pieceEl = document.querySelector('.drag');
+    if (!pieceEl) return;
+    pieceEl.classList.remove('drag');
+    const left = e.clientX;
+    const top = e.clientY;
+    document.elementFromPoint(left, top).click();
+    const prevActiveSquare = document.querySelector('.active-drag-square');
+    if (prevActiveSquare) {
+      prevActiveSquare.classList.remove('active-drag-square');
+      prevActiveSquare.classList.remove('active-drag-square-valid');
+    }
+  };
+
   const rows = [0, 1, 2, 3, 4, 5, 6, 7];
 
   const chessRows = rows.map((index) => {
@@ -101,13 +182,23 @@ const Chessboard = (props) => {
         legalMoves={legalMoves}
         onMouseOver={mouseOver}
         onClick={activatePiece}
+        onMouseDown={mouseDownHandler}
+        onMouseUp={mouseUpHandler}
+        dragging={dragging}
+        playerTurn={playerTurn}
       />
     );
   });
 
   return (
     <React.Fragment>
-      <div className='chessboard' onMouseLeave={clearLegalMoves}>{chessRows}</div>
+      <div
+        className='chessboard'
+        onMouseLeave={clearLegalMoves}
+        onMouseMove={dragHandler}
+      >
+        {chessRows}
+      </div>
       <Controls
         activePlay={activePlay}
         currentSlide={currentSlide}
@@ -126,7 +217,12 @@ const Chessboard = (props) => {
         gameEnd={checkmate}
         slideshowActiveItem={currentSlide}
       />
-      {showPromotionForm && <PawnPromotionForm onSubmit={promotion} color={playerTurn === 'white' ? 'black' : 'white'} />}
+      {showPromotionForm && (
+        <PawnPromotionForm
+          onSubmit={promotion}
+          color={playerTurn === 'white' ? 'black' : 'white'}
+        />
+      )}
       {showSaveForm && (
         <SaveGameForm
           activePlay={activePlay}

@@ -29,10 +29,10 @@
     linear-gradient(#556477, #556477);
 }
 
-.chessboard__square--drag {
+.active-drag-square {
   background: rgba(225, 126, 102, 1);
 }
 
-.chessboard__square--drag-active {
+.active-drag-square-valid {
   background: rgba(154, 196, 130, 1);
 }
