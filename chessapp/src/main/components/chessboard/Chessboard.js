@@ -103,6 +103,15 @@ const Chessboard = (props) => {
       pieceEl.style.top = top + 'px';
 
       const elList = document.elementsFromPoint(left, top);
+      const chessboard = document.querySelector('.chessboard');
+      const isOverBoard = elList.includes(chessboard);
+      
+      if (!isOverBoard) {
+        pieceEl.classList.remove('drag');
+        setDragging(false);
+        return;
+      }
+
       const bottomIsPiece = elList[2].nodeName === 'IMG';
       const activeSquare = bottomIsPiece ? elList[4] : elList[2];
       
