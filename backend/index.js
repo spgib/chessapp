@@ -1,16 +1,16 @@
 const app = require('./app');
 const pool = require('./db/pool');
+const connectionString = process.env.DATABASE_URL;
 
 pool
   .connect({
-    host: 'localhost',
-    port: 5432,
-    database: process.env.DB_NAME,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
+    connectionString,
+    ssl: {
+      rejectUnauthorized: false
+    }
   })
   .then(() => {
-    app().listen(5000, () => {
+    app().listen(process.env.PORT || 5000, () => {
       console.log('Listening on port 5000.');
     });
   })
