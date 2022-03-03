@@ -1,0 +1,27 @@
+version: "3.7"
+
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: postgres
+      POSTGRES_DB: chessapp
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+  api:
+    image: node:16
+    command: sh -c "npm install && npm start"
+    working_dir: usr/src/app
+    ports: 
+      - "5000:5000"
+    environment:
+      DB_PORT: 5432
+      HOST: db
+      DB: chessapp
+      USER: postgres
+      PASSWORD: password
+      PORT: 5000
