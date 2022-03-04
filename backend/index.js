@@ -2,15 +2,13 @@ const app = require('./app');
 const pool = require('./db/pool');
 // const connectionString = process.env.DATABASE_URL;
 
-const { HOST, DB_PORT, DB, USER, PASSWORD, PORT } = process.env;
+const { HOST, USER, PASSWORD, PORT } = process.env;
 console.log(process.env);
 pool
   .connect({
-    HOST,
-    DB_PORT,
-    DB,
-    USER,
-    PASSWORD,
+    user: USER,
+    host: HOST,
+    password: PASSWORD
   })
   .then(() => {
     pool.init();

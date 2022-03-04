@@ -18,9 +18,7 @@ class Pool {
       }
     }
 
-    if (retries !== 0) {
-      return this._pool.query('SELECT 1 + 1;');
-    } else {
+    if (retries === 0) {
       throw new Error('Could not connect to database!');
     }
   }
