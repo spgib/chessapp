@@ -1,1 +1,1 @@
-12/19/21: ChessApp initialized
+Chessapp is a full-stack web application that allows users to play a game of chess locally. Users who create an account can save their games, either to continue later or to review as a replay. After playing a game to completion, users may choose to make their replays publicly available. Whether to avoid the agony of defeat or just to experiment with what might have been, users can also choose to branch off from any point in a replay, continuing the game from that point and creating a new, modified copy to save a share.
